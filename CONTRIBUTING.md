@@ -94,12 +94,12 @@ AUTH_SECRET_KEY=
 ## ✅ Contribution Checklist
 
 Before pushing:
-- [] Code is working locally
-- [] Feature 
-- [] Code is working locally
-- [] Feature branch is up to date with dev
-- [] No hardcoded secrets
-- [] Docs are updated if needed
+- [ ] Code is working locally
+- [ ] Feature 
+- [ ] Code is working locally
+- [ ] Feature branch is up to date with dev
+- [ ] No hardcoded secrets
+- [ ] Docs are updated if needed
 
 ---
 
