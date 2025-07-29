@@ -46,7 +46,6 @@
     --color-primary: #9929ea;
     --color-primary-foreground: #cc66da;
     --color-secondary: #faeb92;
-    --color-accent: #000000;
 }
 
 :root {
@@ -82,6 +81,20 @@
     --sidebar-accent-foreground: oklch(0.205 0 0);
     --sidebar-border: oklch(0.922 0 0);
     --sidebar-ring: oklch(0.708 0 0);
+}
+
+/* Adjust the scrollbar */
+::-webkit-scrollbar {
+    width: 1rem;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-foreground);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-primary);
+    border-radius: 9999px;
 }
 
 .dark {
@@ -124,5 +137,19 @@
     }
     body {
         @apply text-foreground;
+    }
+}
+
+@layer utilities {
+    .btn {
+        @apply px-6 py-4 cursor-pointer;
+    }
+
+    .btn-primary {
+        @apply text-white;
+    }
+
+    .p-lead {
+        @apply text-lg leading-[1.8] font-light text-slate-400;
     }
 }
