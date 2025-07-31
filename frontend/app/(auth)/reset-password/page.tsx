@@ -3,21 +3,39 @@
 import { FormHeader, InputGroup } from "@/components/";
 import { Button } from "@/components/ui/button";
 import { useSearchParams, useRouter } from "next/navigation";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { AlertCircle, Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+
+interface ResetPasswordFormData {
+    password: string;
+}
 
 const resetPassword = () => {
     const searchParams = useSearchParams();
     const router = useRouter();
+    const email = searchParams.get("email");
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const {
+        register,
+        handleSubmit,
+        formState: { isSubmitting, errors, isValid },
+    } = useForm<ResetPasswordFormData>();
 
-        const email = searchParams.get("email");
+    const onSubmit: SubmitHandler<ResetPasswordFormData> = async (data) => {
+        await new Promise((resolve) => setTimeout(resolve, 2000));
 
-        const formData = new FormData(e.currentTarget);
-        const password = formData.get("password") as string;
-        
+        if (!isValid) {
+            return;
+        }
+
+        alert("Password reset successfully!");
+
+        // TODO: Edit user with email as a query and password as the new change
+
         // TO DO: implement password reset logic here
-        
         router.push("/login");
     };
     return (
@@ -26,15 +44,49 @@ const resetPassword = () => {
                 title="Reset Password"
                 description="Enter your email address to reset your password"
             />
-            <form onSubmit={handleSubmit} className="register-form">
-                <InputGroup
-                    label="Password:"
-                    name="password"
-                    type="password"
-                    placeholder="Your new password (8 characters min.)"
-                />
-                <Button type="submit" className="btn btn-primary">
-                    Reset password
+            <form onSubmit={handleSubmit(onSubmit)} className="register-form">
+                <div className="input-group">
+                    <Label className="mb-2" htmlFor="password">
+                        New Password
+                    </Label>
+                    <Input
+                        placeholder="Your new password"
+                        type="password"
+                        {...register("password", {
+                            required: "Password is required",
+                            minLength: {
+                                value: 8,
+                                message:
+                                    "Password must be at least 8 characters long",
+                            },
+                        })}
+                    />
+                    {errors.password && (
+                        <p className="input-error">
+                            <AlertCircle className="inline h-4 w-4" />{" "}
+                            {errors.password.message}
+                        </p>
+                    )}
+                </div>
+                {errors.password && (
+                    <p className="input-error">
+                        <AlertCircle className="inline h-4 w-4" />{" "}
+                        {errors.password.message}
+                    </p>
+                )}
+                <Button
+                    type="submit"
+                    className={cn(
+                        "btn btn-primary",
+                        isSubmitting && "btn-loading",
+                    )}
+                    disabled={isSubmitting}
+                >
+                    {isSubmitting ? (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                        "Reset password"
+                    )}
                 </Button>
             </form>
         </>

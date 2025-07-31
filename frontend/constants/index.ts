@@ -90,4 +90,35 @@ const reviews: ReviewType[] = [
     },
 ];
 
-export { navLinks, stats, reviews };
+// Create cities
+const cities = [
+    "Cairo",
+    "Giza",
+    "Alexandria",
+    "Dakahlia",
+    "Red Sea",
+    "Beheira",
+    "Fayoum",
+    "Gharbia",
+    "Ismailia",
+    "Menoufia",
+    "Minya",
+    "Qalyubia",
+    "New Valley",
+    "Suez",
+    "Aswan",
+    "Asyut",
+    "Beni Suef",
+    "Port Said",
+    "Damietta",
+    "Sharkia",
+    "South Sinai",
+    "Kafr El Sheikh",
+    "Matrouh",
+    "Luxor",
+    "Qena",
+    "North Sinai",
+    "Sohag",
+];
+
+export { navLinks, stats, reviews, cities };

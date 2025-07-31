@@ -17,4 +17,28 @@ export function generateTime(time: number): string {
     return `${hours}:${minutes < 10 ? "0" + minutes : minutes}`;
 }
 
-// Timer function
+// Convert School Year to string
+export function convertSchoolYear(schoolYear: number): string {
+    switch (schoolYear) {
+        case 1:
+            return "Grade 10";
+        case 2:
+            return "Grade 11";
+        case 3:
+            return "Grade 12";
+        default:
+            return "";
+    }
+}
+
+// Generate random unique id [numbers and letters] from length
+export function generateId(length: number): string {
+    let result = "";
+    const characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}

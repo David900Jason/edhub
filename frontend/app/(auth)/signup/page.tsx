@@ -2,73 +2,64 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-    DatePicker,
-    FormHeader,
-    InputGroup,
-    SelectElement,
-} from "@/components/";
+import { DatePicker, FormHeader } from "@/components/";
+import { cities } from "@/constants";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { AlertCircle, Eye, EyeOff, Loader2, PlusCircle } from "lucide-react";
 import Link from "next/link";
-import { PlusCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { cn } from "@/lib/utils";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 
-interface SignupFormType {
-    name: string;
+interface SignupFormData {
+    full_name: string;
     email: string;
     password: string;
-    "confirm-password": string;
+    confirm_password: string;
     phone: string;
+    parent_phone: string;
+    date_of_birth: string;
+    role: string;
+    school_year: string;
+    city: string;
 }
 
-// {
-//   "full_name": "Salma Mahmoud",
-//   "email": "salma@studentmail.com",
-//   "password": "12345678",
-//   "role": "student",
-//   "phone_number": "01112345678",
-//   "parent_phone": "01098765432",
-//   "birth_date": "2008-11-05"
-// }
-
 const Signup = ({ action }: { action: string }) => {
-    const [roleValue, setRoleValue] = useState<string>("");
-    const [date, setDate] = useState<Date | undefined>(undefined);
-
     const router = useRouter();
+    const [date, setDate] = useState<Date | null>(null);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        // Get all formData from the form
-        const formData = new FormData(e.currentTarget);
-        formData.set("role", roleValue);
-        const {
-            full_name,
-            email,
-            password,
-            "confirm-password": confirmPassword,
-            phone,
-            parent_phone = "",
-            birth_date = date?.toISOString() || "",
-            role = "student",
-        } = Object.fromEntries(formData.entries());
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: { isSubmitting, errors, isValid },
+    } = useForm<SignupFormData>();
 
-        // Check if the password and confirm password are the same
-        if (password !== confirmPassword) {
-            return alert("Passwords do not match");
+    const onSubmit: SubmitHandler<SignupFormData> = async (data) => {
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+
+        if (!isValid) {
+            return;
         }
 
-        // Redirect to verify page
-        router.push("/verify");
+        // Alert with success
+        alert("Signup Successfully");
 
-        return console.log({
-            full_name,
-            email,
-            password,
-            phone,
-            parent_phone,
-            birth_date,
-            role,
-        });
+        // TODO: Add API call to create user (Submit form)
+
+        // Push router to verify page
+        router.push("/verify?email=" + data.email);
     };
 
     return (
@@ -82,75 +73,307 @@ const Signup = ({ action }: { action: string }) => {
                 action={action}
                 method="post"
                 className="register-form"
-                onSubmit={handleSubmit}
+                onSubmit={handleSubmit(onSubmit)}
             >
                 {/* Name Input */}
-                <InputGroup
-                    label="Your Full Name"
-                    name="full_name"
-                    required
-                    type="text"
-                    placeholder="Enter your full name"
-                />
+                <div className="input-group">
+                    <Label className="mb-2" htmlFor="full_name">
+                        Your Full Name
+                    </Label>
+                    <Input
+                        {...register("full_name", {
+                            required: "Full name is required",
+                            minLength: {
+                                value: 3,
+                                message:
+                                    "Full name must be at least 3 characters long",
+                            },
+                            maxLength: {
+                                value: 50,
+                                message:
+                                    "Full name must be at most 50 characters long",
+                            },
+                            pattern: {
+                                value: /^[a-zA-Z ]+$/,
+                                message: "Full name must contain only letters",
+                            },
+                        })}
+                        placeholder="Enter your full name"
+                        type="text"
+                    />
+                    {errors.full_name && (
+                        <p className="input-error">
+                            <AlertCircle className="inline h-4 w-4" />{" "}
+                            {errors.full_name.message}
+                        </p>
+                    )}
+                </div>
                 {/* Email Input */}
-                <InputGroup
-                    label="Your Email Address"
-                    name="email"
-                    required
-                    type="email"
-                    placeholder="Enter your email address (e.g. example@gmail.com)"
-                />
+                <div className="input-group">
+                    <Label className="mb-2" htmlFor="email">
+                        Your Email Address
+                    </Label>
+                    <Input
+                        {...register("email", {
+                            required: "Email is required",
+                            pattern: {
+                                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                                message: "Invalid email format",
+                            },
+                        })}
+                        placeholder="Enter your email address (e.g. example@gmail.com)"
+                        type="email"
+                    />
+                    {errors.email && (
+                        <p className="input-error">
+                            <AlertCircle className="inline h-4 w-4" />{" "}
+                            {errors.email.message}
+                        </p>
+                    )}
+                </div>
                 {/* Password Input */}
-                <InputGroup
-                    label="Your Password"
-                    name="password"
-                    type="password"
-                    required
-                    placeholder="Enter your password (8 characters min.)"
-                />
+                <div className="input-group relative">
+                    <Label className="mb-2" htmlFor="password">
+                        Your Password
+                    </Label>
+                    <Input
+                        {...register("password", {
+                            required: "Password is required",
+                            minLength: {
+                                value: 8,
+                                message:
+                                    "Password must be at least 8 characters long",
+                            },
+                            maxLength: {
+                                value: 20,
+                                message:
+                                    "Password must be at most 20 characters long",
+                            },
+                        })}
+                        placeholder="Enter your password (8 characters min.)"
+                        type={showPassword ? "text" : "password"}
+                    />
+                    <Button
+                        variant="ghost"
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute top-5.5 right-0 cursor-pointer rounded-none border-s-[1px] border-s-gray-300 text-gray-500 hover:bg-transparent dark:bg-black"
+                    >
+                        {showPassword ? <Eye /> : <EyeOff />}
+                    </Button>
+                    {errors.password && (
+                        <p className="input-error">
+                            <AlertCircle className="inline h-4 w-4" />{" "}
+                            {errors.password.message}
+                        </p>
+                    )}
+                </div>
                 {/* Confirm Password Input */}
-                <InputGroup
-                    label="Confirm password"
-                    name="confirm-password"
-                    type="password"
-                    required
-                    placeholder="Confirm your password"
-                />
+                <div className="input-group relative">
+                    <Label className="mb-2" htmlFor="confirm_password">
+                        Confirm Password
+                    </Label>
+                    <Input
+                        {...register("confirm_password", {
+                            required: "Confirm password is required",
+                            validate: (value) =>
+                                value === watch("password") ||
+                                "Passwords do not match",
+                            minLength: {
+                                value: 8,
+                                message:
+                                    "Password must be at least 8 characters long",
+                            },
+                            maxLength: {
+                                value: 20,
+                                message:
+                                    "Password must be at most 20 characters long",
+                            },
+                        })}
+                        placeholder="Confirm your password"
+                        type={showConfirmPassword ? "text" : "password"}
+                    />
+                    <Button
+                        variant="ghost"
+                        type="button"
+                        onClick={() =>
+                            setShowConfirmPassword(!showConfirmPassword)
+                        }
+                        className="absolute top-5.5 right-0 cursor-pointer rounded-none border-s-[1px] border-s-gray-300 text-gray-500 hover:bg-transparent dark:bg-black"
+                    >
+                        {showConfirmPassword ? <Eye /> : <EyeOff />}
+                    </Button>
+                    {errors.confirm_password && (
+                        <p className="input-error">
+                            <AlertCircle className="inline h-4 w-4" />{" "}
+                            {errors.confirm_password.message}
+                        </p>
+                    )}
+                </div>
                 {/* Phone Input */}
-                <InputGroup
-                    label="Your Phone Number"
-                    name="phone"
-                    type="tel"
-                    required
-                    placeholder="Your phone number (e.g. 01098765432)"
-                />
+                <div className="input-group">
+                    <Label className="mb-2" htmlFor="phone">
+                        Your Phone Number
+                    </Label>
+                    <Input
+                        {...register("phone", {
+                            required: "Phone number is required",
+                            pattern: {
+                                value: /^[0-9]{11}$/,
+                                message: "Invalid phone number",
+                            },
+                            maxLength: {
+                                value: 11,
+                                message: "Phone number must be 11 digits long",
+                            },
+                        })}
+                        placeholder="Your phone number (e.g. 01098765432)"
+                        type="tel"
+                    />
+                    {errors.phone && (
+                        <p className="input-error">
+                            <AlertCircle className="inline h-4 w-4" />{" "}
+                            {errors.phone.message}
+                        </p>
+                    )}
+                </div>
                 {/* Parent Phone Input */}
-                <InputGroup
-                    label="Parent Phone Number"
-                    name="parent_phone"
-                    type="tel"
-                    placeholder="Parent phone number (e.g. 01098765432) (students only)"
-                />
+                <div className="input-group">
+                    <Label className="mb-2" htmlFor="parent_phone">
+                        Parent Phone Number
+                    </Label>
+                    <Input
+                        {...register("parent_phone", {
+                            required:
+                                watch("role") === "teacher"
+                                    ? false
+                                    : "Parent phone number is required",
+                            pattern: {
+                                value: /^[0-9]{11}$/,
+                                message: "Invalid phone number",
+                            },
+                            maxLength: {
+                                value: 11,
+                                message: "Phone number must be 11 digits long",
+                            },
+                        })}
+                        placeholder="Parent phone number (e.g. 01098765432) (students only)"
+                        type="tel"
+                    />
+                    {errors.parent_phone && (
+                        <p className="input-error">
+                            <AlertCircle className="inline h-4 w-4" />{" "}
+                            {errors.parent_phone.message}
+                        </p>
+                    )}
+                </div>
                 {/* Date of birth */}
                 <DatePicker date={date} setDate={setDate} />
                 {/* Select role */}
-                <SelectElement
-                    placeholder="Select your role"
-                    options={[
-                        { label: "Student", value: "student" },
-                        { label: "Teacher", value: "teacher" },
-                    ]}
-                    label="Join us as"
-                    name="role"
-                    required
-                    onChange={(value) => setRoleValue(value)}
-                />
+                <div className="input-group">
+                    <Label className="mb-2" htmlFor="role">
+                        Who are you?
+                    </Label>
+                    <Select
+                        onValueChange={(value) => {
+                            register("role").onChange({
+                                target: {
+                                    name: "role",
+                                    value: value,
+                                },
+                            });
+                        }}
+                        {...register("role")}
+                    >
+                        <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Choose your identity" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
+                                <SelectItem value="student">Student</SelectItem>
+                                <SelectItem value="teacher">Teacher</SelectItem>
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                </div>
+                {/* Select School year */}
+                <div className="input-group">
+                    <Label className="mb-2" htmlFor="school_year">
+                        Your school year
+                    </Label>
+                    <Select
+                        onValueChange={(value) => {
+                            register("school_year").onChange({
+                                target: {
+                                    name: "school_year",
+                                    value: value,
+                                },
+                            });
+                        }}
+                        {...register("school_year")}
+                    >
+                        <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Select your school year" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
+                                <SelectItem value="1">Grade 10</SelectItem>
+                                <SelectItem value="2">Grade 11</SelectItem>
+                                <SelectItem value="3">Grade 12</SelectItem>
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                </div>
+                {/* Select City */}
+                <div className="input-group">
+                    <Label className="mb-2" htmlFor="city">
+                        Your city
+                    </Label>
+                    <Select
+                        onValueChange={(value) => {
+                            register("city").onChange({
+                                target: {
+                                    name: "city",
+                                    value: value,
+                                },
+                            });
+                        }}
+                        {...register("city")}
+                    >
+                        <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Select your city" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
+                                {cities.map((city) => (
+                                    <SelectItem key={city} value={city}>
+                                        {city}
+                                    </SelectItem>
+                                ))}
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                </div>
                 {/* Submit Button */}
-                <Button type="submit" size="lg" className="btn btn-primary">
-                    <PlusCircle /> Create Account
+                <Button
+                    type="submit"
+                    size="lg"
+                    disabled={isSubmitting}
+                    className={cn(
+                        "btn btn-primary",
+                        isSubmitting && "btn-loading",
+                    )}
+                >
+                    {isSubmitting ? (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                        <>
+                            <PlusCircle /> Create Account
+                        </>
+                    )}
                 </Button>
                 {/* Don't have an account? */}
-                <p className="text-center text-gray-600 text-sm">
+                <p className="text-center text-sm text-gray-600">
                     Already have an account?{" "}
                     <Link href="/login" className="text-primary">
                         Login

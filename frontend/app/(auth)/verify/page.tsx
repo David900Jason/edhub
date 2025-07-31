@@ -42,11 +42,9 @@ const VerifyAccount = () => {
         e.preventDefault();
 
         // Handle OTP submission
-        if (otp.length < 9) {
+        if (otp.length < 6) {
             return alert("Please enter a valid OTP");
         }
-
-        console.log(otp);
         alert("OTP Submitted Successfully");
         router.push("/login");
     };

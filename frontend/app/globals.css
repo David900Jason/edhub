@@ -145,11 +145,15 @@
 
 @layer utilities {
     .btn {
-        @apply px-6 py-4 cursor-pointer;
+        @apply cursor-pointer px-6 py-4;
     }
 
     .btn-primary {
         @apply text-white;
+    }
+
+    .btn-loading {
+        @apply cursor-not-allowed disabled:opacity-50;
     }
 
     .p-lead {
@@ -157,7 +161,9 @@
     }
 
     .register-form {
-        @apply me-12 flex flex-1/2 flex-col gap-4 self-center rounded-lg border my-[10vh] px-6 py-8;
+        @apply mx-8 flex flex-1 flex-col gap-4 self-center rounded-lg border px-6 py-8 md:flex-1/2 sm:mx-auto lg:mx-16;
+        max-width: 500px;
+        margin-block: 7vh;
     }
 
     .input-group {
@@ -165,10 +171,10 @@
     }
 
     .input-group :is(input, textarea, select) {
-        @apply mb-1
+        @apply mb-1 text-sm;
     }
 
     .input-error {
-        @apply text-sm text-red-600 font-light;
+        @apply text-sm font-light text-red-600;
     }
 }

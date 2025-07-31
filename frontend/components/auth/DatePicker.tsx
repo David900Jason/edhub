@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Label } from "@/components/ui/label";
@@ -11,8 +11,19 @@ import {
 } from "@/components/ui/popover";
 import { ChevronDownIcon } from "lucide-react";
 
-function DatePicker({ date, setDate }: { date: Date | undefined; setDate: (date: Date) => void }) {
+function DatePicker({ date, setDate }: { date: Date | null; setDate: (date: Date | null) => void }) {
     const [open, setOpen] = useState(false);
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
+
+    // Format date on the client side only
+    const formatDate = (date: Date | null) => {
+        if (!isClient) return "";
+        return date?.toLocaleDateString();
+    };
 
     return (
         <div className="input-group">
@@ -20,23 +31,23 @@ function DatePicker({ date, setDate }: { date: Date | undefined; setDate: (date:
                 Date of birth
             </Label>
             <Popover open={open} onOpenChange={setOpen}>
-                <PopoverTrigger asChild>
+                <PopoverTrigger className="w-full" asChild>
                     <Button
                         variant="outline"
                         id="date"
-                        className="w-48 justify-between font-normal"
+                        className="w-full justify-between font-normal text-gray-500"
                     >
-                        {date ? date.toLocaleDateString() : "Select date"}
+                        {isClient && date ? formatDate(date) : "Select date"}
                         <ChevronDownIcon />
                     </Button>
                 </PopoverTrigger>
                 <PopoverContent
-                    className="w-auto overflow-hidden p-0"
+                    className="w-full overflow-hidden p-0"
                     align="start"
                 >
                     <Calendar
                         mode="single"
-                        selected={date}
+                        selected={date || undefined}
                         captionLayout="dropdown"
                         onSelect={(date) => {
                             if (date) setDate(date);
