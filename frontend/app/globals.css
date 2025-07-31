@@ -138,6 +138,9 @@
     body {
         @apply text-foreground;
     }
+    a {
+        @apply hover:underline;
+    }
 }
 
 @layer utilities {
@@ -150,6 +153,22 @@
     }
 
     .p-lead {
-        @apply text-lg leading-[1.8] font-light text-slate-400;
+        @apply text-lg leading-[1.7] font-light text-slate-400;
+    }
+
+    .register-form {
+        @apply me-12 flex flex-1/2 flex-col gap-4 self-center rounded-lg border my-[10vh] px-6 py-8;
+    }
+
+    .input-group {
+        margin-bottom: 0.5rem;
+    }
+
+    .input-group :is(input, textarea, select) {
+        @apply mb-1
+    }
+
+    .input-error {
+        @apply text-sm text-red-600 font-light;
     }
 }

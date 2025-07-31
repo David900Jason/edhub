@@ -20,3 +20,12 @@ declare interface ReviewType {
     image: string;
     year: "Grade 10" | "Grade 11" | "Grade 12";
 }
+
+// Signup Form Types
+declare interface InputGroupProps {
+    label: string;
+    name: string;
+    type: string;
+    placeholder: string;
+    required?: boolean;
+}

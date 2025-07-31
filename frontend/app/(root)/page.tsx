@@ -90,7 +90,7 @@ const Home = () => {
             </section>
             <footer className="border-1 border-slate-300 px-4 py-6 shadow-lg">
                 <p className="text-muted-foreground text-center text-sm">
-                    &copy; {new Date().getFullYear()} Edhub. All rights
+                    &copy; 2025 Edhub. All rights
                     reserved. | Made with ❤️ by{" "}
                     <a
                         href="https://github.com/David900Jason/edhub"
