@@ -1,6 +1,7 @@
 "use client";
 
 import {
+    Footer,
     HeroSection,
     Navbar,
     SectionHeading,
@@ -9,7 +10,6 @@ import {
 } from "@/components/";
 import { Button } from "@/components/ui/button";
 import { navLinks, stats } from "@/constants";
-import { ArrowRight } from "lucide-react";
 import { useInView } from "react-intersection-observer";
 import Link from "next/link";
 
@@ -21,7 +21,7 @@ const Home = () => {
 
     return (
         <>
-            <header className="fixed top-0 left-0 z-[9999] w-full bg-white">
+            <header className="header-fixed">
                 <Navbar navLinks={navLinks} />
             </header>
             <main className="mx-auto grid min-h-screen place-content-center text-center">
@@ -88,20 +88,7 @@ const Home = () => {
             <section className="py-[20vh]" id="testimonials">
                 <Testimonials />
             </section>
-            <footer className="border-1 border-slate-300 px-4 py-6 shadow-lg">
-                <p className="text-muted-foreground text-center text-sm">
-                    &copy; {new Date().getFullYear()} Edhub. All rights
-                    reserved. | Made with ❤️ by{" "}
-                    <a
-                        href="https://github.com/David900Jason/edhub"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-bold italic hover:underline"
-                    >
-                        Digital Dreamers
-                    </a>
-                </p>
-            </footer>
+            <Footer />
         </>
     );
 };

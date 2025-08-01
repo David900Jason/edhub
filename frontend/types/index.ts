@@ -20,3 +20,14 @@ declare interface ReviewType {
     image: string;
     year: "Grade 10" | "Grade 11" | "Grade 12";
 }
+
+// Course Types
+declare interface CourseType {
+    id: string;
+    title: string;
+    image: string;
+    schoolYear: string | number;
+    subject: string;
+    createdAt: string;
+    sessions: number;
+}

@@ -45,7 +45,7 @@
 @theme {
     --color-primary: #9929ea;
     --color-primary-foreground: #cc66da;
-    --color-secondary: #faeb92;
+    --color-secondary: #ffea70;
 }
 
 :root {
@@ -141,8 +141,16 @@
 }
 
 @layer utilities {
+    .header-sticky {
+        @apply sticky top-0 left-0 z-[9999] w-full bg-white;
+    }
+
+    .header-fixed {
+        @apply fixed top-0 left-0 z-[9999] w-full bg-white;
+    }
+
     .btn {
-        @apply px-6 py-4 cursor-pointer;
+        @apply cursor-pointer px-6 py-4;
     }
 
     .btn-primary {
