@@ -23,7 +23,7 @@ declare interface ReviewType {
 
 // Course Types
 declare interface CourseType {
-    id: string;
+    id?: number;
     title: string;
     image: string;
     schoolYear: string | number;

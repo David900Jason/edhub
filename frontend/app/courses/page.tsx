@@ -1,20 +1,16 @@
 "use client";
 
 import { useState, useDeferredValue, useMemo } from "react";
-import { getMonth } from "date-fns";
 import { School } from "lucide-react";
 import { courses } from "@/constants";
-import { Button } from "@/components/ui/button";
 import { Container } from "@/components/";
 import {
     Banner,
     CourseCard,
-    Footer,
-    Navbar,
     SearchBar,
-    FilterSelect,
+    FilterSelect
 } from "@/components/";
-import { navLinks } from "@/constants";
+import { Button } from "@/components/ui/button";
 
 const Courses = () => {
     // State for search and filters
@@ -63,19 +59,8 @@ const Courses = () => {
         return Array.from(uniqueSubjects);
     }, []);
 
-    const months = useMemo(() => {
-        const uniqueMonths = new Set(
-            courses.map((course) => getMonth(new Date(course.createdAt))),
-        );
-        return Array.from(uniqueMonths);
-    }, []);
-
     return (
         <>
-            <header className="header-sticky">
-                <Navbar navLinks={navLinks} />
-            </header>
-
             {/* Banner */}
             <Banner className="mb-6 grid place-content-center">
                 <h1 className="mx-auto mb-4 flex items-center gap-4 text-center text-5xl font-bold tracking-tighter">
@@ -139,8 +124,6 @@ const Courses = () => {
                     </p>
                 )}
             </Container>
-
-            <Footer />
         </>
     );
 };

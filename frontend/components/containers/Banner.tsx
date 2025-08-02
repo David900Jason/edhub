@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 
+// components/containers/Banner.tsx
 const Banner = ({
     children,
     className,
@@ -10,7 +11,7 @@ const Banner = ({
     return (
         <section
             className={cn(
-                "from-primary to-primary-foreground min-h-[40vh] bg-gradient-to-b",
+                "from-primary to-primary-foreground min-h-[50vh] bg-gradient-to-b",
                 className,
             )}
         >

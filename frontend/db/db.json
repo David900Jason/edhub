@@ -1,0 +1,252 @@
+{
+    "courses": [
+        {
+            "id": 1,
+            "title": "Applications on Real Numbers",
+            "image": "https://dummyimage.com/600x400",
+            "schoolYear": "Grade 10",
+            "subject": "Math",
+            "createdAt": "2022-01-01",
+            "sessions": 10,
+            "isFinished": false
+        },
+        {
+            "id": 2,
+            "title": "Differentiation",
+            "image": "https://dummyimage.com/600x400",
+            "schoolYear": "Grade 11",
+            "subject": "Math",
+            "createdAt": "2022-01-01",
+            "sessions": 9,
+            "isFinished": false
+        },
+        {
+            "id": 3,
+            "title": "Vectors in 3D space",
+            "image": "https://dummyimage.com/600x400",
+            "schoolYear": "Grade 12",
+            "subject": "Math",
+            "createdAt": "2022-01-01",
+            "sessions": 5,
+            "isFinished": false
+        },
+        {
+            "id": 4,
+            "title": "Diversity of Living Organisms",
+            "image": "https://dummyimage.com/600x400",
+            "schoolYear": "Grade 10",
+            "subject": "Science",
+            "createdAt": "2022-01-01",
+            "sessions": 2,
+            "isFinished": false
+        },
+        {
+            "id": 5,
+            "title": "Human Excretion System",
+            "image": "https://dummyimage.com/600x400",
+            "schoolYear": "Grade 11",
+            "subject": "Science",
+            "createdAt": "2022-01-01",
+            "sessions": 5,
+            "isFinished": false
+        },
+        {
+            "id": 6,
+            "title": "Ohm's Law and Kirchhoff's Law",
+            "image": "https://dummyimage.com/600x400",
+            "schoolYear": "Grade 12",
+            "subject": "Science",
+            "createdAt": "2022-01-01",
+            "sessions": 8,
+            "isFinished": false
+        },
+        {
+            "id": 7,
+            "title": "Unit 10: Places of Interest",
+            "image": "https://dummyimage.com/600x400",
+            "schoolYear": "Grade 10",
+            "subject": "English",
+            "createdAt": "2022-01-01",
+            "sessions": 4,
+            "isFinished": false
+        },
+        {
+            "id": 8,
+            "title": "Unit 9: Modern Cultures",
+            "image": "https://dummyimage.com/600x400",
+            "schoolYear": "Grade 11",
+            "subject": "English",
+            "createdAt": "2022-01-01",
+            "sessions": 4,
+            "isFinished": false
+        }
+    ],
+    "sessions": [
+        {
+            "id": 1,
+            "title": "Kinematics Lecture 1",
+            "description": "Intro to motion in 1D",
+            "course_id": 1,
+            "teacher_id": "456",
+            "start_time": "2025-08-01T15:00:00Z",
+            "end_time": "2025-08-01T16:30:00Z",
+            "location": "https://zoom.us/my/physics101",
+            "video_url": null,
+            "is_live": true,
+            "materials": ["https://drive.com/file1", "https://drive.com/file2"]
+        },
+        {
+            "id": 2,
+            "title": "Kinematics Lecture 2",
+            "description": "Intro to motion in 1D",
+            "course_id": 1,
+            "teacher_id": "456",
+            "start_time": "2025-08-01T15:00:00Z",
+            "end_time": "2025-08-01T16:30:00Z",
+            "location": "https://zoom.us/my/physics101",
+            "video_url": null,
+            "is_live": true,
+            "materials": ["https://drive.com/file1", "https://drive.com/file2"]
+        },
+        {
+            "id": 3,
+            "title": "Kinematics Lecture 3",
+            "description": "Intro to motion in 1D",
+            "course_id": 1,
+            "teacher_id": "456",
+            "start_time": "2025-08-01T15:00:00Z",
+            "end_time": "2025-08-01T16:30:00Z",
+            "location": "https://zoom.us/my/physics101",
+            "video_url": null,
+            "is_live": true,
+            "materials": ["https://drive.com/file1", "https://drive.com/file2"]
+        },
+        {
+            "id": 4,
+            "title": "Kinematics Lecture 4",
+            "description": "Intro to motion in 1D",
+            "course_id": 1,
+            "teacher_id": "456",
+            "start_time": "2025-08-01T15:00:00Z",
+            "end_time": "2025-08-01T16:30:00Z",
+            "location": "https://zoom.us/my/physics101",
+            "video_url": null,
+            "is_live": true,
+            "materials": ["https://drive.com/file1", "https://drive.com/file2"]
+        },
+        {
+            "id": 5,
+            "title": "Kinematics Lecture 5",
+            "description": "Intro to motion in 1D",
+            "course_id": 1,
+            "teacher_id": "456",
+            "start_time": "2025-08-01T15:00:00Z",
+            "end_time": "2025-08-01T16:30:00Z",
+            "location": "https://zoom.us/my/physics101",
+            "video_url": null,
+            "is_live": true,
+            "materials": ["https://drive.com/file1", "https://drive.com/file2"]
+        }
+    ],
+    "videos": [
+        {
+            "id": 1,
+            "title": "Newton's First Law",
+            "description": "An introduction to inertia and Newton's laws.",
+            "course_id": 1,
+            "session_id": "xyz789",
+            "teacher_id": "teach001",
+            "video_url": "https://cdn.example.com/physics1.mp4",
+            "duration": 900,
+            "thumbnail": "https://cdn.example.com/thumbnails/physics1.jpg",
+            "is_free": true
+        },
+        {
+            "id": 2,
+            "title": "Newton's Second Law",
+            "description": "An introduction to inertia and Newton's laws.",
+            "course_id": 1,
+            "session_id": "xyz789",
+            "teacher_id": "teach001",
+            "video_url": "https://cdn.example.com/physics1.mp4",
+            "duration": 900,
+            "thumbnail": "https://cdn.example.com/thumbnails/physics1.jpg",
+            "is_free": true
+        },
+        {
+            "id": 3,
+            "title": "Newton's Third Law",
+            "description": "An introduction to inertia and Newton's laws.",
+            "course_id": 1,
+            "session_id": "xyz789",
+            "teacher_id": "teach001",
+            "video_url": "https://cdn.example.com/physics1.mp4",
+            "duration": 900,
+            "thumbnail": "https://cdn.example.com/thumbnails/physics1.jpg",
+            "is_free": true
+        },
+        {
+            "id": 4,
+            "title": "Newton's Fourth Law",
+            "description": "An introduction to inertia and Newton's laws.",
+            "course_id": 1,
+            "session_id": "xyz789",
+            "teacher_id": "teach001",
+            "video_url": "https://cdn.example.com/physics1.mp4",
+            "duration": 900,
+            "thumbnail": "https://cdn.example.com/thumbnails/physics1.jpg",
+            "is_free": true
+        },
+        {
+            "id": 5,
+            "title": "Newton's Fifth Law",
+            "description": "An introduction to inertia and Newton's laws.",
+            "course_id": 1,
+            "session_id": "xyz789",
+            "teacher_id": "teach001",
+            "video_url": "https://cdn.example.com/physics1.mp4",
+            "duration": 900,
+            "thumbnail": "https://cdn.example.com/thumbnails/physics1.jpg",
+            "is_free": true
+        }
+    ],
+    "books": [
+        {
+            "id": 1,
+            "title": "Mechanics Workbook",
+            "description": "A companion book for the Mechanics course.",
+            "course_id": 1,
+            "session_id": "session456",
+            "teacher_id": "teach789",
+            "file_url": "https://cdn.example.com/books/mechanics.pdf",
+            "cover_image": "https://cdn.example.com/books/mechanics-cover.jpg",
+            "is_free": false
+        },
+        {
+            "id": 2,
+            "title": "Physics Workbook",
+            "description": "A companion book for the Physics course.",
+            "course_id": 1,
+            "session_id": 1,
+            "teacher_id": "teach789",
+            "file_url": "https://cdn.example.com/books/physics.pdf",
+            "cover_image": "https://cdn.example.com/books/physics-cover.jpg",
+            "is_free": false
+        }
+    ],
+    "exams": [
+        {
+            "id": 1,
+            "title": "Final Chemistry Exam",
+            "description": "Covers all topics in Organic Chemistry.",
+            "course_id": 1,
+            "session_id": 1,
+            "teacher_id": "teach789",
+            "duration": 60,
+            "start_time": "2025-08-10T10:00:00Z",
+            "end_time": "2025-08-10T11:00:00Z",
+            "total_marks": 50,
+            "is_published": false
+        }
+    ]
+}

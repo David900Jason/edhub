@@ -92,7 +92,7 @@ export const reviews: ReviewType[] = [
 
 export const courses: CourseType[] = [
     {
-        id: "1",
+        id: 1,
         title: "Applications on Real Numbers",
         image: "https://dummyimage.com/600x400",
         schoolYear: "Grade 10",
@@ -101,7 +101,7 @@ export const courses: CourseType[] = [
         sessions: 10,
     },
     {
-        id: "2",
+        id: 2,
         title: "Differentiation",
         image: "https://dummyimage.com/600x400",
         schoolYear: "Grade 11",
@@ -110,7 +110,7 @@ export const courses: CourseType[] = [
         sessions: 9,
     },
     {
-        id: "3",
+        id: 3,
         title: "Vectors in 3D space",
         image: "https://dummyimage.com/600x400",
         schoolYear: "Grade 12",
@@ -119,7 +119,7 @@ export const courses: CourseType[] = [
         sessions: 5,
     },
     {
-        id: "4",
+        id: 4,
         title: "Diversity of Living Organisms",
         image: "https://dummyimage.com/600x400",
         schoolYear: "Grade 10",
@@ -128,7 +128,7 @@ export const courses: CourseType[] = [
         sessions: 2,
     },
     {
-        id: "5",
+        id: 5,
         title: "Human Excretion System",
         image: "https://dummyimage.com/600x400",
         schoolYear: "Grade 11",
@@ -137,7 +137,7 @@ export const courses: CourseType[] = [
         sessions: 5,
     },
     {
-        id: "6",
+        id: 6,
         title: "Ohm's Law and Kirchhoff's Law",
         image: "https://dummyimage.com/600x400",
         schoolYear: "Grade 12",
@@ -146,7 +146,7 @@ export const courses: CourseType[] = [
         sessions: 8,
     },
     {
-        id: "7",
+        id: 7,
         title: "Unit 10: Places of Interest",
         image: "https://dummyimage.com/600x400",
         schoolYear: "Grade 10",
@@ -155,7 +155,7 @@ export const courses: CourseType[] = [
         sessions: 4,
     },
     {
-        id: "8",
+        id: 8,
         title: "Unit 9: Modern Cultures",
         image: "https://dummyimage.com/600x400",
         schoolYear: "Grade 11",

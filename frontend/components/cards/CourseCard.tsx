@@ -4,13 +4,14 @@ import Tag from "@/components/ui/Tag";
 
 // Next.js Components
 import Image from "next/image";
+import Link from "next/link";
 
 // Util Function
 import { format } from "timeago.js";
 
 const CourseCard = ({ course }: { course: CourseType }) => {
 
-    const { title, image, schoolYear, subject, createdAt, sessions } = course;
+    const { id, title, image, schoolYear, subject, createdAt, sessions } = course;
 
     return (
         <Card className="group gap-0 overflow-hidden py-0 hover:cursor-pointer">
@@ -31,7 +32,7 @@ const CourseCard = ({ course }: { course: CourseType }) => {
                     </li>
                 </ul>
                 <h3 className="mb-1 text-lg font-bold group-hover:underline">
-                    {title}
+                    <Link href={`/courses/${id}`}>{title}</Link>
                 </h3>
                 <div className="flex gap-1 text-sm text-gray-400">
                     <p>{sessions} sessions</p>.
