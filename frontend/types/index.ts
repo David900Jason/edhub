@@ -20,3 +20,10 @@ declare interface ReviewType {
     image: string;
     year: "Grade 10" | "Grade 11" | "Grade 12";
 }
+
+// Dashboard Links Types
+declare interface DashboardLinkType {
+    title: string;
+    href: string;
+    icon: React.ElementType;
+}

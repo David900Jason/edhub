@@ -1,6 +1,6 @@
 // This will be displayed in the page title and in search engine results
 
-import { LogIn, UserPlus, BookOpen, Group, User, Video } from "lucide-react";
+import { LogIn, UserPlus, BookOpen, Group, User, Video, Home, Book, Award, DollarSign, Pen } from "lucide-react";
 
 const navLinks = [
     {
@@ -90,4 +90,42 @@ const reviews: ReviewType[] = [
     },
 ];
 
-export { navLinks, stats, reviews };
+const dashboardLinks = [
+    {
+        title: "Dashboard",
+        href: "/user/dashboard",
+        icon: Home,
+    },
+    {
+        title: "My Courses",
+        href: "/user/courses",
+        icon: BookOpen,
+    },
+    {
+        title: "My Sessions",
+        href: "/user/sessions",
+        icon: BookOpen,
+    },
+    {
+        title: "Assignments",
+        href: "/user/assignments",
+        icon: Book,
+    },
+    {
+        title: "Exams",
+        href: "/user/exams",
+        icon: Award,
+    },
+    {
+        title: "Payments",
+        href: "/user/payments",
+        icon: DollarSign,
+    },
+    {
+        title: "Notes",
+        href: "/user/notes",
+        icon: Pen,
+    }
+]
+
+export { navLinks, stats, reviews, dashboardLinks };
