@@ -8,10 +8,11 @@ import Link from "next/link";
 
 // Util Function
 import { format } from "timeago.js";
+import { Button } from "../ui/button";
 
 const CourseCard = ({ course }: { course: CourseType }) => {
-
-    const { id, title, image, schoolYear, subject, createdAt, sessions } = course;
+    const { id, title, image, schoolYear, subject, createdAt, sessions } =
+        course;
 
     return (
         <Card className="group gap-0 overflow-hidden py-0 hover:cursor-pointer">
@@ -32,11 +33,19 @@ const CourseCard = ({ course }: { course: CourseType }) => {
                     </li>
                 </ul>
                 <h3 className="mb-1 text-lg font-bold group-hover:underline">
-                    <Link href={`/courses/${id}`}>{title}</Link>
+                    {title}
                 </h3>
                 <div className="flex gap-1 text-sm text-gray-400">
                     <p>{sessions} sessions</p>.
                     <p>{format(new Date(createdAt))}</p>
+                </div>
+                <div className="flex gap-2 mt-4">
+                    <Button
+                        variant="outline"
+                        className="border-primary text-primary hover:bg-primary cursor-pointer font-bold hover:text-white flex-1"
+                    >
+                        <Link href={`/courses/${id}`}>View Course</Link>
+                    </Button>
                 </div>
             </div>
         </Card>

@@ -8,6 +8,7 @@
             "subject": "Math",
             "createdAt": "2022-01-01",
             "sessions": 10,
+            "price": 150,
             "isFinished": false
         },
         {
@@ -18,6 +19,7 @@
             "subject": "Math",
             "createdAt": "2022-01-01",
             "sessions": 9,
+            "price": 120,
             "isFinished": false
         },
         {
@@ -28,6 +30,7 @@
             "subject": "Math",
             "createdAt": "2022-01-01",
             "sessions": 5,
+            "price": 100,
             "isFinished": false
         },
         {
@@ -37,7 +40,8 @@
             "schoolYear": "Grade 10",
             "subject": "Science",
             "createdAt": "2022-01-01",
-            "sessions": 2,
+            "sessions": 10,
+            "price": 100,
             "isFinished": false
         },
         {
@@ -48,6 +52,7 @@
             "subject": "Science",
             "createdAt": "2022-01-01",
             "sessions": 5,
+            "price": 100,
             "isFinished": false
         },
         {
@@ -58,6 +63,7 @@
             "subject": "Science",
             "createdAt": "2022-01-01",
             "sessions": 8,
+            "price": 100,
             "isFinished": false
         },
         {
@@ -68,6 +74,7 @@
             "subject": "English",
             "createdAt": "2022-01-01",
             "sessions": 4,
+            "price": 100,
             "isFinished": false
         },
         {
@@ -78,6 +85,7 @@
             "subject": "English",
             "createdAt": "2022-01-01",
             "sessions": 4,
+            "price": 100,
             "isFinished": false
         }
     ],
@@ -154,7 +162,7 @@
             "title": "Newton's First Law",
             "description": "An introduction to inertia and Newton's laws.",
             "course_id": 1,
-            "session_id": "xyz789",
+            "session_id": 1,
             "teacher_id": "teach001",
             "video_url": "https://cdn.example.com/physics1.mp4",
             "duration": 900,
@@ -166,7 +174,7 @@
             "title": "Newton's Second Law",
             "description": "An introduction to inertia and Newton's laws.",
             "course_id": 1,
-            "session_id": "xyz789",
+            "session_id": 1,
             "teacher_id": "teach001",
             "video_url": "https://cdn.example.com/physics1.mp4",
             "duration": 900,
@@ -178,7 +186,7 @@
             "title": "Newton's Third Law",
             "description": "An introduction to inertia and Newton's laws.",
             "course_id": 1,
-            "session_id": "xyz789",
+            "session_id": 1,
             "teacher_id": "teach001",
             "video_url": "https://cdn.example.com/physics1.mp4",
             "duration": 900,
@@ -190,7 +198,7 @@
             "title": "Newton's Fourth Law",
             "description": "An introduction to inertia and Newton's laws.",
             "course_id": 1,
-            "session_id": "xyz789",
+            "session_id": 1,
             "teacher_id": "teach001",
             "video_url": "https://cdn.example.com/physics1.mp4",
             "duration": 900,
@@ -202,7 +210,7 @@
             "title": "Newton's Fifth Law",
             "description": "An introduction to inertia and Newton's laws.",
             "course_id": 1,
-            "session_id": "xyz789",
+            "session_id": 1,
             "teacher_id": "teach001",
             "video_url": "https://cdn.example.com/physics1.mp4",
             "duration": 900,
@@ -216,7 +224,7 @@
             "title": "Mechanics Workbook",
             "description": "A companion book for the Mechanics course.",
             "course_id": 1,
-            "session_id": "session456",
+            "session_id": 1,
             "teacher_id": "teach789",
             "file_url": "https://cdn.example.com/books/mechanics.pdf",
             "cover_image": "https://cdn.example.com/books/mechanics-cover.jpg",

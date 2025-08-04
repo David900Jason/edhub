@@ -9,7 +9,7 @@ const Footer = () => {
                     href="https://github.com/David900Jason/edhub"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-bold italic hover:underline"
+                    className="font-bold hover:underline"
                 >
                     Digital Dreamers
                 </a>

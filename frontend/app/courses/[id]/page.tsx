@@ -29,12 +29,11 @@ import {
     fetchSessions,
     fetchVideos,
 } from "@/lib/api";
-import { cn } from "@/lib/utils";
 
 const Course = async ({ params }: { params: { id: string } }) => {
     const { id } = await params;
 
-    const locked = true;
+    // const locked = true;
 
     const course = await fetchCourse(Number(id));
     const sessions = await fetchSessions(Number(id));
@@ -81,6 +80,12 @@ const Course = async ({ params }: { params: { id: string } }) => {
                                 <span className="text-white">•</span>
                                 <p className="text-lg font-medium">
                                     {format(course[0]?.createdAt) || "Unknown"}
+                                </p>
+                                <span className="text-white">•</span>
+                                <p className="text-lg font-medium">
+                                    <Tag color="blue">
+                                        {course[0]?.price || "Course price not found"} EGP
+                                    </Tag>
                                 </p>
                             </div>
                             <p className="p-lead !text-white">
@@ -136,8 +141,13 @@ const Course = async ({ params }: { params: { id: string } }) => {
                                                     variant="outline"
                                                     className="w-full"
                                                 >
-                                                    <Video className="mr-2 h-4 w-4" />
-                                                    Watch Session
+                                                    <Link
+                                                        href={`/courses/${id}/sessions/${session.id}`}
+                                                        className="flex items-center"
+                                                    >
+                                                        <Video className="mr-2 h-4 w-4" />
+                                                        Watch Session
+                                                    </Link>
                                                 </Button>
                                             </CardFooter>
                                         </Card>
