@@ -24,14 +24,14 @@ This project is built using the Next.js + TypeScript + Django Rest Framework + S
 
 # Demo
 You can view the demo of the project here:
-<!-- ![screenshot](https://eduhub.netlify.app/) -->
-<!-- [Live Demo](https://eduhub.netlify.app/) -->
+<!-- ![screenshot](https://edhub.netlify.app/) -->
+<!-- [Live Demo](https://edhub.netlify.app/) -->
 
 # Getting Started
 To get started with the project, follow these steps:
 1. Clone the repository
     ```bash
-    git clone https://github.com/David900Jason/eduhub.git
+    git clone https://github.com/David900Jason/edhub.git
     ```
 2. Open the project in your code editor.
 3. Open the **frontend** folder and run:
