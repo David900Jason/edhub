@@ -7,8 +7,8 @@
             "schoolYear": "Grade 10",
             "subject": "Math",
             "createdAt": "2022-01-01",
-            "sessions": 10,
-            "price": 150,
+            "sessions": 5,
+            "price": 350,
             "isFinished": false
         },
         {
@@ -101,6 +101,7 @@
             "location": "https://zoom.us/my/physics101",
             "video_url": null,
             "is_live": true,
+            "price": 100,
             "materials": ["https://drive.com/file1", "https://drive.com/file2"]
         },
         {
@@ -114,6 +115,7 @@
             "location": "https://zoom.us/my/physics101",
             "video_url": null,
             "is_live": true,
+            "price": 100,
             "materials": ["https://drive.com/file1", "https://drive.com/file2"]
         },
         {
@@ -127,6 +129,7 @@
             "location": "https://zoom.us/my/physics101",
             "video_url": null,
             "is_live": true,
+            "price": 100,
             "materials": ["https://drive.com/file1", "https://drive.com/file2"]
         },
         {
@@ -140,6 +143,7 @@
             "location": "https://zoom.us/my/physics101",
             "video_url": null,
             "is_live": true,
+            "price": 100,
             "materials": ["https://drive.com/file1", "https://drive.com/file2"]
         },
         {
@@ -153,7 +157,64 @@
             "location": "https://zoom.us/my/physics101",
             "video_url": null,
             "is_live": true,
+            "price": 100,
             "materials": ["https://drive.com/file1", "https://drive.com/file2"]
+        }
+    ],
+    "enrollments": [
+        {
+            "id": 1,
+            "user_id": "user123",
+            "course_id": 1,
+            "session_id": 1,
+            "teacher_id": "teach789",
+            "enrollment_date": "2025-08-01T15:00:00Z",
+            "is_active": true
+        },
+        {
+            "id": 2,
+            "user_id": "user123",
+            "course_id": 1,
+            "session_id": 1,
+            "teacher_id": "teach789",
+            "enrollment_date": "2025-08-01T15:00:00Z",
+            "is_active": true
+        },
+        {
+            "id": 3,
+            "user_id": "user123",
+            "course_id": 1,
+            "session_id": 1,
+            "teacher_id": "teach789",
+            "enrollment_date": "2025-08-01T15:00:00Z",
+            "is_active": true
+        },
+        {
+            "id": 4,
+            "user_id": "user123",
+            "course_id": 1,
+            "session_id": 1,
+            "teacher_id": "teach789",
+            "enrollment_date": "2025-08-01T15:00:00Z",
+            "is_active": true
+        },
+        {
+            "id": 5,
+            "user_id": "user123",
+            "course_id": 1,
+            "session_id": 1,
+            "teacher_id": "teach789",
+            "enrollment_date": "2025-08-01T15:00:00Z",
+            "is_active": true
+        },
+        {
+            "id": 6,
+            "user_id": "user123",
+            "course_id": 1,
+            "session_id": 1,
+            "teacher_id": "teach789",
+            "enrollment_date": "2025-08-01T15:00:00Z",
+            "is_active": true
         }
     ],
     "videos": [

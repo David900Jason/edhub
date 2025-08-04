@@ -137,6 +137,12 @@
     body {
         @apply text-foreground;
     }
+    button {
+        @apply cursor-pointer;
+    }
+    a {
+        @apply hover:underline;
+    }
 }
 
 @layer utilities {

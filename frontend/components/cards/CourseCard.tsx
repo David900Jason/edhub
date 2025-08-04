@@ -11,8 +11,7 @@ import { format } from "timeago.js";
 import { Button } from "../ui/button";
 
 const CourseCard = ({ course }: { course: CourseType }) => {
-    const { id, title, image, schoolYear, subject, createdAt, sessions } =
-        course;
+    const { id, title, schoolYear, subject, createdAt, sessions, price } = course;
 
     return (
         <Card className="group gap-0 overflow-hidden py-0 hover:cursor-pointer">
@@ -32,21 +31,19 @@ const CourseCard = ({ course }: { course: CourseType }) => {
                         <Tag color="blue">{subject}</Tag>
                     </li>
                 </ul>
-                <h3 className="mb-1 text-lg font-bold group-hover:underline">
-                    {title}
+                <h3 className="text-lg font-bold group-hover:underline">
+                    <Link href={`/courses/${id}`}>{title}</Link>
                 </h3>
                 <div className="flex gap-1 text-sm text-gray-400">
-                    <p>{sessions} sessions</p>.
+                    <p>{sessions} sessions</p>|
                     <p>{format(new Date(createdAt))}</p>
                 </div>
-                <div className="flex gap-2 mt-4">
-                    <Button
-                        variant="outline"
-                        className="border-primary text-primary hover:bg-primary cursor-pointer font-bold hover:text-white flex-1"
-                    >
-                        <Link href={`/courses/${id}`}>View Course</Link>
-                    </Button>
-                </div>
+                <p className="text-primary-foreground mt-4 text-start text-lg font-bold tracking-tighter">
+                    {price.toFixed(2)}{" "}
+                    <span className="text-xs font-extrabold text-gray-500">
+                        EGP
+                    </span>
+                </p>
             </div>
         </Card>
     );

@@ -17,7 +17,7 @@ const HeroSection = () => {
                     <Link href="/signup">Get started</Link>
                 </Button>
                 <Button className="btn" variant="outline">
-                    <Link href="/login">Check it out</Link>
+                    <Link href="/courses">Check it out</Link>
                 </Button>
             </div>
         </>

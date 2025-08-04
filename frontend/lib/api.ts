@@ -1,6 +1,16 @@
 import axios from "axios";
 
 // API Utilities for Frontend
+const fetchCourses = async (): Promise<any | null> => {
+    try {
+        const res = await axios.get(`http://localhost:8000/courses`);
+        return res.data;
+    } catch (error: any) {
+        console.error(error);
+        return null;
+    }
+};
+
 const fetchCourse = async (id: number): Promise<any | null> => {
     try {
         const res = await axios.get(`http://localhost:8000/courses?id=${id}`);
@@ -59,4 +69,4 @@ const fetchExams = async (id: number): Promise<any | null> => {
     }
 };
 
-export { fetchCourse, fetchSessions, fetchVideos, fetchBooks, fetchExams };
+export { fetchCourses, fetchCourse, fetchSessions, fetchVideos, fetchBooks, fetchExams };

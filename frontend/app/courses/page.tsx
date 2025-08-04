@@ -2,7 +2,6 @@
 
 import { useState, useDeferredValue, useMemo } from "react";
 import { School } from "lucide-react";
-import { courses } from "@/constants";
 import { Container } from "@/components/";
 import {
     Banner,
@@ -11,6 +10,7 @@ import {
     FilterSelect
 } from "@/components/";
 import { Button } from "@/components/ui/button";
+import { courses } from "@/constants";
 
 const Courses = () => {
     // State for search and filters
@@ -25,7 +25,7 @@ const Courses = () => {
 
     // Filter courses based on search and filters
     const filteredCourses = useMemo(() => {
-        return courses.filter((course) => {
+        return courses?.filter((course) => {
             // Search query filter
             const matchesSearch =
                 course.title
@@ -37,9 +37,9 @@ const Courses = () => {
 
             // Apply filters
             const matchesSchoolYear =
-                !filters.schoolYear || course.schoolYear === filters.schoolYear;
+                !filters?.schoolYear || course.schoolYear === filters?.schoolYear;
             const matchesSubject =
-                !filters.subject || course.subject === filters.subject;
+                !filters?.subject || course.subject === filters?.subject;
 
             return matchesSearch && matchesSchoolYear && matchesSubject;
         });
@@ -55,7 +55,7 @@ const Courses = () => {
 
     // Get unique subjects for filter options
     const subjects = useMemo(() => {
-        const uniqueSubjects = new Set(courses.map((course) => course.subject));
+        const uniqueSubjects = new Set(courses?.map((course) => course.subject));
         return Array.from(uniqueSubjects);
     }, []);
 
@@ -84,7 +84,7 @@ const Courses = () => {
                     <FilterSelect
                         placeholder="School year"
                         options={["Grade 10", "Grade 11", "Grade 12"]}
-                        value={filters.schoolYear}
+                        value={filters?.schoolYear}
                         onValueChange={(value) =>
                             handleFilterChange("schoolYear", value)
                         }
@@ -92,7 +92,7 @@ const Courses = () => {
                     <FilterSelect
                         placeholder="Subject"
                         options={subjects}
-                        value={filters.subject}
+                        value={filters?.subject}
                         onValueChange={(value) =>
                             handleFilterChange("subject", value)
                         }
@@ -114,8 +114,8 @@ const Courses = () => {
 
             {/* Courses Grid */}
             <Container className="mb-16 grid grid-cols-1 gap-6 min-[630px]:grid-cols-2 lg:grid-cols-3">
-                {filteredCourses.length > 0 ? (
-                    filteredCourses.map((course) => (
+                {filteredCourses?.length > 0 ? (
+                    filteredCourses?.map((course) => (
                         <CourseCard key={course.id} course={course} />
                     ))
                 ) : (

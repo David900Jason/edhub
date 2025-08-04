@@ -99,6 +99,7 @@ export const courses: CourseType[] = [
         subject: "Math",
         createdAt: "2022-01-01",
         sessions: 10,
+        price: 150,
     },
     {
         id: 2,
@@ -108,6 +109,7 @@ export const courses: CourseType[] = [
         subject: "Math",
         createdAt: "2022-01-01",
         sessions: 9,
+        price: 120,
     },
     {
         id: 3,
@@ -117,6 +119,7 @@ export const courses: CourseType[] = [
         subject: "Math",
         createdAt: "2022-01-01",
         sessions: 5,
+        price: 100,
     },
     {
         id: 4,
@@ -126,7 +129,8 @@ export const courses: CourseType[] = [
         subject: "Science",
         createdAt: "2022-01-01",
         sessions: 2,
-    },
+        price: 100,
+    },  
     {
         id: 5,
         title: "Human Excretion System",
@@ -135,6 +139,7 @@ export const courses: CourseType[] = [
         subject: "Science",
         createdAt: "2022-01-01",
         sessions: 5,
+        price: 100,
     },
     {
         id: 6,
@@ -144,6 +149,7 @@ export const courses: CourseType[] = [
         subject: "Science",
         createdAt: "2022-01-01",
         sessions: 8,
+        price: 100,
     },
     {
         id: 7,
@@ -153,6 +159,7 @@ export const courses: CourseType[] = [
         subject: "English",
         createdAt: "2022-01-01",
         sessions: 4,
+        price: 100,
     },
     {
         id: 8,
@@ -162,5 +169,6 @@ export const courses: CourseType[] = [
         subject: "English",
         createdAt: "2022-01-01",
         sessions: 4,
+        price: 100,
     }
 ]

@@ -30,4 +30,5 @@ declare interface CourseType {
     subject: string;
     createdAt: string;
     sessions: number;
+    price: number;
 }
