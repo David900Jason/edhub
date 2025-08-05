@@ -27,3 +27,22 @@ declare interface DashboardLinkType {
     href: string;
     icon: React.ElementType;
 }
+
+// Profile Button Links Types
+declare interface ProfileButtonLinksType {
+    label: string;
+    href: string;
+    icon: React.ElementType;
+}
+
+// Course Types
+declare interface CourseType {
+    id?: number;
+    title: string;
+    image: string;
+    schoolYear: string | number;
+    subject: string;
+    createdAt: string;
+    sessions: number;
+    price: number;
+}

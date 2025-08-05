@@ -1,6 +1,18 @@
 // This will be displayed in the page title and in search engine results
 
-import { LogIn, UserPlus, BookOpen, Group, User, Video, Home, Book, Award, DollarSign, Pen } from "lucide-react";
+import {
+    LogIn,
+    UserPlus,
+    BookOpen,
+    Group,
+    User,
+    Video,
+    Home,
+    Book,
+    Award,
+    DollarSign,
+    Pen,
+} from "lucide-react";
 
 const navLinks = [
     {
@@ -98,12 +110,12 @@ const dashboardLinks = [
     },
     {
         title: "My Courses",
-        href: "/user/courses",
+        href: "/user/my-courses",
         icon: BookOpen,
     },
     {
         title: "My Sessions",
-        href: "/user/sessions",
+        href: "/user/my-sessions",
         icon: BookOpen,
     },
     {
@@ -125,7 +137,112 @@ const dashboardLinks = [
         title: "Notes",
         href: "/user/notes",
         icon: Pen,
-    }
-]
+    },
+];
 
-export { navLinks, stats, reviews, dashboardLinks };
+const ProfileButtonLinks: ProfileButtonLinksType[] = [
+    {
+        label: "Account",
+        href: "/user/dashboard",
+        icon: User,
+    },
+    {
+        label: "My Courses",
+        href: "/user/my-courses",
+        icon: BookOpen,
+    },
+    {
+        label: "My Sessions",
+        href: "/user/my-sessions",
+        icon: Book,
+    },
+    {
+        label: "Payments",
+        href: "/user/payments",
+        icon: DollarSign,
+    },
+];
+
+const recentActivitiesData = [
+    {
+        month: "January",
+        courses: 3,
+        sessions: 14,
+    },
+    {
+        month: "February",
+        courses: 2,
+        sessions: 9,
+    },
+    {
+        month: "March",
+        courses: 5,
+        sessions: 22,
+    },
+    {
+        month: "April",
+        courses: 2,
+        sessions: 12,
+    },
+    {
+        month: "May",
+        courses: 4,
+        sessions: 18,
+    },
+];
+
+const dummyTasksData = [
+    {
+        task: "Complete Math Assignment",
+        checked: false,
+    },
+    {
+        task: "Read Science Chapter 5",
+        checked: false,
+    },
+    {
+        task: "Finish History Project",
+        checked: true,
+    },
+    {
+        task: "Prepare for English Test",
+        checked: true,
+    },
+    {
+        task: "Attend Chemistry Lab",
+        checked: false,
+    },
+    {
+        task: "Submit Art Assignment",
+        checked: false,
+    },
+];
+
+const dashboardHomeCards = [
+    {
+        title: "Exams",
+        icon: Award,
+        description: "you took recently.",
+    },
+    {
+        title: "Courses",
+        icon: BookOpen,
+        description: "you joined recently.",
+    },
+    {
+        title: "Assignments",
+        icon: Book,
+        description: "delievered on time.",
+    },
+];
+
+export {
+    navLinks,
+    stats,
+    reviews,
+    dashboardLinks,
+    dashboardHomeCards,
+    ProfileButtonLinks,
+    recentActivitiesData,
+    dummyTasksData,
+};

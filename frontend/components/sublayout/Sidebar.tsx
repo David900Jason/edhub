@@ -1,18 +1,24 @@
+"use client";
+
 import { Button } from "../ui/button";
-import { GraduationCap, LogOut, MoonStar, Sheet } from "lucide-react";
+import { GraduationCap, LogOut, MoonStar } from "lucide-react";
 import { dashboardLinks } from "@/constants";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 const Sidebar = () => {
+    const pathname = usePathname();
+
     return (
-        <div className="bg-primary hidden h-full w-64 flex-col justify-between sm:flex">
+        <div className="bg-primary sticky top-0 left-0 hidden h-screen w-64 flex-col justify-between sm:flex">
             <header>
-                <div className="flex items-center gap-3 border-b border-b-gray-400 p-6">
+                <div className="flex items-center gap-3 p-4 pt-6 pb-2">
                     <GraduationCap
-                        size={32}
+                        size={42}
                         className="text-primary-foreground"
                     />
-                    <h2 className="text-2xl font-bold">EdHub</h2>
+                    <h2 className="text-3xl font-bold">EdHub</h2>
                 </div>
                 <ul className="px-2 py-4">
                     {dashboardLinks.map(
@@ -24,7 +30,11 @@ const Sidebar = () => {
                             return (
                                 <li
                                     key={index}
-                                    className="mb-2 rounded-lg px-2 py-3 transition-colors hover:bg-white hover:text-black cursor-pointer"
+                                    className={cn(
+                                        "mb-2 cursor-pointer rounded-lg px-2 py-3 text-white transition-colors hover:bg-white hover:text-black",
+                                        pathname === href
+                                            && "bg-white text-black"
+                                    )}
                                 >
                                     <Link
                                         className="flex items-center gap-2"
@@ -42,7 +52,7 @@ const Sidebar = () => {
                     )}
                 </ul>
             </header>
-            <footer className="flex gap-2 p-4 border-t border-t-gray-400">
+            <footer className="flex gap-2 p-4">
                 <Button variant="ghost" className="cursor-pointer">
                     <MoonStar />
                 </Button>
