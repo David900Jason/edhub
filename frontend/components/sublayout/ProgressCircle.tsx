@@ -7,12 +7,10 @@ interface ProgressCircleProps {
 
 const ProgressCircle = ({
     progress,
-    color,
     size,
     strokeWidth,
 }: ProgressCircleProps) => {
     // Default values
-    const circleColor = color || "primary";
     const circleStrokeWidth = strokeWidth || 10;
     const radius = (size - circleStrokeWidth) / 2;
     const circumference = 2 * Math.PI * radius;
@@ -33,7 +31,7 @@ const ProgressCircle = ({
                 cy={size / 2}
                 r={radius}
                 fill="none"
-                className={`stroke-${circleColor}`}
+                className={`stroke-primary`}
                 strokeWidth={circleStrokeWidth}
                 strokeDasharray={circumference}
                 strokeDashoffset={offset}

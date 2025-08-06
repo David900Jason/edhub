@@ -10,6 +10,7 @@ import {
     recentActivitiesData,
 } from "@/constants";
 import { cn } from "@/lib/utils";
+import DashboardCard from "@/components/cards/DashboardCard";
 
 const Dashboard = () => {
     return (
@@ -19,42 +20,15 @@ const Dashboard = () => {
                     <h1 className="mb-4 py-4 pt-0 text-3xl font-extrabold">
                         Hello, Ahmed! 👋
                     </h1>
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                        {dashboardHomeCards.map(
-                            (
-                                {
-                                    title,
-                                    icon,
-                                    description,
-                                }: {
-                                    title: string;
-                                    icon: React.ElementType;
-                                    description: string;
-                                },
-                                index: number,
-                            ) => {
-                                // Ensure icon is a valid React element
-                                const Icon: React.ElementType = icon;
-                                return (
-                                    <Card key={index}>
-                                        <CardContent className="flex items-center gap-4">
-                                            <Icon
-                                                className="text-primary"
-                                                size={48}
-                                            />
-                                            <div>
-                                                <h2 className="text-xl font-bold">
-                                                    {title}
-                                                </h2>
-                                                <p className="text-muted-foreground text-sm">
-                                                    {description}
-                                                </p>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                );
-                            },
-                        )}
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                        {dashboardHomeCards.map((card: any, index: number) => {
+                            return (
+                                <DashboardCard
+                                    key={index}
+                                    card={card}
+                                />
+                            );
+                        })}
                     </div>
                 </div>
                 <hr />
@@ -99,44 +73,6 @@ const Dashboard = () => {
                             />
                         </div>
                     </div>
-                </div>
-            </div>
-            <div className="min-w-64">
-                <div className="flex flex-col items-center p-6">
-                    <div className="rounded-full bg-gray-100 p-4">
-                        <User size={56} />
-                    </div>
-                    <h2 className="mt-4 text-xl font-bold">Ahmed Wael</h2>
-                    <p className="text-muted-foreground text-sm">Grade 10</p>
-                </div>
-                <hr />
-                <div>
-                    <h3 className="flex items-center gap-2 px-6 py-4 text-2xl font-semibold">
-                        <List /> Todo List
-                    </h3>
-                    <ul className="space-y-2 px-10">
-                        {dummyTasksData.map(
-                            (
-                                {
-                                    task,
-                                    checked,
-                                }: { task: string; checked: boolean },
-                                index: number,
-                            ) => (
-                                <li key={index} className="flex items-start">
-                                    <Checkbox checked={checked} />
-                                    <span
-                                        className={cn(
-                                            "ml-2 text-sm",
-                                            checked && "line-through",
-                                        )}
-                                    >
-                                        {task}
-                                    </span>
-                                </li>
-                            ),
-                        )}
-                    </ul>
                 </div>
             </div>
         </DashContainer>

@@ -32,8 +32,8 @@ const Sidebar = () => {
                                     key={index}
                                     className={cn(
                                         "mb-2 cursor-pointer rounded-lg px-2 py-3 text-white transition-colors hover:bg-white hover:text-black",
-                                        pathname === href
-                                            && "bg-white text-black"
+                                        pathname === href &&
+                                            "bg-white text-black",
                                     )}
                                 >
                                     <Link

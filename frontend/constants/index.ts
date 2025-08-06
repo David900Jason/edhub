@@ -12,6 +12,7 @@ import {
     Award,
     DollarSign,
     Pen,
+    List,
 } from "lucide-react";
 
 const navLinks = [
@@ -134,6 +135,11 @@ const dashboardLinks = [
         icon: DollarSign,
     },
     {
+        title: "Todo List",
+        href: "/user/todo-list",
+        icon: List,
+    },
+    {
         title: "Notes",
         href: "/user/notes",
         icon: Pen,
@@ -160,6 +166,11 @@ const ProfileButtonLinks: ProfileButtonLinksType[] = [
         label: "Payments",
         href: "/user/payments",
         icon: DollarSign,
+    },
+    {
+        label: "Todo List",
+        href: "/user/todo-list",
+        icon: List,
     },
 ];
 
@@ -227,6 +238,11 @@ const dashboardHomeCards = [
     {
         title: "Courses",
         icon: BookOpen,
+        description: "you joined recently.",
+    },
+    {
+        title: "Sessions",
+        icon: Book,
         description: "you joined recently.",
     },
     {

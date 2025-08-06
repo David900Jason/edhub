@@ -18,7 +18,7 @@ const ProfileButton = ({ name, image }: { name: string; image: string }) => {
                         size={32}
                         className="rounded-full border object-cover shadow"
                     />
-                    <span className="text-sm font-medium">Hi, {name}</span>
+                    <span className="text-sm font-bold">Hi, {name}</span>
                 </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="flex w-48 flex-col gap-1">
