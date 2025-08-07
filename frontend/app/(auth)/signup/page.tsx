@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { DatePicker, FormHeader } from "@/components/";
+import DatePicker from "@/components/auth/DatePicker";
+import FormHeader from "@/components/auth/FormHeader";
 import { cities } from "@/constants";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";

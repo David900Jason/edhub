@@ -1,8 +1,8 @@
 "use client";
 
-import { FormHeader, InputGroup } from "@/components/";
+import FormHeader from "@/components/auth/FormHeader";
 import { Button } from "@/components/ui/button";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { AlertCircle, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -13,10 +13,10 @@ interface ResetPasswordFormData {
     password: string;
 }
 
-const resetPassword = () => {
-    const searchParams = useSearchParams();
+const ResetPassword = () => {
+    // const searchParams = useSearchParams();
     const router = useRouter();
-    const email = searchParams.get("email");
+    // const email = searchParams.get("email");
 
     const {
         register,
@@ -34,6 +34,7 @@ const resetPassword = () => {
         alert("Password reset successfully!");
 
         // TODO: Edit user with email as a query and password as the new change
+        console.log(data);
 
         // TO DO: implement password reset logic here
         router.push("/login");
@@ -93,4 +94,4 @@ const resetPassword = () => {
     );
 };
 
-export default resetPassword;
+export default ResetPassword;

@@ -2,7 +2,6 @@
 
 import { navLinks } from "@/constants";
 import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 
 const CourseLayout = ({ children }: { children: React.ReactNode }) => {
     return (
@@ -11,7 +10,6 @@ const CourseLayout = ({ children }: { children: React.ReactNode }) => {
                 <Navbar navLinks={navLinks} />
             </header>
             {children}
-            <Footer />
         </>
     );
 };

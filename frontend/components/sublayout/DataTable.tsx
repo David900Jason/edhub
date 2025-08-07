@@ -1,15 +1,13 @@
 import {
     Table,
     TableBody,
-    TableCaption,
     TableCell,
-    TableFooter,
     TableHead,
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
 
-export function TableDemo({ data }: { data?: any[] }) {
+export function TableDemo({ data }: { data?: object[] }) {
     return (
         <Table className="mt-6 p-4 border rounded-lg">
             <TableHeader>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { FormHeader } from "@/components/";
+import FormHeader from "@/components/auth/FormHeader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -34,6 +34,8 @@ const Login = () => {
         }
 
         alert("Login successfully");
+
+        console.log(data);
     };
 
     return (
@@ -126,7 +128,7 @@ const Login = () => {
                 </Button>
                 {/* Don't have an account? */}
                 <p className="text-center text-sm text-gray-600">
-                    Don't have an account?{" "}
+                    Don&apos;t have an account?{" "}
                     <Link href="/signup" className="text-primary text-sm">
                         Sign Up
                     </Link>

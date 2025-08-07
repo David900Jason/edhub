@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader } from "../ui/card";
 import { cn } from "@/lib/utils";
 
 const TestimonialCard = ({ review }: { review: ReviewType }) => {
-    const { name, message, year, image, rating } = review;
+    const { name, message, year } = review;
 
     return (
         <Card className={cn("flex max-w-xl flex-col gap-6")} style={{

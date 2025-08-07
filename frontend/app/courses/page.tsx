@@ -2,13 +2,11 @@
 
 import { useState, useDeferredValue, useMemo } from "react";
 import { School } from "lucide-react";
-import { Container } from "@/components/";
-import {
-    Banner,
-    CourseCard,
-    SearchBar,
-    FilterSelect
-} from "@/components/";
+import Container from "@/components/containers/Container";
+import Banner from "@/components/containers/Banner";
+import CourseCard from "@/components/cards/CourseCard";
+import SearchBar from "@/components/sublayout/SearchBar";
+import FilterSelect from "@/components/sublayout/FilterSelect";
 import { Button } from "@/components/ui/button";
 import { courses } from "@/constants";
 

@@ -9,7 +9,7 @@ import {
 import { LogOut, Settings, User } from "lucide-react";
 import { ProfileButtonLinks } from "@/constants";
 
-const ProfileButton = ({ name, image }: { name: string; image: string }) => {
+const ProfileButton = ({ name, }: { name: string; }) => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger>

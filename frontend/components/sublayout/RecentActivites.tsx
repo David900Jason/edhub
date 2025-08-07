@@ -14,7 +14,7 @@ const RecentActivities = ({
     axis,
 }: {
     chartConfig: ChartConfig;
-    chartData: any[];
+    chartData: object[];
     axis?: {
         xAxis?: string;
         yAxis?: string;

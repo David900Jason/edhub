@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-import { FormHeader } from "@/components/";
+import FormHeader from "@/components/auth/FormHeader";
 
 import {
     InputOTP,

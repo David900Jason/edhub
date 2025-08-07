@@ -1,6 +1,6 @@
 "use client";
 
-import { FormHeader } from "@/components/";
+import FormHeader from "@/components/auth/FormHeader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

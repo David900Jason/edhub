@@ -10,7 +10,7 @@ import Link from "next/link";
 import { format } from "timeago.js";
 
 const CourseCard = ({ course }: { course: CourseType }) => {
-    const { id, title, schoolYear, subject, createdAt, sessions, price } =
+    const { id, title, schoolYear, subject, createdAt, price } =
         course;
 
     return (
@@ -34,16 +34,16 @@ const CourseCard = ({ course }: { course: CourseType }) => {
                 <h3 className="text-lg font-bold group-hover:underline">
                     <Link href={`/courses/${id}`}>{title}</Link>
                 </h3>
-                <div className="flex gap-1 text-sm text-gray-400">
-                    <p>{sessions} sessions</p>|
+                <div className="mb-5 flex gap-1 text-sm text-gray-400">
+                    <p>{price} EGP</p>|
                     <p>{format(new Date(createdAt))}</p>
                 </div>
-                <p className="text-primary-foreground mt-4 text-start text-lg font-bold tracking-tighter">
+                {/* <p className="text-primary-foreground mt-4 text-start text-lg font-bold tracking-tighter">
                     {price.toFixed(2)}{" "}
                     <span className="text-xs font-extrabold text-gray-500">
                         EGP
                     </span>
-                </p>
+                </p> */}
             </div>
         </Card>
     );

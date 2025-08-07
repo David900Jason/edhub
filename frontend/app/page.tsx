@@ -1,13 +1,13 @@
 "use client";
 
 import {
-    Footer,
     HeroSection,
     Navbar,
     SectionHeading,
     Statistics,
     Testimonials,
 } from "@/components/";
+import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { navLinks, stats } from "@/constants";
 import { useInView } from "react-intersection-observer";
@@ -43,7 +43,7 @@ const Home = () => {
                             growth.
                         </p>
                         <p className="p-lead text-center md:text-start">
-                            Whether you're preparing for exams, developing new
+                            Whether you&apos;re preparing for exams, developing new
                             skills, or exploring new interests,{" "}
                             <span className="text-primary font-bold">
                                 Edhub

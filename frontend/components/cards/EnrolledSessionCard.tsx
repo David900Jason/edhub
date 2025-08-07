@@ -25,7 +25,7 @@ interface SessionType {
 }
 
 const EnrolledSessionCard = async ({ session }: { session: SessionType }) => {
-    const { id, title, description } = session;
+    const { id, title } = session;
     let course = await fetchCourse(session.course_id);
     course = course[0];
 
