@@ -292,7 +292,7 @@ const courses: CourseType[] = [
         createdAt: "2022-01-01",
         sessions: 2,
         price: 100,
-    },  
+    },
     {
         id: 5,
         title: "Human Excretion System",
@@ -332,8 +332,39 @@ const courses: CourseType[] = [
         createdAt: "2022-01-01",
         sessions: 4,
         price: 100,
-    }
-]
+    },
+];
+
+// Create cities
+const cities = [
+    "Cairo",
+    "Giza",
+    "Alexandria",
+    "Dakahlia",
+    "Red Sea",
+    "Beheira",
+    "Fayoum",
+    "Gharbia",
+    "Ismailia",
+    "Menoufia",
+    "Minya",
+    "Qalyubia",
+    "New Valley",
+    "Suez",
+    "Aswan",
+    "Asyut",
+    "Beni Suef",
+    "Port Said",
+    "Damietta",
+    "Sharkia",
+    "South Sinai",
+    "Kafr El Sheikh",
+    "Matrouh",
+    "Luxor",
+    "Qena",
+    "North Sinai",
+    "Sohag",
+];
 
 export {
     navLinks,
@@ -345,4 +376,5 @@ export {
     recentActivitiesData,
     dummyTasksData,
     courses,
-}
+    cities,
+};

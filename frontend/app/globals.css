@@ -85,7 +85,7 @@
 
 /* Adjust the scrollbar */
 ::-webkit-scrollbar {
-    width: .6rem;
+    width: 0.6rem;
 }
 
 ::-webkit-scrollbar-track {
@@ -191,11 +191,11 @@
     }
 
     .session-link {
-        @apply bg-gray-200 flex gap-2 p-4;
+        @apply flex gap-2 bg-gray-200 p-4;
     }
 
     .session-link:hover {
-        @apply bg-slate-400 transition-colors cursor-pointer;
+        @apply cursor-pointer bg-slate-400 transition-colors;
     }
 
     .session-link:hover p {
@@ -216,5 +216,27 @@
 
     .session-link__info p {
         @apply text-xs text-gray-500;
+    }
+
+    .btn-loading {
+        @apply cursor-not-allowed disabled:opacity-50;
+    }
+
+    .register-form {
+        @apply mx-8 flex flex-1 flex-col gap-4 self-center rounded-lg border px-6 py-8 sm:mx-auto md:flex-1/2 lg:mx-16;
+        max-width: 500px;
+        margin-block: 7vh;
+    }
+
+    .input-group {
+        margin-bottom: 0.5rem;
+    }
+
+    .input-group :is(input, textarea, select) {
+        @apply mb-1 text-sm;
+    }
+
+    .input-error {
+        @apply text-sm font-light text-red-600;
     }
 }

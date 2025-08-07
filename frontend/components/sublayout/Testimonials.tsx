@@ -34,7 +34,7 @@ const Testimonials = () => {
                             key={index}
                             onClick={() => setTestimonial(review)}
                             className={cn(
-                                "flex items-center justify-center aspect-square w-6 rounded-full border-1 cursor-pointer hover:bg-primary-foreground",
+                                "hover:bg-primary-foreground flex aspect-square w-6 cursor-pointer items-center justify-center rounded-full border-1",
                                 review.name === testimonial.name
                                     ? "bg-primary border-0"
                                     : "border-slate-400",
