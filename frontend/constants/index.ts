@@ -252,6 +252,89 @@ const dashboardHomeCards = [
     },
 ];
 
+const courses: CourseType[] = [
+    {
+        id: 1,
+        title: "Applications on Real Numbers",
+        image: "https://dummyimage.com/600x400",
+        schoolYear: "Grade 10",
+        subject: "Math",
+        createdAt: "2022-01-01",
+        sessions: 10,
+        price: 150,
+    },
+    {
+        id: 2,
+        title: "Differentiation",
+        image: "https://dummyimage.com/600x400",
+        schoolYear: "Grade 11",
+        subject: "Math",
+        createdAt: "2022-01-01",
+        sessions: 9,
+        price: 120,
+    },
+    {
+        id: 3,
+        title: "Vectors in 3D space",
+        image: "https://dummyimage.com/600x400",
+        schoolYear: "Grade 12",
+        subject: "Math",
+        createdAt: "2022-01-01",
+        sessions: 5,
+        price: 100,
+    },
+    {
+        id: 4,
+        title: "Diversity of Living Organisms",
+        image: "https://dummyimage.com/600x400",
+        schoolYear: "Grade 10",
+        subject: "Science",
+        createdAt: "2022-01-01",
+        sessions: 2,
+        price: 100,
+    },  
+    {
+        id: 5,
+        title: "Human Excretion System",
+        image: "https://dummyimage.com/600x400",
+        schoolYear: "Grade 11",
+        subject: "Science",
+        createdAt: "2022-01-01",
+        sessions: 5,
+        price: 100,
+    },
+    {
+        id: 6,
+        title: "Ohm's Law and Kirchhoff's Law",
+        image: "https://dummyimage.com/600x400",
+        schoolYear: "Grade 12",
+        subject: "Science",
+        createdAt: "2022-01-01",
+        sessions: 8,
+        price: 100,
+    },
+    {
+        id: 7,
+        title: "Unit 10: Places of Interest",
+        image: "https://dummyimage.com/600x400",
+        schoolYear: "Grade 10",
+        subject: "English",
+        createdAt: "2022-01-01",
+        sessions: 4,
+        price: 100,
+    },
+    {
+        id: 8,
+        title: "Unit 9: Modern Cultures",
+        image: "https://dummyimage.com/600x400",
+        schoolYear: "Grade 11",
+        subject: "English",
+        createdAt: "2022-01-01",
+        sessions: 4,
+        price: 100,
+    }
+]
+
 export {
     navLinks,
     stats,
@@ -261,4 +344,5 @@ export {
     ProfileButtonLinks,
     recentActivitiesData,
     dummyTasksData,
-};
+    courses,
+}

@@ -11,11 +11,6 @@ const fetchCourses = async (): Promise<any | null> => {
     }
 };
 
-/**
- * Fetch a course by its ID.
- * @param id The course ID.
- * @returns The course object or null if there is an error.
- */
 const fetchCourse = async (id: number): Promise<any | null> => {
     try {
         const res = await axios.get(`http://localhost:8000/courses?id=${id}`);
