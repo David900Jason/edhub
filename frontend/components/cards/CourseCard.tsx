@@ -1,17 +1,26 @@
+// React Icons
+import { ShoppingCart } from "lucide-react";
+
 // UI Components
 import { Card } from "@/components/ui/card";
+import { Button } from "../ui/button";
 import Tag from "@/components/ui/Tag";
+import PaymentDialog from "../sublayout/PaymentDialog";
 
 // Next.js Components
 import Image from "next/image";
 import Link from "next/link";
 
 // Util Function
-import { format } from "timeago.js";
+import { fetchTeacher } from "@/lib/api";
+import { useQuery } from "@tanstack/react-query";
 
 const CourseCard = ({ course }: { course: CourseType }) => {
-    const { id, title, schoolYear, subject, createdAt, price } =
-        course;
+    const { id, title, school_year, teacher_id, category, price } = course;
+    const { data } = useQuery({
+        queryKey: ["teacher"],
+        queryFn: () => fetchTeacher(teacher_id),
+    });
 
     return (
         <Card className="group gap-0 overflow-hidden py-0 hover:cursor-pointer">
@@ -25,25 +34,34 @@ const CourseCard = ({ course }: { course: CourseType }) => {
             <div className="flex flex-col px-4 py-5">
                 <ul className="mb-4 flex items-center gap-2">
                     <li>
-                        <Tag color="purple">{schoolYear}</Tag>
+                        <Tag color="purple">{school_year}</Tag>
                     </li>
                     <li>
-                        <Tag color="blue">{subject}</Tag>
+                        <Tag color="blue">{category}</Tag>
                     </li>
                 </ul>
                 <h3 className="text-lg font-bold group-hover:underline">
                     <Link href={`/courses/${id}`}>{title}</Link>
                 </h3>
-                <div className="mb-5 flex gap-1 text-sm text-gray-400">
-                    <p>{price} EGP</p>|
-                    <p>{format(new Date(createdAt))}</p>
-                </div>
-                {/* <p className="text-primary-foreground mt-4 text-start text-lg font-bold tracking-tighter">
+                <span className="text-sm text-gray-500">
+                    by: {data?.full_name}
+                </span>
+                <p className="text-primary-foreground mt-2 mb-6 text-start text-lg font-bold tracking-tighter">
                     {price.toFixed(2)}{" "}
                     <span className="text-xs font-extrabold text-gray-500">
                         EGP
                     </span>
-                </p> */}
+                </p>
+                <div>
+                    <PaymentDialog paymentItem="course" courseId={id}>
+                        <Button
+                            className="hover:bg-secondary bg-secondary w-full text-black transition-colors hover:opacity-80"
+                            type="button"
+                        >
+                            <ShoppingCart className="h-4 w-4" /> Buy Course
+                        </Button>
+                    </PaymentDialog>
+                </div>
             </div>
         </Card>
     );

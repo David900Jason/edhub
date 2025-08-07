@@ -20,19 +20,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-
-interface SignupFormData {
-    full_name: string;
-    email: string;
-    password: string;
-    confirm_password: string;
-    phone: string;
-    parent_phone: string;
-    date_of_birth: string;
-    role: string;
-    school_year: string;
-    city: string;
-}
+import { createUser } from "@/lib/api";
 
 const Signup = ({ action }: { action: string }) => {
     const router = useRouter();
@@ -45,9 +33,9 @@ const Signup = ({ action }: { action: string }) => {
         handleSubmit,
         watch,
         formState: { isSubmitting, errors, isValid },
-    } = useForm<SignupFormData>();
+    } = useForm<SignupFormType>();
 
-    const onSubmit: SubmitHandler<SignupFormData> = async (data) => {
+    const onSubmit: SubmitHandler<SignupFormType> = async (data) => {
         await new Promise((resolve) => setTimeout(resolve, 2000));
 
         if (!isValid) {
@@ -58,9 +46,10 @@ const Signup = ({ action }: { action: string }) => {
         alert("Signup Successfully");
 
         // TODO: Add API call to create user (Submit form)
+        await createUser(data);
 
         // Push router to verify page
-        router.push("/verify?email=" + data.email);
+        router.push("/auth/verify?email=" + data.email);
     };
 
     return (
@@ -213,11 +202,11 @@ const Signup = ({ action }: { action: string }) => {
                 </div>
                 {/* Phone Input */}
                 <div className="input-group">
-                    <Label className="mb-2" htmlFor="phone">
+                    <Label className="mb-2" htmlFor="phone_number">
                         Your Phone Number
                     </Label>
                     <Input
-                        {...register("phone", {
+                        {...register("phone_number", {
                             required: "Phone number is required",
                             pattern: {
                                 value: /^[0-9]{11}$/,
@@ -231,20 +220,20 @@ const Signup = ({ action }: { action: string }) => {
                         placeholder="Your phone number (e.g. 01098765432)"
                         type="tel"
                     />
-                    {errors.phone && (
+                    {errors.phone_number && (
                         <p className="input-error">
                             <AlertCircle className="inline h-4 w-4" />{" "}
-                            {errors.phone.message}
+                            {errors.phone_number.message}
                         </p>
                     )}
                 </div>
                 {/* Parent Phone Input */}
                 <div className="input-group">
-                    <Label className="mb-2" htmlFor="parent_phone">
+                    <Label className="mb-2" htmlFor="parent_number">
                         Parent Phone Number
                     </Label>
                     <Input
-                        {...register("parent_phone", {
+                        {...register("parent_number", {
                             required:
                                 watch("role") === "teacher"
                                     ? false
@@ -261,10 +250,10 @@ const Signup = ({ action }: { action: string }) => {
                         placeholder="Parent phone number (e.g. 01098765432) (students only)"
                         type="tel"
                     />
-                    {errors.parent_phone && (
+                    {errors.parent_number && (
                         <p className="input-error">
                             <AlertCircle className="inline h-4 w-4" />{" "}
-                            {errors.parent_phone.message}
+                            {errors.parent_number.message}
                         </p>
                     )}
                 </div>
@@ -376,7 +365,7 @@ const Signup = ({ action }: { action: string }) => {
                 {/* Don't have an account? */}
                 <p className="text-center text-sm text-gray-600">
                     Already have an account?{" "}
-                    <Link href="/login" className="text-primary">
+                    <Link href="/auth/login" className="text-primary">
                         Login
                     </Link>
                 </p>

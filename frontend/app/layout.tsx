@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
+import QueryProvider from "@/lib/query-client";
 
 const ibmPlexSans = IBM_Plex_Sans({
     variable: "--font-ibm-plex-sans",
@@ -25,7 +26,11 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={`${ibmPlexSans.variable} font-sans`}>{children}</body>
+            <QueryProvider>
+                <body className={`${ibmPlexSans.variable} font-sans`}>
+                    {children}
+                </body>
+            </QueryProvider>
         </html>
     );
 }

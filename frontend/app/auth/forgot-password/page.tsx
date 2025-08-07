@@ -32,7 +32,7 @@ const ForgottenPassword = () => {
         alert("Email found Successfully");
 
         // Alert success or fail message
-        router.push("/reset-password?email=" + data.email);
+        router.push("/auth/reset-password?email=" + data.email);
     };
 
     return (

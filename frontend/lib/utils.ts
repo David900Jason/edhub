@@ -18,13 +18,13 @@ export function generateTime(time: number): string {
 }
 
 // Convert School Year to string
-export function convertSchoolYear(schoolYear: number): string {
+export function convertSchoolYear(schoolYear: string): string {
     switch (schoolYear) {
-        case 1:
+        case "1":
             return "Grade 10";
-        case 2:
+        case "2":
             return "Grade 11";
-        case 3:
+        case "3":
             return "Grade 12";
         default:
             return "";
@@ -38,7 +38,9 @@ export function generateId(length: number): string {
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     const charactersLength = characters.length;
     for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        result += characters.charAt(
+            Math.floor(Math.random() * charactersLength),
+        );
     }
     return result;
 }

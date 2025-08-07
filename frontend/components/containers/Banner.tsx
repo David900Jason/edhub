@@ -11,7 +11,7 @@ const Banner = ({
     return (
         <section
             className={cn(
-                "from-primary to-primary-foreground min-h-[50vh] bg-gradient-to-b",
+                "from-primary to-primary-foreground bg-gradient-to-b",
                 className,
             )}
         >

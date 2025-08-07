@@ -1,135 +1,204 @@
 {
-  "courses": [
-    {
-      "id": "1",
-      "title": "Applications on Real Numbers",
-      "image": "https://dummyimage.com/600x400",
-      "schoolYear": "Grade 10",
-      "subject": "Math",
-      "createdAt": "2022-01-01",
-      "sessions": 5,
-      "price": 350,
-      "isFinished": false
-    },
-    {
-      "id": "2",
-      "title": "Differentiation",
-      "image": "https://dummyimage.com/600x400",
-      "schoolYear": "Grade 11",
-      "subject": "Math",
-      "createdAt": "2022-01-01",
-      "sessions": 9,
-      "price": 120,
-      "isFinished": false
-    },
-    {
-      "id": "3",
-      "title": "Vectors in 3D space",
-      "image": "https://dummyimage.com/600x400",
-      "schoolYear": "Grade 12",
-      "subject": "Math",
-      "createdAt": "2022-01-01",
-      "sessions": 5,
-      "price": 100,
-      "isFinished": false
-    },
-    {
-      "id": "4",
-      "title": "Diversity of Living Organisms",
-      "image": "https://dummyimage.com/600x400",
-      "schoolYear": "Grade 10",
-      "subject": "Science",
-      "createdAt": "2022-01-01",
-      "sessions": 10,
-      "price": 100,
-      "isFinished": false
-    },
-    {
-      "id": "5",
-      "title": "Human Excretion System",
-      "image": "https://dummyimage.com/600x400",
-      "schoolYear": "Grade 11",
-      "subject": "Science",
-      "createdAt": "2022-01-01",
-      "sessions": 5,
-      "price": 100,
-      "isFinished": false
-    },
-    {
-      "id": "6",
-      "title": "Ohm's Law and Kirchhoff's Law",
-      "image": "https://dummyimage.com/600x400",
-      "schoolYear": "Grade 12",
-      "subject": "Science",
-      "createdAt": "2022-01-01",
-      "sessions": 8,
-      "price": 100,
-      "isFinished": false
-    },
-    {
-      "id": "7",
-      "title": "Unit 10: Places of Interest",
-      "image": "https://dummyimage.com/600x400",
-      "schoolYear": "Grade 10",
-      "subject": "English",
-      "createdAt": "2022-01-01",
-      "sessions": 4,
-      "price": 100,
-      "isFinished": false
-    },
-    {
-      "id": "8",
-      "title": "Unit 9: Modern Cultures",
-      "image": "https://dummyimage.com/600x400",
-      "schoolYear": "Grade 11",
-      "subject": "English",
-      "createdAt": "2022-01-01",
-      "sessions": 4,
-      "price": 100,
-      "isFinished": false
-    }
-  ],
-  "messages": [
-    {
-      "id": "75b5",
-      "email": "ahmodywaelsafy@gmail.com",
-      "message": "This is a test message"
-    },
-    {
-      "id": "e3f9",
-      "email": "ahmodywaelsafy@gmail.com",
-      "message": "This is a test message",
-      "created_at": "2025-08-07T12:06:01.441Z"
-    },
-    {
-      "id": "b895",
-      "email": "demo@scan2eat.com",
-      "message": "This is a test message",
-      "created_at": "2025-08-07T12:06:24.236Z"
-    },
-    {
-      "id": "d259",
-      "email": "johndoe@gmail.com",
-      "message": "This is a test message",
-      "created_at": "2025-08-07T12:07:04.089Z"
-    },
-    {
-      "id": "a502",
-      "email": "johndoe@gmail.com",
-      "message": "This is a test message",
-      "created_at": "2025-08-07T12:08:04.516Z"
-    },
-    {
-      "id": "5022",
-      "email": "johndoe@gmail.com",
-      "message": "This is a test message",
-      "created_at": "2025-08-07T12:08:06.793Z"
-    },
-    {
-      "id": "0e1e",
-      "email": "johndoe@gmail.com",
-      "message": "This is a test message from John Doe",
-      "created_at": "2025-08-07T12:09:52.897Z"
-    }
-  ]
+    "users": [
+        {
+            "id": "u1",
+            "full_name": "Ahmed Wael",
+            "email": "ahmed@example.com",
+            "phone_number": "01001234567",
+            "parent_number": "01007654321",
+            "is_active": true,
+            "is_verified": true,
+            "school_year": "Grade 10",
+            "city": "Cairo",
+            "password": "$2b$12$somethinghashed",
+            "role": "student",
+            "created_at": "2025-08-01T10:00:00Z",
+            "wallet_balance": 0
+        },
+        {
+            "id": "u2",
+            "full_name": "Sara Youssef",
+            "email": "sara@example.com",
+            "phone_number": "01009876543",
+            "parent_number": "01005432109",
+            "is_active": true,
+            "is_verified": true,
+            "school_year": "Grade 11",
+            "city": "Alexandria",
+            "password": "$2b$12$anotherhashed",
+            "role": "student",
+            "created_at": "2025-08-02T11:30:00Z",
+            "wallet_balance": 0
+        },
+        {
+            "id": "u3",
+            "full_name": "Kamal Ahmed",
+            "email": "kamal.teacher@example.com",
+            "phone_number": "01001122334",
+            "parent_number": null,
+            "is_active": true,
+            "is_verified": true,
+            "school_year": null,
+            "city": "Giza",
+            "password": "$2b$12$teacherhash",
+            "role": "teacher",
+            "created_at": "2025-07-25T08:00:00Z",
+            "wallet_balance": 0
+        },
+        {
+            "id": "u4",
+            "full_name": "Admin User",
+            "email": "admin@example.com",
+            "phone_number": "01000000000",
+            "parent_number": null,
+            "is_active": true,
+            "is_verified": true,
+            "school_year": null,
+            "city": "Cairo",
+            "password": "$2b$12$adminhash",
+            "role": "admin",
+            "created_at": "2025-07-01T09:00:00Z",
+            "wallet_balance": 0
+        },
+        {
+            "id": "NN1ZN3",
+            "full_name": "Ahmed Wael",
+            "email": "ahmodywaelsafy@gmail.com",
+            "password": "A2h0m0e5dA8%",
+            "confirm_password": "A2h0m0e5dA8%",
+            "phone_number": "01093632618",
+            "parent_number": "01066573417",
+            "role": "student",
+            "school_year": "Grade 12",
+            "city": "Giza",
+            "is_active": false,
+            "is_verified": true,
+            "wallet_balance": 0
+        }
+    ],
+    "courses": [
+        {
+            "id": 1,
+            "title": "Algebra: Real Numbers",
+            "description": "This course is about applications on real numbers. It is a great course for students who want to learn about real numbers.",
+            "teacher_id": "u3",
+            "price": 350,
+            "school_year": "Grade 10",
+            "discount": 0,
+            "currency": "EGP",
+            "is_paid": true,
+            "is_published": true,
+            "category": "Math",
+            "thumbnail": "https://dummyimage.com/600x400",
+            "created_at": "2022-01-01T09:00:00Z",
+            "updated_at": "2022-01-01T11:00:00Z"
+        },
+        {
+            "id": 2,
+            "title": "Applications on Real Numbers",
+            "description": "Applications on Real Numbers",
+            "teacher_id": "u3",
+            "price": 350,
+            "school_year": "Grade 12",
+            "discount": 0,
+            "currency": "EGP",
+            "is_paid": true,
+            "is_published": true,
+            "category": "Math",
+            "thumbnail": "https://dummyimage.com/600x400",
+            "created_at": "2022-01-01T12:00:00Z",
+            "updated_at": "2022-01-01T14:00:00Z"
+        },
+        {
+            "id": 3,
+            "title": "Classification of Living Organisms",
+            "description": "This course in biology is about the classification of living organisms.",
+            "teacher_id": "u3",
+            "price": 350,
+            "school_year": "Grade 12",
+            "discount": 0,
+            "currency": "EGP",
+            "is_paid": true,
+            "is_published": true,
+            "category": "Science",
+            "thumbnail": "https://dummyimage.com/600x400",
+            "created_at": "2022-01-01T12:00:00Z",
+            "updated_at": "2022-01-01T14:00:00Z"
+        },
+        {
+            "id": 4,
+            "title": "Applications on Real Numbers",
+            "description": "Applications on Real Numbers",
+            "teacher_id": "u3",
+            "price": 350,
+            "school_year": "Grade 12",
+            "discount": 0,
+            "currency": "EGP",
+            "is_paid": true,
+            "is_published": true,
+            "category": "Math",
+            "thumbnail": "https://dummyimage.com/600x400",
+            "created_at": "2022-01-01T12:00:00Z",
+            "updated_at": "2022-01-01T14:00:00Z"
+        },
+        {
+            "id": 5,
+            "title": "Applications on Real Numbers",
+            "description": "Applications on Real Numbers",
+            "teacher_id": "u3",
+            "price": 350,
+            "school_year": "Grade 12",
+            "discount": 0,
+            "currency": "EGP",
+            "is_paid": true,
+            "is_published": true,
+            "category": "Math",
+            "thumbnail": "https://dummyimage.com/600x400",
+            "created_at": "2022-01-01T12:00:00Z",
+            "updated_at": "2022-01-01T14:00:00Z"
+        }
+    ],
+    "messages": [
+        {
+            "id": "75b5",
+            "email": "ahmodywaelsafy@gmail.com",
+            "message": "This is a test message"
+        },
+        {
+            "id": "e3f9",
+            "email": "ahmodywaelsafy@gmail.com",
+            "message": "This is a test message",
+            "created_at": "2025-08-07T12:06:01.441Z"
+        },
+        {
+            "id": "b895",
+            "email": "demo@scan2eat.com",
+            "message": "This is a test message",
+            "created_at": "2025-08-07T12:06:24.236Z"
+        },
+        {
+            "id": "d259",
+            "email": "johndoe@gmail.com",
+            "message": "This is a test message",
+            "created_at": "2025-08-07T12:07:04.089Z"
+        },
+        {
+            "id": "a502",
+            "email": "johndoe@gmail.com",
+            "message": "This is a test message",
+            "created_at": "2025-08-07T12:08:04.516Z"
+        },
+        {
+            "id": "5022",
+            "email": "johndoe@gmail.com",
+            "message": "This is a test message",
+            "created_at": "2025-08-07T12:08:06.793Z"
+        },
+        {
+            "id": "0e1e",
+            "email": "johndoe@gmail.com",
+            "message": "This is a test message from John Doe",
+            "created_at": "2025-08-07T12:09:52.897Z"
+        }
+    ]
 }

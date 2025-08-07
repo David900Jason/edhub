@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import {
     DropdownMenu,
@@ -9,7 +11,7 @@ import {
 import { LogOut, Settings, User } from "lucide-react";
 import { ProfileButtonLinks } from "@/constants";
 
-const ProfileButton = ({ name, }: { name: string; }) => {
+const ProfileButton = ({ user }: { user: any }) => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger>
@@ -18,10 +20,12 @@ const ProfileButton = ({ name, }: { name: string; }) => {
                         size={32}
                         className="rounded-full border object-cover shadow"
                     />
-                    <span className="text-sm font-bold">Hi, {name}</span>
+                    <span className="text-sm font-bold">
+                        Hi, {user.full_name.split(" ")[0]}
+                    </span>
                 </div>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="flex w-48 flex-col gap-1">
+            <DropdownMenuContent className="z-[99999999] flex w-48 flex-col gap-1">
                 {ProfileButtonLinks.map(({ label, href, icon }, index) => {
                     const Icon: React.ElementType = icon;
                     return (
@@ -49,7 +53,7 @@ const ProfileButton = ({ name, }: { name: string; }) => {
                 <DropdownMenuItem>
                     <Link
                         className="flex items-center gap-2 text-red-500"
-                        href="/logout"
+                        href="/auth/logout"
                     >
                         <LogOut className="text-red-500" />
                         Logout

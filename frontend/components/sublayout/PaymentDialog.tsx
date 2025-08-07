@@ -12,8 +12,17 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
+import Link from "next/link";
 
-const PaymentDialog = ({ paymentItem }: { paymentItem: string }) => {
+const PaymentDialog = ({
+    children,
+    paymentItem,
+    courseId,
+}: {
+    children: React.ReactNode;
+    paymentItem: string;
+    courseId: number | undefined;
+}) => {
     const handlePayment = () => {
         window.alert("Payment done successfully !");
     };
@@ -21,15 +30,7 @@ const PaymentDialog = ({ paymentItem }: { paymentItem: string }) => {
     return (
         <Dialog>
             <form>
-                <DialogTrigger asChild>
-                    <Button
-                        variant="outline"
-                        className="rounded-full"
-                        type="button"
-                    >
-                        <ShoppingCart className="h-4 w-4" /> Buy {paymentItem}
-                    </Button>
-                </DialogTrigger>
+                <DialogTrigger asChild>{children}</DialogTrigger>
                 <DialogContent>
                     <DialogHeader>
                         <DialogTitle>Buy this {paymentItem}</DialogTitle>
@@ -44,7 +45,12 @@ const PaymentDialog = ({ paymentItem }: { paymentItem: string }) => {
                                 onClick={handlePayment}
                                 variant="secondary"
                             >
-                                <ShoppingCart size={20} /> Buy
+                                <Link
+                                    className="flex items-center gap-2"
+                                    href={`/checkout/${courseId}`}
+                                >
+                                    <ShoppingCart size={20} /> Confirm payment
+                                </Link>
                             </Button>
                         </DialogClose>
                         <DialogClose asChild>

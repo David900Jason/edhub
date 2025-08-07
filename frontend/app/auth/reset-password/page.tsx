@@ -37,7 +37,7 @@ const ResetPassword = () => {
         console.log(data);
 
         // TO DO: implement password reset logic here
-        router.push("/login");
+        router.push("/auth/login");
     };
     return (
         <>

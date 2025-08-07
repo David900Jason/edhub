@@ -10,6 +10,8 @@ import Link from "next/link";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { cn } from "@/lib/utils";
+import { loginUser } from "@/lib/api";
+import { useRouter } from "next/navigation";
 
 interface LoginFormData {
     email: string;
@@ -17,6 +19,7 @@ interface LoginFormData {
 }
 
 const Login = () => {
+    const router = useRouter();
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
     const {
@@ -35,7 +38,13 @@ const Login = () => {
 
         alert("Login successfully");
 
-        console.log(data);
+        const user = await loginUser(data);
+        if (!user) {
+            throw new Error("User not found");
+        }
+        
+        localStorage.setItem("current_user", JSON.stringify(user));
+        router.push("/");
     };
 
     return (
@@ -129,7 +138,7 @@ const Login = () => {
                 {/* Don't have an account? */}
                 <p className="text-center text-sm text-gray-600">
                     Don&apos;t have an account?{" "}
-                    <Link href="/signup" className="text-primary text-sm">
+                    <Link href="/auth/signup" className="text-primary text-sm">
                         Sign Up
                     </Link>
                 </p>

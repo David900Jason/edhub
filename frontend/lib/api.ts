@@ -1,9 +1,18 @@
 import axios from "axios";
+import { generateId, convertSchoolYear } from "./utils";
 
 // API Utilities for Frontend
-const fetchCourses = async (): Promise<object | null> => {
+const createUser = async (data: SignupFormType): Promise<object | null> => {
     try {
-        const res = await axios.get(`http://localhost:8000/courses`);
+        const res = await axios.post(`http://localhost:8000/users`, {
+            ...data,
+            id: generateId(6),
+            is_active: false,
+            is_verified: false,
+            wallet_balance: 0,
+            school_year: convertSchoolYear(data.school_year),
+        });
+        console.log(res.data);
         return res.data;
     } catch (error: unknown) {
         console.error(error);
@@ -11,25 +20,83 @@ const fetchCourses = async (): Promise<object | null> => {
     }
 };
 
-const fetchCourse = async (id: number): Promise<object | null> => {
-    try {
-        const res = await axios.get(`http://localhost:8000/courses?id=${id}`);
-        return res.data;
-    } catch (error: unknown) {
-        console.error(error);
-        return null;
-    }
-};
-
-const fetchSessions = async (id: number): Promise<object | null> => {
+const loginUser = async (data: { email: string; password: string }) => {
     try {
         const res = await axios.get(
-            `http://localhost:8000/sessions?course_id=${id}`,
+            `http://localhost:8000/users?email=${data.email}&password=${data.password}`,
         );
-        return res.data;
+        return res.data[0];
     } catch (error: unknown) {
         console.error(error);
         return null;
+    }
+};
+
+const findUserByEmail = async (
+    email: string | null,
+): Promise<string | null | number> => {
+    try {
+        const res = await axios.get(
+            `http://localhost:8000/users?email=${email}`,
+        );
+        return res.data[0].id;
+    } catch (error: unknown) {
+        console.error(error);
+        return null;
+    }
+};
+
+const verifyUser = async (
+    otp: string,
+    email: string | null,
+    userId: string | null | number,
+) => {
+    try {
+        // add new element to an existing user
+        const res = await axios.patch(`http://localhost:8000/users/${userId}`, {
+            is_verified: true,
+        });
+        console.log(res.data);
+    } catch (error: unknown) {
+        console.error(error);
+        return null;
+    }
+};
+
+const fetchCourses = async (): Promise<CourseType[]> => {
+    try {
+        const res = await axios.get(`http://localhost:8000/courses/`);
+        return res.data;
+    } catch (error: unknown) {
+        console.error(error);
+        return [];
+    }
+};
+
+const fetchCourse = async (id: string): Promise<CourseType | undefined> => {
+    try {
+        const res = await axios.get(`http://localhost:8000/courses?id=${id}`);
+        return res.data[0];
+    } catch (error: any) {
+        console.error(error.message);
+        return;
+    }
+};
+
+const fetchTeacher = async (
+    id: string | number | "",
+): Promise<UserType | undefined> => {
+    try {
+        if (id === "") {
+            return;
+        }
+        const res = await axios.get(
+            `http://localhost:8000/users?id=${id}&role=teacher`,
+        );
+        return res.data[0];
+    } catch (error: unknown) {
+        console.error(error);
+        return;
     }
 };
 
@@ -102,11 +169,15 @@ const sendMessage = async (data: object): Promise<object | null> => {
 export {
     fetchCourses,
     fetchCourse,
-    fetchSessions,
+    fetchTeacher,
     fetchSession,
     fetchVideos,
     fetchBooks,
     fetchExams,
     fetchEnrollments,
-    sendMessage
+    sendMessage,
+    createUser,
+    verifyUser,
+    findUserByEmail,
+    loginUser,
 };

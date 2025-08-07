@@ -8,19 +8,21 @@ import {
     InputOTP,
     InputOTPGroup,
     InputOTPSeparator,
-    InputOTPSlot
+    InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { verifyUser } from "@/lib/api";
 import Link from "next/link";
-
+import { findUserByEmail } from "@/lib/api";
 import { cn, generateTime } from "@/lib/utils";
 
 const VerifyAccount = () => {
     const [otp, setOtp] = useState("");
     const router = useRouter();
+    const email = useSearchParams().get("email");
 
     // Timer Countdown Function
     const [countdown, setCountdown] = useState(90);
@@ -38,7 +40,7 @@ const VerifyAccount = () => {
         return () => clearInterval(timer);
     }, [countdown]);
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         // Handle OTP submission
@@ -46,7 +48,13 @@ const VerifyAccount = () => {
             return alert("Please enter a valid OTP");
         }
         alert("OTP Submitted Successfully");
-        router.push("/login");
+
+        const userId = await findUserByEmail(email);
+
+        // TODO: Add API call to verify user
+        verifyUser(otp, email, userId);
+
+        router.push("/auth/login");
     };
 
     return (
@@ -81,7 +89,13 @@ const VerifyAccount = () => {
                 <div className="flex flex-col items-center justify-center gap-2">
                     <p className="text-center text-sm text-gray-600">
                         Resend OTP in{" "}
-                        <span className={cn(countdown === 0 ? "text-red-500" : "text-primary")}>
+                        <span
+                            className={cn(
+                                countdown === 0
+                                    ? "text-red-500"
+                                    : "text-primary",
+                            )}
+                        >
                             {/* Generate 00:00 time string */}
                             {generateTime(countdown)}
                         </span>

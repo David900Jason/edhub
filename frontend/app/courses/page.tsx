@@ -1,66 +1,63 @@
 "use client";
 
-import { useState, useDeferredValue, useMemo } from "react";
-import { School } from "lucide-react";
+import { useState, useMemo, useDeferredValue } from "react";
+
+import { Loader2, School } from "lucide-react";
+
 import Container from "@/components/containers/Container";
 import Banner from "@/components/containers/Banner";
 import CourseCard from "@/components/cards/CourseCard";
 import SearchBar from "@/components/sublayout/SearchBar";
 import FilterSelect from "@/components/sublayout/FilterSelect";
 import { Button } from "@/components/ui/button";
-import { courses } from "@/constants";
+
+import { useQuery } from "@tanstack/react-query";
+import { fetchCourses } from "@/lib/api";
 
 const Courses = () => {
+    const { data: coursesData, isLoading } = useQuery({
+        queryKey: ["courses"],
+        queryFn: () => fetchCourses(),
+    });
+
     // State for search and filters
     const [searchQuery, setSearchQuery] = useState("");
     const [filters, setFilters] = useState({
-        schoolYear: "",
-        subject: "",
+        school_year: "",
+        category: "",
     });
 
-    // Use deferred value for search query to prevent UI blocking
-    const deferredSearchQuery = useDeferredValue(searchQuery);
-
-    // Filter courses based on search and filters
-    const filteredCourses = useMemo(() => {
-        return courses?.filter((course) => {
-            // Search query filter
-            const matchesSearch =
-                course.title
-                    .toLowerCase()
-                    .includes(deferredSearchQuery.toLowerCase()) ||
-                course.subject
-                    .toLowerCase()
-                    .includes(deferredSearchQuery.toLowerCase());
-
-            // Apply filters
-            const matchesSchoolYear =
-                !filters?.schoolYear || course.schoolYear === filters?.schoolYear;
-            const matchesSubject =
-                !filters?.subject || course.subject === filters?.subject;
-
-            return matchesSearch && matchesSchoolYear && matchesSubject;
-        });
-    }, [deferredSearchQuery, filters]);
-
-    // Handle filter changes
-    const handleFilterChange = (filterName: string, value: string) => {
-        setFilters((prev) => ({
-            ...prev,
-            [filterName]: value,
+    const handleFilterChange = (filter: string, value: string) => {
+        setFilters((prevFilters: any) => ({
+            ...prevFilters,
+            [filter]: value,
         }));
     };
 
-    // Get unique subjects for filter options
-    const subjects = useMemo(() => {
-        const uniqueSubjects = new Set(courses?.map((course) => course.subject));
-        return Array.from(uniqueSubjects);
-    }, []);
+    const deferredSearchQuery = useDeferredValue(searchQuery);
+    const filteredCourses = useMemo(() => {
+        return coursesData?.filter((course: CourseType) => {
+            return (
+                course.category
+                    .toLowerCase()
+                    .includes(filters?.category.toLowerCase()) &&
+                course.school_year
+                    .toLowerCase()
+                    .includes(filters?.school_year.toLowerCase()) &&
+                course.title
+                    .toLowerCase()
+                    .includes(deferredSearchQuery.toLowerCase())
+            );
+        });
+    }, [deferredSearchQuery, filters]);
+
+    const subjects = coursesData?.map((course: CourseType) => course.category);
+    const uniqueSubjects = new Set(subjects);
 
     return (
         <>
             {/* Banner */}
-            <Banner className="mb-6 grid place-content-center">
+            <Banner className="mb-6 grid min-h-[40vh] place-content-center">
                 <h1 className="mx-auto mb-4 flex items-center gap-4 text-center text-5xl font-bold tracking-tighter">
                     <School size={64} className="inline-block" /> Courses
                 </h1>
@@ -82,17 +79,17 @@ const Courses = () => {
                     <FilterSelect
                         placeholder="School year"
                         options={["Grade 10", "Grade 11", "Grade 12"]}
-                        value={filters?.schoolYear}
+                        value={filters?.school_year}
                         onValueChange={(value) =>
-                            handleFilterChange("schoolYear", value)
+                            handleFilterChange("school_year", value)
                         }
                     />
                     <FilterSelect
                         placeholder="Subject"
-                        options={subjects}
-                        value={filters?.subject}
+                        options={Array.from(uniqueSubjects) as string[]}
+                        value={filters?.category}
                         onValueChange={(value) =>
-                            handleFilterChange("subject", value)
+                            handleFilterChange("category", value)
                         }
                     />
                     <Button
@@ -100,8 +97,8 @@ const Courses = () => {
                         onClick={() => {
                             setSearchQuery("");
                             setFilters({
-                                schoolYear: "",
-                                subject: "",
+                                school_year: "",
+                                category: "",
                             });
                         }}
                     >
@@ -112,12 +109,18 @@ const Courses = () => {
 
             {/* Courses Grid */}
             <Container className="mb-16 grid grid-cols-1 gap-6 min-[630px]:grid-cols-2 lg:grid-cols-3">
-                {filteredCourses?.length > 0 ? (
-                    filteredCourses?.map((course) => (
-                        <CourseCard key={course.id} course={course} />
-                    ))
+                {filteredCourses && filteredCourses?.length > 0 ? (
+                    filteredCourses?.map(
+                        (course: CourseType, index: number) => (
+                            <CourseCard key={index} course={course} />
+                        ),
+                    )
+                ) : isLoading ? (
+                    <p className="col-span-10 inline text-center text-sm font-normal text-gray-400">
+                        <Loader2 className="inline animate-spin" /> Loading
+                    </p>
                 ) : (
-                    <p className="col-span-10 inline text-center text-lg font-normal text-gray-400">
+                    <p className="col-span-10 inline text-center text-sm font-normal text-gray-400">
                         No Courses Found
                     </p>
                 )}

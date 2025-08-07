@@ -12,12 +12,16 @@ import { Button } from "@/components/ui/button";
 import { navLinks, stats } from "@/constants";
 import { useInView } from "react-intersection-observer";
 import Link from "next/link";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useEffect } from "react";
 
 const Home = () => {
     const [ref, inView] = useInView({
         triggerOnce: true,
         threshold: 0.5, // Trigger when 50% of the element is visible
     });
+
+    const [user, setUser] = useLocalStorage("current_user", null);
 
     return (
         <>
@@ -43,8 +47,8 @@ const Home = () => {
                             growth.
                         </p>
                         <p className="p-lead text-center md:text-start">
-                            Whether you&apos;re preparing for exams, developing new
-                            skills, or exploring new interests,{" "}
+                            Whether you&apos;re preparing for exams, developing
+                            new skills, or exploring new interests,{" "}
                             <span className="text-primary font-bold">
                                 Edhub
                             </span>{" "}
