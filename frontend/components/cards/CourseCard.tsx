@@ -16,7 +16,8 @@ import { fetchTeacher } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 
 const CourseCard = ({ course }: { course: CourseType }) => {
-    const { id, title, school_year, teacher_id, category, price } = course;
+    const { id, title, school_year, teacher_id, category, price, image } =
+        course;
     const { data } = useQuery({
         queryKey: ["teacher"],
         queryFn: () => fetchTeacher(teacher_id),
@@ -25,11 +26,12 @@ const CourseCard = ({ course }: { course: CourseType }) => {
     return (
         <Card className="group gap-0 overflow-hidden py-0 hover:cursor-pointer">
             <Image
-                src="https://dummyimage.com/600x400"
+                src={image || "https://dummyimage.com/600x400"}
                 blurDataURL="https://dummyimage.com/600x400"
                 width={600}
                 height={400}
                 alt=""
+                priority={true}
             />
             <div className="flex flex-col px-4 py-5">
                 <ul className="mb-4 flex items-center gap-2">

@@ -11,9 +11,22 @@ const createUser = async (data: SignupFormType): Promise<object | null> => {
             is_verified: false,
             wallet_balance: 0,
             school_year: convertSchoolYear(data.school_year),
+            created_at: new Date().toISOString(),
         });
         console.log(res.data);
         return res.data;
+    } catch (error: unknown) {
+        console.error(error);
+        return null;
+    }
+};
+
+const activateUser = async (userId: string, token: string) => {
+    try {
+        const res = await axios.patch(`http://localhost:8000/users/${userId}`, {
+            is_active: true,
+        });
+        console.log(res.data);
     } catch (error: unknown) {
         console.error(error);
         return null;
@@ -60,6 +73,21 @@ const verifyUser = async (
     } catch (error: unknown) {
         console.error(error);
         return null;
+    }
+};
+
+const editUserPassword = async (
+    userId: string | number | null,
+    password: string,
+) => {
+    try {
+        const res = await axios.patch(`http://localhost:8000/users/${userId}`, {
+            password: password,
+        });
+        console.log(res.data);
+    } catch (error: unknown) {
+        console.error(error);
+        return;
     }
 };
 
@@ -180,4 +208,6 @@ export {
     verifyUser,
     findUserByEmail,
     loginUser,
+    editUserPassword,
+    activateUser,
 };

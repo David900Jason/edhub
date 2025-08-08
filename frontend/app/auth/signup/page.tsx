@@ -24,7 +24,7 @@ import { createUser } from "@/lib/api";
 
 const Signup = ({ action }: { action: string }) => {
     const router = useRouter();
-    const [date, setDate] = useState<Date | null>(null);
+    const [date, setDate] = useState<string | null>(null);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -46,7 +46,17 @@ const Signup = ({ action }: { action: string }) => {
         alert("Signup Successfully");
 
         // TODO: Add API call to create user (Submit form)
-        await createUser(data);
+        await createUser({
+            full_name: data.full_name,
+            email: data.email,
+            password: data.password,
+            phone_number: data.phone_number,
+            parent_number: data.parent_number,
+            role: data.role,
+            school_year: data.school_year,
+            city: data.city,
+            birth_date: date ? new Date(date).toISOString() : null,
+        });
 
         // Push router to verify page
         router.push("/auth/verify?email=" + data.email);
@@ -258,7 +268,10 @@ const Signup = ({ action }: { action: string }) => {
                     )}
                 </div>
                 {/* Date of birth */}
-                <DatePicker date={date} setDate={setDate} />
+                <DatePicker
+                    date={date ? new Date(date) : null}
+                    setDate={(date) => setDate(date?.toISOString() || null)}
+                />
                 {/* Select role */}
                 <div className="input-group">
                     <Label className="mb-2" htmlFor="role">

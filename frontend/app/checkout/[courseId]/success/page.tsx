@@ -1,25 +1,12 @@
 "use client";
 
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuRadioGroup,
-    DropdownMenuRadioItem,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { CheckCircle } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
-const SuccessPage = () => {
-    const { courseId } = useParams();
+const SuccessPage = ({ params }: { params: { courseId: string } }) => {
+    const { courseId } = params;
     const router = useRouter();
 
     return (
@@ -36,7 +23,7 @@ const SuccessPage = () => {
                     Thank you for your purchase!
                 </p>
                 <Button
-                    className="mt-6 w-56 mx-auto"
+                    className="mx-auto mt-6 w-56"
                     onClick={() => router.push("/courses")}
                     variant="outline"
                 >

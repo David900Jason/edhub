@@ -113,7 +113,7 @@ const Login = () => {
                 {/* Remember me */}
                 <div className="flex items-center justify-start">
                     <Link
-                        href="/forgot-password"
+                        href="/auth/forgot-password"
                         className="text-primary text-sm"
                     >
                         Forgot password?

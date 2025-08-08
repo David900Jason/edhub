@@ -8,6 +8,7 @@ import { AlertCircle, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { cn } from "@/lib/utils";
+import { findUserByEmail } from "@/lib/api";
 
 interface ForgotPasswordFormData {
     email: string;
@@ -29,8 +30,14 @@ const ForgottenPassword = () => {
             return;
         }
 
+        
+        const user = await findUserByEmail(data.email);
+        if (!user) {
+            throw new Error("User not found");
+        }
+        
         alert("Email found Successfully");
-
+        
         // Alert success or fail message
         router.push("/auth/reset-password?email=" + data.email);
     };

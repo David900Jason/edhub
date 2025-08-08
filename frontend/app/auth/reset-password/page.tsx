@@ -8,15 +8,17 @@ import { AlertCircle, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { useSearchParams } from "next/navigation";
+import { editUserPassword, findUserByEmail } from "@/lib/api";
 
 interface ResetPasswordFormData {
     password: string;
 }
 
 const ResetPassword = () => {
-    // const searchParams = useSearchParams();
+    const searchParams = useSearchParams();
     const router = useRouter();
-    // const email = searchParams.get("email");
+    const email = searchParams.get("email");
 
     const {
         register,
@@ -33,10 +35,13 @@ const ResetPassword = () => {
 
         alert("Password reset successfully!");
 
-        // TODO: Edit user with email as a query and password as the new change
-        console.log(data);
+        const userId = await findUserByEmail(email);
+        if (!userId) {
+            throw new Error("User not found");
+        }
+        
+        await editUserPassword(userId, data.password);
 
-        // TO DO: implement password reset logic here
         router.push("/auth/login");
     };
     return (

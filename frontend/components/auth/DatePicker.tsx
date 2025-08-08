@@ -47,7 +47,7 @@ function DatePicker({ date, setDate }: { date: Date | null; setDate: (date: Date
                 >
                     <Calendar
                         mode="single"
-                        selected={date || undefined}
+                        selected={date ? date : undefined}
                         captionLayout="dropdown"
                         onSelect={(date) => {
                             if (date) setDate(date);

@@ -4,9 +4,15 @@ import Link from "next/link";
 import { GraduationCap } from "lucide-react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import ProfileButton from "@/components/sublayout/ProfileButton";
+import { useEffect, useState } from "react";
 
 const Navbar = ({ navLinks = [] }: { navLinks?: NavbarLinkType[] }) => {
-    const [user, setUser] = useLocalStorage("current_user", null);
+    const [user] = useLocalStorage("current_user", null);
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
 
     return (
         <nav className="mx-4 flex items-center justify-between border-b border-slate-100 bg-white py-4 md:mx-12 lg:mx-24">
@@ -18,7 +24,7 @@ const Navbar = ({ navLinks = [] }: { navLinks?: NavbarLinkType[] }) => {
                 </Link>
             </div>
             {/* Navbar Links */}
-            {user ? (
+            {isClient && user ? (
                 <ProfileButton user={user} />
             ) : (
                 <ul className="nav-links flex gap-6">

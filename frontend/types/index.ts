@@ -38,6 +38,7 @@ declare interface ProfileButtonLinksType {
 // Course Types
 declare interface CourseType {
     id?: number;
+    image?: string;
     title: string;
     description: string;
     teacher_id: number;
@@ -68,12 +69,12 @@ declare interface SignupFormType {
     full_name: string;
     email: string;
     password: string;
-    confirm_password: string;
+    confirm_password?: string;
     phone_number: string;
     role: string;
     school_year: string;
     parent_number: string;
-    birth_date: string;
+    birth_date: string | null;
     city: string;
 }
 
