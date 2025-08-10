@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #f9fafb;
+    --foreground: #1a202c;
+    --primary: #1f4e89;
+    --primary-foreground: #ffffff;
+    --secondary: #edf2f7;
+    --secondary-foreground: #1f4e89;
+    --accent: #38b2ac;
+    --accent-foreground: #ffffff;
+    --muted: #e2e8f0;
+    --muted-foreground: #718096;
+    --border: #e2e8f0;
+    --input: #ffffff;
+    --ring: #1f4e89;
+  }
+
+  .dark {
+    --background: #1a202c;
+    --foreground: #f7fafc;
+    --primary: #4299e1;
+    --primary-foreground: #1a202c;
+    --secondary: #2d3748;
+    --secondary-foreground: #e2e8f0;
+    --accent: #4fd1c7;
+    --accent-foreground: #1a202c;
+    --muted: #4a5568;
+    --muted-foreground: #a0aec0;
+    --border: #4a5568;
+    --input: #2d3748;
+    --ring: #4299e1;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(31, 78, 137, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(31, 78, 137, 0.6);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.hero-gradient {
+  background: linear-gradient(135deg, #1f4e89 0%, #38b2ac 100%);
+}
+
+.step-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.field-error {
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
