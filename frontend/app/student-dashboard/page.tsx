@@ -1,20 +1,50 @@
 "use client"
 
+import { useState } from "react"
 import { DashboardLayout } from "@/components/dashboard-layout"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { BookOpen, FileText, Search, User, Play, Download, Award, TrendingUp } from "lucide-react"
 import { Progress } from "@/components/ui/progress"
+import { BookOpen, FileText, Search, User, Play, Download, Award, TrendingUp } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 const sidebarItems = [
-  { href: "/student", icon: <BookOpen className="h-5 w-5" />, label: "Dashboard", active: true },
-  { href: "/student/courses", icon: <BookOpen className="h-5 w-5" />, label: "My Courses" },
-  { href: "/student/browse", icon: <Search className="h-5 w-5" />, label: "Browse Courses" },
-  { href: "/student/assignments", icon: <FileText className="h-5 w-5" />, label: "Assignments" },
-  { href: "/student/profile", icon: <User className="h-5 w-5" />, label: "Profile" },
+  { href: "/student-dashboard", icon: <BookOpen className="h-5 w-5" />, label: "Dashboard", active: true },
+  { href: "/student-dashboard/courses", icon: <BookOpen className="h-5 w-5" />, label: "My Courses" },
+  { href: "/student-dashboard/browse", icon: <Search className="h-5 w-5" />, label: "Browse Courses" },
+  { href: "/student-dashboard/assignments", icon: <FileText className="h-5 w-5" />, label: "Assignments" },
+  { href: "/student-dashboard/profile", icon: <User className="h-5 w-5" />, label: "Profile" },
 ]
 
 export default function StudentDashboard() {
+  const [searchTerm, setSearchTerm] = useState("")
+  const router = useRouter()
+
+  const handleBrowseCourses = () => {
+    router.push("/student-dashboard/browse")
+  }
+
+  const handleViewAssignments = () => {
+    router.push("/student-dashboard/assignments")
+  }
+
+  const handleDownloadMaterials = () => {
+    // Implement download materials logic
+    console.log("Downloading materials...")
+  }
+
+  const handleUpdateProfile = () => {
+    router.push("/student-dashboard/profile")
+  }
+
+  const handleContinueCourse = (courseId: number) => {
+    router.push(`/student-dashboard/courses/${courseId}`)
+  }
+
+  const handleViewAssignment = (assignmentId: number) => {
+    router.push(`/student-dashboard/assignments/${assignmentId}`)
+  }
+
   return (
     <DashboardLayout sidebarItems={sidebarItems} userRole="student" userName="Alex Thompson">
       <div className="space-y-6">
@@ -94,6 +124,7 @@ export default function StudentDashboard() {
             <div className="space-y-4">
               {[
                 {
+                  id: 1,
                   title: "Advanced Mathematics",
                   lesson: "Calculus - Derivatives",
                   progress: 75,
@@ -101,6 +132,7 @@ export default function StudentDashboard() {
                   thumbnail: "/placeholder.svg?height=80&width=120",
                 },
                 {
+                  id: 2,
                   title: "Physics Fundamentals",
                   lesson: "Newton's Laws of Motion",
                   progress: 45,
@@ -108,15 +140,16 @@ export default function StudentDashboard() {
                   thumbnail: "/placeholder.svg?height=80&width=120",
                 },
                 {
+                  id: 3,
                   title: "Chemistry Basics",
                   lesson: "Atomic Structure",
                   progress: 90,
                   timeLeft: "5 min left",
                   thumbnail: "/placeholder.svg?height=80&width=120",
                 },
-              ].map((course, index) => (
+              ].map((course) => (
                 <div
-                  key={index}
+                  key={course.id}
                   className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
                 >
                   <img
@@ -134,7 +167,11 @@ export default function StudentDashboard() {
                   </div>
                   <div className="text-right">
                     <p className="text-xs text-gray-500 mb-2">{course.timeLeft}</p>
-                    <Button size="sm" className="bg-[#2b6cb0] hover:bg-[#2c5282] text-white">
+                    <Button
+                      size="sm"
+                      className="bg-[#2b6cb0] hover:bg-[#2c5282] text-white"
+                      onClick={() => handleContinueCourse(course.id)}
+                    >
                       Continue
                     </Button>
                   </div>
@@ -203,20 +240,28 @@ export default function StudentDashboard() {
               <div className="space-y-4">
                 {[
                   {
+                    id: 1,
                     title: "Calculus Problem Set",
                     course: "Advanced Mathematics",
                     due: "Due in 2 days",
                     priority: "high",
                   },
-                  { title: "Lab Report", course: "Physics Fundamentals", due: "Due in 5 days", priority: "medium" },
                   {
+                    id: 2,
+                    title: "Lab Report",
+                    course: "Physics Fundamentals",
+                    due: "Due in 5 days",
+                    priority: "medium",
+                  },
+                  {
+                    id: 3,
                     title: "Chemical Equations Quiz",
                     course: "Chemistry Basics",
                     due: "Due in 1 week",
                     priority: "low",
                   },
-                ].map((assignment, index) => (
-                  <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                ].map((assignment) => (
+                  <div key={assignment.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                     <div className="flex-1">
                       <h4 className="font-medium text-gray-900">{assignment.title}</h4>
                       <p className="text-sm text-gray-600">{assignment.course}</p>
@@ -236,6 +281,7 @@ export default function StudentDashboard() {
                       size="sm"
                       variant="outline"
                       className="border-[#2b6cb0] text-[#2b6cb0] hover:bg-[#2b6cb0] hover:text-white bg-transparent"
+                      onClick={() => handleViewAssignment(assignment.id)}
                     >
                       View
                     </Button>
@@ -254,13 +300,17 @@ export default function StudentDashboard() {
           </CardHeader>
           <CardContent className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <Button className="h-20 bg-[#2b6cb0] hover:bg-[#2c5282] text-white rounded-lg flex flex-col gap-2">
+              <Button
+                className="h-20 bg-[#2b6cb0] hover:bg-[#2c5282] text-white rounded-lg flex flex-col gap-2"
+                onClick={handleBrowseCourses}
+              >
                 <Search className="h-6 w-6" />
                 <span>Browse Courses</span>
               </Button>
               <Button
                 variant="outline"
                 className="h-20 border-[#38b2ac] text-[#38b2ac] hover:bg-[#38b2ac] hover:text-white rounded-lg flex flex-col gap-2 bg-transparent"
+                onClick={handleViewAssignments}
               >
                 <FileText className="h-6 w-6" />
                 <span>View Assignments</span>
@@ -268,6 +318,7 @@ export default function StudentDashboard() {
               <Button
                 variant="outline"
                 className="h-20 border-[#2b6cb0] text-[#2b6cb0] hover:bg-[#2b6cb0] hover:text-white rounded-lg flex flex-col gap-2 bg-transparent"
+                onClick={handleDownloadMaterials}
               >
                 <Download className="h-6 w-6" />
                 <span>Download Materials</span>
@@ -275,6 +326,7 @@ export default function StudentDashboard() {
               <Button
                 variant="outline"
                 className="h-20 border-gray-300 text-gray-600 hover:bg-gray-50 rounded-lg flex flex-col gap-2 bg-transparent"
+                onClick={handleUpdateProfile}
               >
                 <User className="h-6 w-6" />
                 <span>Update Profile</span>

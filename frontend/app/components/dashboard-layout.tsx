@@ -29,7 +29,7 @@ interface DashboardLayoutProps {
   userName: string
 }
 
-export function DashboardLayout({ children, sidebarItems, userRole, userName }: DashboardLayoutProps) {
+const DashboardLayout = ({ children, sidebarItems, userRole, userName }: DashboardLayoutProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const router = useRouter()
 
@@ -170,3 +170,5 @@ export function DashboardLayout({ children, sidebarItems, userRole, userName }: 
     </div>
   )
 }
+
+export default DashboardLayout
