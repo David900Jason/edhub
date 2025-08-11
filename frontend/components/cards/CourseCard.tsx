@@ -12,22 +12,22 @@ import Image from "next/image";
 import Link from "next/link";
 
 // Util Function
-import { fetchTeacher } from "@/lib/api";
+import { getTeacherById } from "@/lib/api/user";
 import { useQuery } from "@tanstack/react-query";
 
 const CourseCard = ({ course }: { course: CourseType }) => {
-    const { id, title, school_year, teacher_id, category, price, image } =
+    const { id, title, school_year, teacher_id, category, price, thumbnail } =
         course;
     const { data } = useQuery({
         queryKey: ["teacher"],
-        queryFn: () => fetchTeacher(teacher_id),
+        queryFn: () => getTeacherById(teacher_id),
     });
 
     return (
         <Card className="group gap-0 overflow-hidden py-0 hover:cursor-pointer">
             <Image
-                src={image || "https://dummyimage.com/600x400"}
-                blurDataURL="https://dummyimage.com/600x400"
+                src={thumbnail}
+                blurDataURL={thumbnail}
                 width={600}
                 height={400}
                 alt=""
@@ -55,7 +55,7 @@ const CourseCard = ({ course }: { course: CourseType }) => {
                     </span>
                 </p>
                 <div>
-                    <PaymentDialog paymentItem="course" courseId={id}>
+                    <PaymentDialog paymentItem="course" courseId={Number(id)}>
                         <Button
                             className="hover:bg-secondary bg-secondary w-full text-black transition-colors hover:opacity-80"
                             type="button"

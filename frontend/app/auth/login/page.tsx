@@ -10,7 +10,6 @@ import Link from "next/link";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { cn } from "@/lib/utils";
-import { loginUser } from "@/lib/api";
 import { useRouter } from "next/navigation";
 
 interface LoginFormData {
@@ -19,8 +18,8 @@ interface LoginFormData {
 }
 
 const Login = () => {
-    const router = useRouter();
     const [showPassword, setShowPassword] = useState<boolean>(false);
+    const router = useRouter();
 
     const {
         register,
@@ -36,15 +35,27 @@ const Login = () => {
             return;
         }
 
-        alert("Login successfully");
+        try {
+            const res = await fetch("/api/auth/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+            const user = await res.json();
 
-        const user = await loginUser(data);
-        if (!user) {
-            throw new Error("User not found");
+            if (!res.ok) {
+                throw new Error(user.error || "Login failed");
+            }
+
+            // Store user data in localstorage
+            localStorage.setItem("user", JSON.stringify(user));
+
+            router.push("/");
+        } catch (error) {
+            console.error("Login error:", error);
         }
-        
-        localStorage.setItem("current_user", JSON.stringify(user));
-        router.push("/");
     };
 
     return (
@@ -91,7 +102,8 @@ const Login = () => {
                             required: "Password is required",
                             minLength: {
                                 value: 8,
-                                message: "Password must be at least 8 characters long",
+                                message:
+                                    "Password must be at least 8 characters long",
                             },
                         })}
                     />

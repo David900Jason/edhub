@@ -1,7 +1,6 @@
-
 const Footer = () => {
     return (
-        <footer className="border-1 border-slate-300 px-4 py-6 shadow-lg">
+        <footer className="border-1 border-slate-300 px-4 py-6 shadow-lg dark:border-t dark:border-slate-700">
             <p className="text-muted-foreground text-center text-sm">
                 &copy; {new Date().getFullYear()} Edhub. All rights reserved. |
                 Made with ❤️ by{" "}

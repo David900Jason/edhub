@@ -5,7 +5,7 @@ import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useRouter, usePathname } from "next/navigation";
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
-    const [user, setUser] = useLocalStorage("current_user", null);
+    const [user] = useLocalStorage("user", null);
     const router = useRouter();
     const pathname = usePathname();
 
@@ -13,7 +13,7 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
         if (user && pathname !== "/auth/logout") {
             router.push("/");
         }
-    }, []);
+    }, [user, pathname, router]);
 
     return <div className="flex min-h-screen gap-12">{children}</div>;
 };

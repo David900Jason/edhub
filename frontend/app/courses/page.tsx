@@ -1,11 +1,12 @@
-import Banner from "@/components/containers/Banner";
-import CoursesGrid from "@/app/courses/CoursesGrid";
-import { School } from "lucide-react";
-import { fetchCourses } from "@/lib/api";
 import { Suspense } from "react";
+import { School } from "lucide-react";
+
+import { getCourses } from "@/lib/api/course";
+import Banner from "@/components/containers/Banner";
+import CoursesFilter from "@/app/courses/CoursesFilter";
 
 export default async function Courses() {
-    const courses = await fetchCourses();
+    const courses = await getCourses();
 
     return (
         <>
@@ -30,8 +31,8 @@ export default async function Courses() {
                     </p>
                 }
             >
-                <CoursesGrid coursesData={courses} />
+                <CoursesFilter coursesData={courses} />
             </Suspense>
         </>
     );
-};
+}

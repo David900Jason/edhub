@@ -30,14 +30,13 @@ const ForgottenPassword = () => {
             return;
         }
 
-        
         const user = await findUserByEmail(data.email);
         if (!user) {
             throw new Error("User not found");
         }
-        
+
         alert("Email found Successfully");
-        
+
         // Alert success or fail message
         router.push("/auth/reset-password?email=" + data.email);
     };

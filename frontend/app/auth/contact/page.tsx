@@ -7,7 +7,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Loader2 } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { sendMessage } from "@/lib/api";
 
 interface ContactFormData {

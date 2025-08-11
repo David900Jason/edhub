@@ -15,7 +15,7 @@ const CoursesFilter = ({
     });
 
     const handleFilterChange = (filter: string, value: string) => {
-        setFilters((prevFilters: any) => ({
+        setFilters((prevFilters) => ({
             ...prevFilters,
             [filter]: value,
         }));
@@ -36,7 +36,7 @@ const CoursesFilter = ({
                     .includes(deferredSearchQuery.toLowerCase())
             );
         });
-    }, [deferredSearchQuery, filters]);
+    }, [deferredSearchQuery, filters, coursesData]);
 
     const subjects = coursesData?.map((course: CourseType) => course.category);
     const uniqueSubjects = new Set(subjects);

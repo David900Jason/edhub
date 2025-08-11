@@ -1,7 +1,12 @@
 import CountUp from "react-countup";
 
-
-const Statistics = ({ inView, stats }: { inView: boolean; stats: StatsType[] }) => {
+const Statistics = ({
+    inView,
+    stats,
+}: {
+    inView: boolean;
+    stats: StatsType[];
+}) => {
     return (
         <div className="mx-auto grid grid-cols-1 gap-4 px-14 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {stats.map(({ icon, title, value }: StatsType, index: number) => {
@@ -17,7 +22,7 @@ const Statistics = ({ inView, stats }: { inView: boolean; stats: StatsType[] }) 
                                 className="text-secondary stroke-2"
                             />
                             <div>
-                                <h3 className="text-primary text-6xl font-bold tracking-tighter">
+                                <h3 className="bg-text-gradient-colourful text-6xl font-bold tracking-tighter">
                                     {inView && (
                                         <CountUp
                                             end={value}

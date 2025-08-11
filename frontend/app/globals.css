@@ -44,6 +44,7 @@
 
 @theme {
     --color-primary: #9929ea;
+    /* --color-primary: #9b5de5; */
     --color-primary-foreground: #cc66da;
     --color-secondary: #ffea70;
 }
@@ -96,6 +97,26 @@
     background: var(--color-primary);
 }
 
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #3b82f6, #8b5cf6);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, #2563eb, #7c3aed);
+}
+
+/* Selection colors */
+::selection {
+    background: rgba(59, 130, 246, 0.3);
+    color: white;
+}
+
+::-moz-selection {
+    background: rgba(59, 130, 246, 0.3);
+    color: white;
+}
+
 .dark {
     --background: oklch(0.145 0 0);
     --foreground: oklch(0.985 0 0);
@@ -135,7 +156,7 @@
         @apply border-border outline-ring/50;
     }
     body {
-        @apply text-foreground;
+        @apply text-foreground transition-colors duration-600 ease-in-out;
     }
     button {
         @apply cursor-pointer;
@@ -147,11 +168,16 @@
 
 @layer utilities {
     .header-sticky {
-        @apply sticky top-0 left-0 z-[9999] w-full bg-white;
+        @apply sticky top-0 left-0 z-[9999] w-full bg-white dark:bg-black/50;
     }
 
     .header-fixed {
-        @apply fixed top-0 left-0 z-[9999] w-full bg-white;
+        @apply fixed top-0 left-0 z-[9999] w-full bg-white dark:bg-black/50;
+    }
+
+    .header-sticky nav,
+    .header-fixed nav {
+        @apply dark:border-none dark:bg-transparent dark:text-white dark:shadow-none;
     }
 
     .card-locked {
@@ -176,6 +202,18 @@
 
     .btn-primary {
         @apply text-white;
+    }
+
+    .bg-gradient-dark {
+        @apply bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950;
+    }
+
+    .bg-gradient-colourful {
+        @apply bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400;
+    }
+
+    .bg-text-gradient-colourful {
+        @apply bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 bg-clip-text text-transparent;
     }
 
     .p-lead {
@@ -238,5 +276,25 @@
 
     .input-error {
         @apply text-sm font-light text-red-600;
+    }
+
+    .checkbox {
+        @apply flex h-6 w-6 items-center justify-center rounded-full border border-black bg-white;
+    }
+
+    /* .checkbox :only-child {
+        @apply hidden;
+    } */
+
+    .video-card {
+        @apply flex flex-col gap-0 p-0 overflow-hidden;
+    }
+
+    .video-thumbnail {
+        @apply aspect-video p-0;
+    }
+
+    .video-info {
+        @apply flex flex-col gap-2 p-4;
     }
 }

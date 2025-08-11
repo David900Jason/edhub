@@ -11,7 +11,7 @@ const Banner = ({
     return (
         <section
             className={cn(
-                "from-primary to-primary-foreground bg-gradient-to-b",
+                "bg-gradient-colourful dark:text-black",
                 className,
             )}
         >

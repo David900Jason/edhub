@@ -28,12 +28,8 @@ const RecentActivities = ({
         >
             <BarChart width={400} height={200} data={chartData}>
                 <CartesianGrid />
-                <XAxis
-                    dataKey={axis?.xAxis || "month"}
-                />
-                <YAxis
-                    dataKey={axis?.yAxis || "sessions"}
-                />
+                <XAxis dataKey={axis?.xAxis || "month"} />
+                <YAxis dataKey={axis?.yAxis || "sessions"} />
                 <ChartTooltip content={<ChartTooltipContent />} />
                 {Object.entries(chartConfig).map(([key, value]) => (
                     <Bar

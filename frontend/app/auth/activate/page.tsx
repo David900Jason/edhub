@@ -1,22 +1,20 @@
 "use client";
 
 import { Loader2 } from "lucide-react";
-import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { activateUser } from "@/lib/api";
 import { useRouter } from "next/navigation";
 
 const ActivateUser = () => {
-    const [user, setUser] = useLocalStorage("current_user", null);
+    const [user, setUser] = useLocalStorage("user", null);
     const router = useRouter();
-
-    const token = useSearchParams().get("token");
 
     useEffect(() => {
         const activateUserLoggedIn = async () => {
             try {
-                await activateUser(user?.id as string, token as string);
+                const currentUser = await activateUser(user?.id as string);
+                setUser(currentUser);
                 router.back();
             } catch (error) {
                 console.log(error);
@@ -27,7 +25,7 @@ const ActivateUser = () => {
             throw new Error("User not found");
         }
         activateUserLoggedIn();
-    }, []);
+    }, [user, setUser, router]);
 
     return (
         <div className="flex h-screen w-full place-content-center">

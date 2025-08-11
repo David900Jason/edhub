@@ -10,7 +10,7 @@ const TestimonialCard = ({ review }: { review: ReviewType }) => {
             boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
         }}>
             <CardHeader className="flex items-center gap-4">
-                <div className="bg-primary h-16 w-16 rounded-full"></div>
+                <div className="bg-gradient-colourful h-16 w-16 rounded-full"></div>
                 <div className="flex flex-col gap-1">
                     <h3 className="text-xl font-bold">{name}</h3>
                     <p className="p-lead !text-[14px]">{year}</p>

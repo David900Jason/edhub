@@ -6,15 +6,27 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import Tag from "@/components/ui/Tag";
-import { fetchCourse, fetchTeacher } from "@/lib/api";
-import PaymnetToggle from "./success/PaymentToggle";
+import { fetchCourse, getTeacherById } from "@/lib/api";
+import PaymentToggle from "./PaymentToggle";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
-const CheckoutPage = async ({ params }: { params: { courseId: string } }) => {
-    const { courseId } = await params;
+interface TeacherType {
+    id: string;
+    full_name: string;
+    email: string;
+    phone: string;
+    address: string;
+    image: string;
+}
 
-    const course = await fetchCourse(courseId);
-    const teacher = await fetchTeacher(course?.teacher_id || "1");
-
+const CheckoutClient = ({
+    course,
+    teacher,
+}: {
+    course: CourseType;
+    teacher: UserType;
+}) => {
     return (
         <main className="flex min-h-screen flex-col items-center justify-center">
             <Card className="min-w-[450px]">
@@ -33,7 +45,7 @@ const CheckoutPage = async ({ params }: { params: { courseId: string } }) => {
                                 ID:
                             </h3>
                             <p className="flex-1/2 text-end text-lg text-gray-500">
-                                {courseId}
+                                {course.id}
                             </p>
                         </div>
                         <div className="flex items-start justify-between">
@@ -41,7 +53,7 @@ const CheckoutPage = async ({ params }: { params: { courseId: string } }) => {
                                 Course Name:
                             </h3>
                             <p className="flex-1/2 text-end text-lg text-gray-500">
-                                &quot;{course?.title}&quot;
+                                &quot;{course.title}&quot;
                             </p>
                         </div>
                         <div className="flex items-start justify-between">
@@ -49,7 +61,7 @@ const CheckoutPage = async ({ params }: { params: { courseId: string } }) => {
                                 School Year:
                             </h3>
                             <p className="flex-1/2 text-end text-lg text-gray-500">
-                                <Tag color="purple">{course?.school_year}</Tag>
+                                <Tag color="purple">{course.school_year}</Tag>
                             </p>
                         </div>
                         <div className="flex items-start justify-between">
@@ -57,7 +69,7 @@ const CheckoutPage = async ({ params }: { params: { courseId: string } }) => {
                                 Teacher Name:
                             </h3>
                             <p className="flex-1/2 text-end text-lg text-gray-500">
-                                {teacher?.full_name}
+                                {teacher.full_name}
                             </p>
                         </div>
                         <div className="flex items-start justify-between">
@@ -65,7 +77,7 @@ const CheckoutPage = async ({ params }: { params: { courseId: string } }) => {
                                 Subject:
                             </h3>
                             <p className="flex-1/2 text-end text-lg text-gray-500">
-                                <Tag color="blue">{course?.category}</Tag>
+                                <Tag color="blue">{course.category}</Tag>
                             </p>
                         </div>
                         <div className="flex items-start justify-between">
@@ -73,14 +85,14 @@ const CheckoutPage = async ({ params }: { params: { courseId: string } }) => {
                                 Price:
                             </h3>
                             <p className="text-primary flex-1/2 text-end text-lg font-extrabold">
-                                {course?.price}
+                                {course.price}
                                 <span className="text-xs font-extrabold text-gray-500">
                                     {" "}
                                     EGP
                                 </span>
                             </p>
                         </div>
-                        <PaymnetToggle courseId={courseId} />
+                        <PaymentToggle courseId={course.id} />
                     </div>
                 </CardContent>
             </Card>
@@ -88,4 +100,29 @@ const CheckoutPage = async ({ params }: { params: { courseId: string } }) => {
     );
 };
 
-export default CheckoutPage;
+export async function generateStaticParams() {
+    // Fetch all courses to get their IDs at build time
+    const response = await fetch("http://localhost:8000/courses");
+    const courses = await response.json();
+
+    // Return an array of params for each course
+    return courses.map((course: { id: string }) => ({
+        courseId: course.id.toString(),
+    }));
+}
+
+export default async function CheckoutPage({
+    params,
+}: {
+    params: { courseId: string };
+}) {
+    const course = await fetchCourse(params.courseId);
+    const teacher = await getTeacherById(course?.teacher_id || "1");
+
+    return (
+        <CheckoutClient
+            course={course as CourseType}
+            teacher={teacher as UserType}
+        />
+    );
+}

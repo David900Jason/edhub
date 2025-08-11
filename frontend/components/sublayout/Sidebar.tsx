@@ -1,24 +1,35 @@
 "use client";
 
 import { Button } from "../ui/button";
-import { GraduationCap, LogOut, MoonStar } from "lucide-react";
+import { GraduationCap, LogOut, User, MoonStar, Settings } from "lucide-react";
 import { dashboardLinks } from "@/constants";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuShortcut,
+    DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { useTheme } from "next-themes";
 
 const Sidebar = () => {
     const pathname = usePathname();
+    const { theme, setTheme } = useTheme();
 
     return (
-        <div className="bg-primary sticky top-0 left-0 hidden h-screen w-64 flex-col justify-between sm:flex">
+        <div className="bg-primary sticky top-0 z-50 hidden h-screen w-64 flex-col justify-between sm:flex dark:bg-purple-950">
             <header>
-                <div className="flex items-center gap-3 p-4 pt-6 pb-2">
-                    <GraduationCap
-                        size={42}
-                        className="text-primary-foreground"
-                    />
-                    <h2 className="text-3xl font-bold">EdHub</h2>
+                <div className="flex items-center justify-between gap-3 p-4">
+                    <div className="flex items-center gap-2">
+                        <GraduationCap size={42} className="text-secondary" />
+                        <h2 className="text-2xl font-bold text-white">
+                            <Link href="/">Doroosy</Link>
+                        </h2>
+                    </div>
                 </div>
                 <ul className="px-2 py-4">
                     {dashboardLinks.map(
@@ -31,18 +42,17 @@ const Sidebar = () => {
                                 <li
                                     key={index}
                                     className={cn(
-                                        "mb-2 cursor-pointer rounded-lg px-2 py-3 text-white transition-colors hover:bg-white hover:text-black",
-                                        pathname === href &&
-                                            "bg-white text-black",
+                                        "text-primary mb-2 cursor-pointer rounded-lg px-2 py-3 transition-colors hover:bg-purple-800 hover:text-black",
+                                        pathname === href && "bg-purple-800",
                                     )}
                                 >
                                     <Link
-                                        className="flex items-center gap-2"
+                                        className="flex items-center gap-2 text-purple-300 dark:text-purple-300"
                                         href={href}
                                     >
                                         <Icon
                                             size={24}
-                                            className="text-primary-foreground"
+                                            className="text-purple-300"
                                         />
                                         {title}
                                     </Link>
@@ -52,14 +62,38 @@ const Sidebar = () => {
                     )}
                 </ul>
             </header>
-            <footer className="flex gap-2 p-4">
-                <Button variant="ghost" className="cursor-pointer">
-                    <MoonStar />
-                </Button>
-                <Button variant="ghost" className="cursor-pointer">
-                    <LogOut />
-                    Logout
-                </Button>
+            <footer className="flex justify-end gap-2 p-4">
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="outline" className="cursor-pointer">
+                            <Settings size={24} />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-48">
+                        <DropdownMenuItem>
+                            <User size={20} /> Profile
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                            onClick={() =>
+                                setTheme(theme === "dark" ? "light" : "dark")
+                            }
+                        >
+                            <MoonStar size={20} /> Theme
+                            <DropdownMenuShortcut>
+                                {theme === "dark" ? "Dark" : "Light"}
+                            </DropdownMenuShortcut>
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem>
+                            <Link
+                                className="flex items-center gap-2"
+                                href="/auth/logout"
+                            >
+                                <LogOut size={20} /> Logout
+                            </Link>
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </footer>
         </div>
     );

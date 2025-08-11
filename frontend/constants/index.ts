@@ -1,5 +1,6 @@
 // This will be displayed in the page title and in search engine results
 
+import { ChartConfig } from "@/components/ui/chart";
 import {
     LogIn,
     UserPlus,
@@ -105,43 +106,28 @@ const reviews: ReviewType[] = [
 
 const dashboardLinks = [
     {
-        title: "Dashboard",
-        href: "/user/dashboard",
+        title: "Home",
+        href: "/dashboard/student",
         icon: Home,
     },
     {
         title: "My Courses",
-        href: "/user/my-courses",
+        href: "/dashboard/student/courses",
         icon: BookOpen,
     },
     {
-        title: "My Sessions",
-        href: "/user/my-sessions",
-        icon: BookOpen,
-    },
-    {
-        title: "Assignments",
-        href: "/user/assignments",
-        icon: Book,
-    },
-    {
-        title: "Exams",
-        href: "/user/exams",
-        icon: Award,
-    },
-    {
-        title: "Payments",
-        href: "/user/payments",
+        title: "Subscriptions",
+        href: "/dashboard/student/subscriptions",
         icon: DollarSign,
     },
     {
         title: "Todo List",
-        href: "/user/todo-list",
+        href: "/dashboard/student/todo-list",
         icon: List,
     },
     {
         title: "Notes",
-        href: "/user/notes",
+        href: "/dashboard/student/notes",
         icon: Pen,
     },
 ];
@@ -149,56 +135,23 @@ const dashboardLinks = [
 const ProfileButtonLinks: ProfileButtonLinksType[] = [
     {
         label: "Account",
-        href: "/user/dashboard",
+        href: "/dashboard/",
         icon: User,
     },
     {
         label: "My Courses",
-        href: "/user/my-courses",
+        href: "/dashboard/student/courses",
         icon: BookOpen,
     },
     {
-        label: "My Sessions",
-        href: "/user/my-sessions",
-        icon: Book,
-    },
-    {
         label: "Payments",
-        href: "/user/payments",
+        href: "/dashboard/student/subscriptions",
         icon: DollarSign,
     },
     {
         label: "Todo List",
-        href: "/user/todo-list",
+        href: "/dashboard/student/todo-list",
         icon: List,
-    },
-];
-
-const recentActivitiesData = [
-    {
-        month: "January",
-        courses: 3,
-        sessions: 14,
-    },
-    {
-        month: "February",
-        courses: 2,
-        sessions: 9,
-    },
-    {
-        month: "March",
-        courses: 5,
-        sessions: 22,
-    },
-    {
-        month: "April",
-        courses: 2,
-        sessions: 12,
-    },
-    {
-        month: "May",
-        courses: 4,
-        sessions: 18,
     },
 ];
 
@@ -290,7 +243,6 @@ export {
     dashboardLinks,
     dashboardHomeCards,
     ProfileButtonLinks,
-    recentActivitiesData,
     dummyTasksData,
     cities,
 };

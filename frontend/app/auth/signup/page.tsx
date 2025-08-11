@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/select";
 import { createUser } from "@/lib/api";
 
-const Signup = ({ action }: { action: string }) => {
+const Signup = () => {
     const router = useRouter();
     const [date, setDate] = useState<string | null>(null);
     const [showPassword, setShowPassword] = useState(false);
@@ -70,7 +70,6 @@ const Signup = ({ action }: { action: string }) => {
             />
             {/* Sign Up Form */}
             <form
-                action={action}
                 method="post"
                 className="register-form"
                 onSubmit={handleSubmit(onSubmit)}

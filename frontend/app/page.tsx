@@ -1,19 +1,15 @@
 "use client";
 
-import {
-    HeroSection,
-    Navbar,
-    SectionHeading,
-    Statistics,
-    Testimonials,
-} from "@/components/";
+import Navbar from "@/components/layout/Navbar";
+import HeroSection from "@/components/sublayout/HeroSection";
+import SectionHeading from "@/components/sublayout/SectionHeading";
+import Statistics from "@/components/sublayout/Statistics";
+import Testimonials from "@/components/sublayout/Testimonials";
+import Link from "next/link";
 import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
-import { navLinks, stats } from "@/constants";
+import { stats } from "@/constants";
 import { useInView } from "react-intersection-observer";
-import Link from "next/link";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { useEffect } from "react";
 
 const Home = () => {
     const [ref, inView] = useInView({
@@ -21,24 +17,25 @@ const Home = () => {
         threshold: 0.5, // Trigger when 50% of the element is visible
     });
 
-    const [user, setUser] = useLocalStorage("current_user", null);
-
     return (
         <>
             <header className="header-fixed">
-                <Navbar navLinks={navLinks} />
+                <Navbar />
             </header>
-            <main className="mx-auto grid min-h-screen place-content-center text-center">
+            <main className="dark:bg-gradient-dark mx-auto grid min-h-screen place-content-center text-center">
                 <HeroSection />
             </main>
+            <section className="py-[5vh]" id="stats" ref={ref}>
+                <Statistics inView={inView} stats={stats} />
+            </section>
             <section className="py-[15vh]" id="about-us">
                 <SectionHeading title="About us" />
                 <div className="mx-auto flex flex-col items-center justify-center gap-12 md:flex-row md:px-14">
                     <div className="flex flex-1 flex-col gap-8 px-8 md:ps-12">
                         <p className="p-lead text-center md:text-start">
                             At{" "}
-                            <span className="text-primary font-bold">
-                                Edhub
+                            <span className="bg-text-gradient-colourful font-bold">
+                                Doroosy
                             </span>
                             , we believe that education should be accessible,
                             engaging, and empowering. Our mission is to connect
@@ -49,8 +46,8 @@ const Home = () => {
                         <p className="p-lead text-center md:text-start">
                             Whether you&apos;re preparing for exams, developing
                             new skills, or exploring new interests,{" "}
-                            <span className="text-primary font-bold">
-                                Edhub
+                            <span className="bg-text-gradient-colourful font-bold">
+                                Doroosy
                             </span>{" "}
                             provides the tools and resources to help you succeed
                             — anytime, anywhere. With a strong focus on
@@ -66,15 +63,13 @@ const Home = () => {
                         </Button>
                     </div>
                     <div className="hidden flex-1 items-center justify-center md:flex">
-                        <div className="from-primary to-primary-foreground h-[400px] w-[400px] rounded-full bg-gradient-to-br shadow-xl"></div>
+                        <div className="bg-gradient-colourful h-[400px] w-[400px] rounded-full shadow-xl"></div>
                     </div>
                 </div>
             </section>
-            <section className="py-[5vh]" id="stats" ref={ref}>
-                <Statistics inView={inView} stats={stats} />
-            </section>
+
             <aside
-                className="from-primary to-primary-foreground flex flex-col items-center justify-center gap-4 bg-gradient-to-br py-[15vh]"
+                className="bg-gradient-colourful flex flex-col items-center justify-center gap-4 py-[15vh] text-black"
                 id="cta"
             >
                 <h1 className="text-center text-6xl font-bold tracking-tighter">

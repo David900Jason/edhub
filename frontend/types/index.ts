@@ -37,11 +37,10 @@ declare interface ProfileButtonLinksType {
 
 // Course Types
 declare interface CourseType {
-    id?: number;
-    image?: string;
+    id: string;
     title: string;
     description: string;
-    teacher_id: number;
+    teacher_id: string;
     price: number;
     school_year: string;
     discount: number;
@@ -104,10 +103,57 @@ declare interface UserType {
     phone_number: string;
     parent_phone: string;
     birth_date: string;
-    school_year: 1 | 2 | 3;
+    school_year: "1" | "2" | "3";
     is_active?: boolean;
     is_verified?: boolean;
     created_at?: string;
     updated_at?: string;
     city?: string;
+    image?: string;
+}
+
+declare interface EnrollmentType {
+    id: string;
+    course_id: string;
+    user_id: string;
+    review: number;
+    teacher_id: string;
+    enrolled_at: string;
+    created_at: string;
+    is_paid: boolean;
+}
+
+declare interface Video {
+    id: number | string;
+    title: string;
+    description: string;
+    url: string;
+    thumbnail: string;
+    course_id: string | undefined;
+    likes: number;
+    views: number;
+    created_at: string;
+}
+
+declare interface Book {
+    id: number;
+    title: string;
+    src: string;
+    course_id: string | undefined;
+    video_id: string;
+}
+
+declare interface Exam {
+    id: string;
+    title: string;
+    duration?: number;
+    video_id?: string;
+    course_id: string | undefined;
+    marks: number;
+    questions: {
+        question_text: string;
+        answers: any[];
+        mark: number;
+        type: string;
+    }[];
 }
