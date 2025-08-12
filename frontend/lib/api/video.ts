@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const getVideosByCourseId = async (courseId: string): Promise<Video[]> => {
+export const getVideosById = async (courseId: string): Promise<Video[]> => {
     try {
         const response = await axios.get(
             `http://localhost:8000/videos?course_id=${courseId}`,
@@ -9,5 +9,77 @@ export const getVideosByCourseId = async (courseId: string): Promise<Video[]> =>
     } catch (error) {
         console.error(error);
         return [];
+    }
+};
+
+export const getVideoById = async (videoId: string): Promise<Video | null> => {
+    try {
+        const response = await axios.get(
+            `http://localhost:8000/videos/${videoId}`,
+        );
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
+
+export const getVideoBooks = async (videoId: string | number): Promise<Book[]> => {
+    try {
+        const response = await axios.get(
+            `http://localhost:8000/books?video_id=${videoId}`,
+        );
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+};
+
+export const getVideoQuestions = async (videoId: string | number): Promise<Question[]> => {
+    try {
+        const response = await axios.get(
+            `http://localhost:8000/questions?video_id=${videoId}`,
+        );
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+}
+
+export const updateLikes = async (
+    videoId: string | number,
+    likes: number,
+): Promise<Video | null> => {
+    try {
+        const response = await axios.patch(
+            `http://localhost:8000/videos/${videoId}`,
+            {
+                likes: likes,
+            },
+        );
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
+
+export const updateViews = async (
+    videoId: string | number,
+    views: number,
+): Promise<Video | null> => {
+    try {
+        const response = await axios.patch(
+            `http://localhost:8000/videos/${videoId}`,
+            {
+                views: views,
+            },
+        );
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
     }
 };

@@ -20,7 +20,8 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { createUser } from "@/lib/api";
+import { createUser } from "@/lib/api/auth";
+import api from "@/lib/api";
 
 const Signup = () => {
     const router = useRouter();
@@ -46,17 +47,6 @@ const Signup = () => {
         alert("Signup Successfully");
 
         // TODO: Add API call to create user (Submit form)
-        await createUser({
-            full_name: data.full_name,
-            email: data.email,
-            password: data.password,
-            phone_number: data.phone_number,
-            parent_number: data.parent_number,
-            role: data.role,
-            school_year: data.school_year,
-            city: data.city,
-            birth_date: date ? new Date(date).toISOString() : null,
-        });
 
         // Push router to verify page
         router.push("/auth/verify?email=" + data.email);

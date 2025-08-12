@@ -1,679 +1,712 @@
 {
-    "users": [
+  "users": [
+    {
+      "id": "u1",
+      "full_name": "Ahmed Wael",
+      "email": "ahmed@example.com",
+      "phone_number": "01001234567",
+      "parent_number": "01007654321",
+      "is_active": true,
+      "is_verified": true,
+      "school_year": "Grade 10",
+      "city": "Cairo",
+      "password": "$2b$12$somethinghashed",
+      "role": "student",
+      "created_at": "2025-08-01T10:00:00Z",
+      "wallet_balance": 0
+    },
+    {
+      "id": "u2",
+      "full_name": "Sara Youssef",
+      "email": "sara@example.com",
+      "phone_number": "01009876543",
+      "parent_number": "01005432109",
+      "is_active": true,
+      "is_verified": true,
+      "school_year": "Grade 11",
+      "city": "Alexandria",
+      "password": "$2b$12$anotherhashed",
+      "role": "student",
+      "created_at": "2025-08-02T11:30:00Z",
+      "wallet_balance": 0
+    },
+    {
+      "id": "u3",
+      "full_name": "Mr. Reda Elkassas",
+      "email": "reda.elkassas@teacher.com",
+      "phone_number": "01001122334",
+      "parent_number": null,
+      "is_active": true,
+      "is_verified": true,
+      "school_year": null,
+      "city": "Giza",
+      "password": "$2b$12$teacherhash",
+      "role": "teacher",
+      "image": "/teacher.png",
+      "created_at": "2025-07-25T08:00:00Z",
+      "wallet_balance": 0
+    },
+    {
+      "id": "u4",
+      "full_name": "Mr. Ahmed Essam",
+      "email": "ahmed.essam@teacher.com",
+      "phone_number": "01001122334",
+      "parent_number": null,
+      "image": "/teacher-2.png",
+      "is_active": true,
+      "is_verified": true,
+      "school_year": null,
+      "city": "Cairo",
+      "password": "$2b$12$teacherhash",
+      "role": "teacher",
+      "created_at": "2025-07-25T08:00:00Z",
+      "wallet_balance": 0
+    },
+    {
+      "id": "u5",
+      "full_name": "Admin User",
+      "email": "admin@example.com",
+      "phone_number": "01000000000",
+      "parent_number": null,
+      "is_active": true,
+      "is_verified": true,
+      "school_year": null,
+      "city": "Cairo",
+      "password": "$2b$12$adminhash",
+      "role": "admin",
+      "created_at": "2025-07-01T09:00:00Z",
+      "wallet_balance": 0
+    },
+    {
+      "id": "qgB1In",
+      "full_name": "Ahmed Wael",
+      "email": "ahmodywaelsafy@gmail.com",
+      "password": "Ahmed2005",
+      "phone_number": "01093632618",
+      "parent_number": "01066573417",
+      "role": "student",
+      "school_year": "Grade 12",
+      "city": "Giza",
+      "birth_date": "2025-08-06T21:00:00.000Z",
+      "is_active": true,
+      "is_verified": true,
+      "wallet_balance": 0,
+      "created_at": "2025-08-08T16:49:50.224Z",
+      "notes_id": "e3f1",
+      "tasks_id": "e3f9"
+    }
+  ],
+  "courses": [
+    {
+      "id": "1",
+      "title": "Algebra: Real Numbers",
+      "description": "This course is about applications on real numbers. It is a great course for students who want to learn about real numbers.",
+      "teacher_id": "u3",
+      "price": 350,
+      "school_year": "Grade 10",
+      "discount": 0,
+      "currency": "EGP",
+      "is_paid": true,
+      "is_published": true,
+      "category": "Math",
+      "thumbnail": "https://dummyimage.com/600x400",
+      "created_at": "2022-01-01T09:00:00Z",
+      "updated_at": "2022-01-01T11:00:00Z"
+    },
+    {
+      "id": "2",
+      "title": "Applications on Real Numbers",
+      "description": "Applications on Real Numbers",
+      "teacher_id": "u3",
+      "price": 350,
+      "school_year": "Grade 12",
+      "discount": 0,
+      "currency": "EGP",
+      "is_paid": true,
+      "is_published": true,
+      "category": "Math",
+      "thumbnail": "https://dummyimage.com/600x400",
+      "created_at": "2022-01-01T12:00:00Z",
+      "updated_at": "2022-01-01T14:00:00Z"
+    },
+    {
+      "id": "3",
+      "title": "Classification of Living Organisms",
+      "description": "This course in biology is about the classification of living organisms.",
+      "teacher_id": "u3",
+      "price": 350,
+      "school_year": "Grade 12",
+      "discount": 0,
+      "currency": "EGP",
+      "is_paid": true,
+      "is_published": true,
+      "category": "Science",
+      "thumbnail": "https://dummyimage.com/600x400",
+      "created_at": "2022-01-01T12:00:00Z",
+      "updated_at": "2022-01-01T14:00:00Z"
+    },
+    {
+      "id": "4",
+      "title": "Applications on Real Numbers",
+      "description": "Applications on Real Numbers",
+      "teacher_id": "u3",
+      "price": 350,
+      "school_year": "Grade 12",
+      "discount": 0,
+      "currency": "EGP",
+      "is_paid": true,
+      "is_published": true,
+      "category": "Math",
+      "thumbnail": "https://dummyimage.com/600x400",
+      "created_at": "2022-01-01T12:00:00Z",
+      "updated_at": "2022-01-01T14:00:00Z"
+    },
+    {
+      "id": "5",
+      "title": "Applications on Real Numbers",
+      "description": "Applications on Real Numbers",
+      "teacher_id": "u3",
+      "price": 350,
+      "school_year": "Grade 12",
+      "discount": 0,
+      "currency": "EGP",
+      "is_paid": true,
+      "is_published": true,
+      "category": "Math",
+      "thumbnail": "https://dummyimage.com/600x400",
+      "created_at": "2022-01-01T12:00:00Z",
+      "updated_at": "2022-01-01T14:00:00Z"
+    }
+  ],
+  "enrollments": [
+    {
+      "id": "1",
+      "course_id": "1",
+      "user_id": "qgB1In",
+      "enrolled_at": "2022-01-01T12:00:00Z",
+      "created_at": "2022-01-01T12:00:00Z",
+      "teacher_id": "u3",
+      "is_paid": true,
+      "review": "1"
+    },
+    {
+      "id": "2",
+      "course_id": "2",
+      "user_id": "qgB1In",
+      "enrolled_at": "2022-01-01T12:00:00Z",
+      "created_at": "2022-01-01T12:00:00Z",
+      "teacher_id": "u3",
+      "is_paid": true,
+      "review": "2"
+    },
+    {
+      "id": "3",
+      "course_id": "3",
+      "user_id": "qgB1In",
+      "enrolled_at": "2022-01-01T12:00:00Z",
+      "created_at": "2022-01-01T12:00:00Z",
+      "teacher_id": "u3",
+      "is_paid": true,
+      "review": "3"
+    }
+  ],
+  "videos": [
+    {
+      "id": "1",
+      "title": "Video 1",
+      "description": "This is the description for video 1. it helps you see the benefits of this video before watching it.",
+      "url": "/videos/video-1.mp4",
+      "thumbnail": "/videos/thumbnails/video-1.jpg",
+      "course_id": "1",
+      "likes": 17,
+      "views": 219,
+      "created_at": "2022-01-01T12:00:00Z"
+    },
+    {
+      "id": "2",
+      "title": "Video 2",
+      "description": "This is the description for video 2. it helps you see the benefits of this video before watching it.",
+      "url": "/videos/video-2.mp4",
+      "thumbnail": "/videos/thumbnails/video-2.jpg",
+      "course_id": "1",
+      "likes": 1,
+      "views": 8,
+      "created_at": "2022-01-01T12:00:00Z"
+    },
+    {
+      "id": "3",
+      "title": "Video 3",
+      "description": "This is the description for video 3. it helps you see the benefits of this video before watching it.",
+      "url": "/videos/video-3.mp4",
+      "thumbnail": "/videos/thumbnails/video-3.jpg",
+      "course_id": "1",
+      "likes": 0,
+      "views": 3,
+      "created_at": "2022-01-01T12:00:00Z"
+    },
+    {
+      "id": "4",
+      "title": "Video 4",
+      "description": "This is the description for video 4. it helps you see the benefits of this video before watching it.",
+      "url": "/videos/video-4.mp4",
+      "thumbnail": "/videos/thumbnails/video-4.jpg",
+      "course_id": "1",
+      "likes": 0,
+      "views": 1,
+      "created_at": "2022-01-01T12:00:00Z"
+    },
+    {
+      "id": "5",
+      "title": "Video 5",
+      "description": "This is the description for video 5. it helps you see the benefits of this video before watching it.",
+      "url": "/videos/video-5.mp4",
+      "thumbnail": "/videos/thumbnails/video-5.jpg",
+      "course_id": "1",
+      "likes": 0,
+      "views": 1,
+      "created_at": "2022-01-01T12:00:00Z"
+    }
+  ],
+  "books": [
+    {
+      "id": "1",
+      "title": "Book Title 1",
+      "src": "/books/covers/book-1.jpg",
+      "course_id": "1",
+      "video_id": "1"
+    },
+    {
+      "id": "2",
+      "title": "Book Title 2",
+      "src": "/books/covers/book-2.jpg",
+      "course_id": "1",
+      "video_id": "1"
+    },
+    {
+      "id": "3",
+      "title": "Book Title 3",
+      "src": "/books/covers/book-3.jpg",
+      "course_id": "1",
+      "video_id": "2"
+    },
+    {
+      "id": "4",
+      "title": "Book Title 4",
+      "src": "/books/covers/book-4.jpg",
+      "course_id": "1",
+      "video_id": "2"
+    },
+    {
+      "id": "5",
+      "title": "Book Title 5",
+      "src": "/books/covers/book-5.jpg",
+      "course_id": "1",
+      "video_id": "3"
+    }
+  ],
+  "exams": [
+    {
+      "id": "1",
+      "title": "Exam 1",
+      "duration": 15,
+      "course_id": "1",
+      "marks": 40,
+      "questions": [
         {
-            "id": "u1",
-            "full_name": "Ahmed Wael",
-            "email": "ahmed@example.com",
-            "phone_number": "01001234567",
-            "parent_number": "01007654321",
-            "is_active": true,
-            "is_verified": true,
-            "school_year": "Grade 10",
-            "city": "Cairo",
-            "password": "$2b$12$somethinghashed",
-            "role": "student",
-            "created_at": "2025-08-01T10:00:00Z",
-            "wallet_balance": 0
+          "question_text": "What is the capital of France?",
+          "answers": [
+            {
+              "answer_text": "Paris",
+              "is_correct": true
+            },
+            {
+              "answer_text": "London",
+              "is_correct": false
+            },
+            {
+              "answer_text": "Berlin",
+              "is_correct": false
+            },
+            {
+              "answer_text": "Madrid",
+              "is_correct": false
+            }
+          ],
+          "mark": 5,
+          "type": "multiple_choice"
         },
         {
-            "id": "u2",
-            "full_name": "Sara Youssef",
-            "email": "sara@example.com",
-            "phone_number": "01009876543",
-            "parent_number": "01005432109",
-            "is_active": true,
-            "is_verified": true,
-            "school_year": "Grade 11",
-            "city": "Alexandria",
-            "password": "$2b$12$anotherhashed",
-            "role": "student",
-            "created_at": "2025-08-02T11:30:00Z",
-            "wallet_balance": 0
+          "question_text": "What is the capital of Spain?",
+          "answers": [
+            {
+              "answer_text": "France",
+              "is_correct": false
+            },
+            {
+              "answer_text": "London",
+              "is_correct": false
+            },
+            {
+              "answer_text": "Berlin",
+              "is_correct": false
+            },
+            {
+              "answer_text": "Madrid",
+              "is_correct": true
+            }
+          ],
+          "mark": 5,
+          "type": "multiple_choice"
         },
         {
-            "id": "u3",
-            "full_name": "Mr. Reda Elkassas",
-            "email": "reda.elkassas@teacher.com",
-            "phone_number": "01001122334",
-            "parent_number": null,
-            "is_active": true,
-            "is_verified": true,
-            "school_year": null,
-            "city": "Giza",
-            "password": "$2b$12$teacherhash",
-            "role": "teacher",
-            "created_at": "2025-07-25T08:00:00Z",
-            "wallet_balance": 0
+          "question_text": "What is the capital of Germany?",
+          "answers": [
+            {
+              "answer_text": "Paris",
+              "is_correct": false
+            },
+            {
+              "answer_text": "London",
+              "is_correct": false
+            },
+            {
+              "answer_text": "Berlin",
+              "is_correct": true
+            },
+            {
+              "answer_text": "Madrid",
+              "is_correct": false
+            }
+          ],
+          "mark": 5,
+          "type": "multiple_choice"
         },
         {
-            "id": "u4",
-            "full_name": "Admin User",
-            "email": "admin@example.com",
-            "phone_number": "01000000000",
-            "parent_number": null,
-            "is_active": true,
-            "is_verified": true,
-            "school_year": null,
-            "city": "Cairo",
-            "password": "$2b$12$adminhash",
-            "role": "admin",
-            "created_at": "2025-07-01T09:00:00Z",
-            "wallet_balance": 0
+          "question_text": "What is the capital of Italy?",
+          "answers": [
+            {
+              "answer_text": "Paris",
+              "is_correct": false
+            },
+            {
+              "answer_text": "London",
+              "is_correct": false
+            },
+            {
+              "answer_text": "Berlin",
+              "is_correct": false
+            },
+            {
+              "answer_text": "Rome",
+              "is_correct": true
+            }
+          ],
+          "mark": 5,
+          "type": "multiple_choice"
         },
         {
-            "id": "qgB1In",
-            "full_name": "Ahmed Wael",
-            "email": "ahmodywaelsafy@gmail.com",
-            "password": "Ahmed2005",
-            "phone_number": "01093632618",
-            "parent_number": "01066573417",
-            "role": "student",
-            "school_year": "Grade 12",
-            "city": "Giza",
-            "birth_date": "2025-08-06T21:00:00.000Z",
-            "is_active": true,
-            "is_verified": true,
-            "wallet_balance": 0,
-            "created_at": "2025-08-08T16:49:50.224Z",
-            "notes_id": "e3f1",
-            "tasks_id": "e3f9"
+          "question_text": "What is the capital of Portugal?",
+          "answers": [
+            {
+              "answer_text": "Lisbon",
+              "is_correct": true
+            },
+            {
+              "answer_text": "London",
+              "is_correct": false
+            },
+            {
+              "answer_text": "Berlin",
+              "is_correct": false
+            },
+            {
+              "answer_text": "Rome",
+              "is_correct": true
+            }
+          ],
+          "mark": 5,
+          "type": "multiple_choice"
+        },
+        {
+          "question_text": "What is the capital of Greece?",
+          "answers": [
+            {
+              "answer_text": "London",
+              "is_correct": false
+            },
+            {
+              "answer_text": "Athens",
+              "is_correct": true
+            },
+            {
+              "answer_text": "Berlin",
+              "is_correct": false
+            },
+            {
+              "answer_text": "Rome",
+              "is_correct": true
+            }
+          ],
+          "mark": 5,
+          "type": "multiple_choice"
+        },
+        {
+          "question_text": "Mention 3 cities in Egypt?",
+          "answers": [
+            {
+              "guide_answer": "Cairo, Giza and Alexandria"
+            }
+          ],
+          "mark": 10,
+          "type": "essay"
         }
-    ],
-    "courses": [
+      ]
+    }
+  ],
+  "assignments": [
+    {
+      "id": "1",
+      "title": "Homework 1",
+      "duration": 0,
+      "course_id": "1",
+      "marks": 40,
+      "questions": [
         {
-            "id": "1",
-            "title": "Algebra: Real Numbers",
-            "description": "This course is about applications on real numbers. It is a great course for students who want to learn about real numbers.",
-            "teacher_id": "u3",
-            "price": 350,
-            "school_year": "Grade 10",
-            "discount": 0,
-            "currency": "EGP",
-            "is_paid": true,
-            "is_published": true,
-            "category": "Math",
-            "thumbnail": "https://dummyimage.com/600x400",
-            "created_at": "2022-01-01T09:00:00Z",
-            "updated_at": "2022-01-01T11:00:00Z"
+          "question_text": "What is the capital of France?",
+          "answers": [
+            {
+              "answer_text": "Paris",
+              "is_correct": true
+            },
+            {
+              "answer_text": "London",
+              "is_correct": false
+            },
+            {
+              "answer_text": "Berlin",
+              "is_correct": false
+            },
+            {
+              "answer_text": "Madrid",
+              "is_correct": false
+            }
+          ],
+          "mark": 5,
+          "type": "multiple_choice"
         },
         {
-            "id": "2",
-            "title": "Applications on Real Numbers",
-            "description": "Applications on Real Numbers",
-            "teacher_id": "u3",
-            "price": 350,
-            "school_year": "Grade 12",
-            "discount": 0,
-            "currency": "EGP",
-            "is_paid": true,
-            "is_published": true,
-            "category": "Math",
-            "thumbnail": "https://dummyimage.com/600x400",
-            "created_at": "2022-01-01T12:00:00Z",
-            "updated_at": "2022-01-01T14:00:00Z"
+          "question_text": "What is the capital of Spain?",
+          "answers": [
+            {
+              "answer_text": "France",
+              "is_correct": false
+            },
+            {
+              "answer_text": "London",
+              "is_correct": false
+            },
+            {
+              "answer_text": "Berlin",
+              "is_correct": false
+            },
+            {
+              "answer_text": "Madrid",
+              "is_correct": true
+            }
+          ],
+          "mark": 5,
+          "type": "multiple_choice"
         },
         {
-            "id": "3",
-            "title": "Classification of Living Organisms",
-            "description": "This course in biology is about the classification of living organisms.",
-            "teacher_id": "u3",
-            "price": 350,
-            "school_year": "Grade 12",
-            "discount": 0,
-            "currency": "EGP",
-            "is_paid": true,
-            "is_published": true,
-            "category": "Science",
-            "thumbnail": "https://dummyimage.com/600x400",
-            "created_at": "2022-01-01T12:00:00Z",
-            "updated_at": "2022-01-01T14:00:00Z"
+          "question_text": "What is the capital of Germany?",
+          "answers": [
+            {
+              "answer_text": "Paris",
+              "is_correct": false
+            },
+            {
+              "answer_text": "London",
+              "is_correct": false
+            },
+            {
+              "answer_text": "Berlin",
+              "is_correct": true
+            },
+            {
+              "answer_text": "Madrid",
+              "is_correct": false
+            }
+          ],
+          "mark": 5,
+          "type": "multiple_choice"
         },
         {
-            "id": "4",
-            "title": "Applications on Real Numbers",
-            "description": "Applications on Real Numbers",
-            "teacher_id": "u3",
-            "price": 350,
-            "school_year": "Grade 12",
-            "discount": 0,
-            "currency": "EGP",
-            "is_paid": true,
-            "is_published": true,
-            "category": "Math",
-            "thumbnail": "https://dummyimage.com/600x400",
-            "created_at": "2022-01-01T12:00:00Z",
-            "updated_at": "2022-01-01T14:00:00Z"
+          "question_text": "What is the capital of Italy?",
+          "answers": [
+            {
+              "answer_text": "Paris",
+              "is_correct": false
+            },
+            {
+              "answer_text": "London",
+              "is_correct": false
+            },
+            {
+              "answer_text": "Berlin",
+              "is_correct": false
+            },
+            {
+              "answer_text": "Rome",
+              "is_correct": true
+            }
+          ],
+          "mark": 5,
+          "type": "multiple_choice"
         },
         {
-            "id": "5",
-            "title": "Applications on Real Numbers",
-            "description": "Applications on Real Numbers",
-            "teacher_id": "u3",
-            "price": 350,
-            "school_year": "Grade 12",
-            "discount": 0,
-            "currency": "EGP",
-            "is_paid": true,
-            "is_published": true,
-            "category": "Math",
-            "thumbnail": "https://dummyimage.com/600x400",
-            "created_at": "2022-01-01T12:00:00Z",
-            "updated_at": "2022-01-01T14:00:00Z"
+          "question_text": "What is the capital of Portugal?",
+          "answers": [
+            {
+              "answer_text": "Lisbon",
+              "is_correct": true
+            },
+            {
+              "answer_text": "London",
+              "is_correct": false
+            },
+            {
+              "answer_text": "Berlin",
+              "is_correct": false
+            },
+            {
+              "answer_text": "Rome",
+              "is_correct": true
+            }
+          ],
+          "mark": 5,
+          "type": "multiple_choice"
+        },
+        {
+          "question_text": "What is the capital of Greece?",
+          "answers": [
+            {
+              "answer_text": "London",
+              "is_correct": false
+            },
+            {
+              "answer_text": "Athens",
+              "is_correct": true
+            },
+            {
+              "answer_text": "Berlin",
+              "is_correct": false
+            },
+            {
+              "answer_text": "Rome",
+              "is_correct": true
+            }
+          ],
+          "mark": 5,
+          "type": "multiple_choice"
+        },
+        {
+          "question_text": "Mention 3 cities in Egypt?",
+          "answers": [
+            {
+              "guide_answer": "Cairo, Giza and Alexandria"
+            }
+          ],
+          "mark": 10,
+          "type": "essay"
         }
-    ],
-    "enrollments": [
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "BQKd",
+      "question_text": "What is Dart?",
+      "video_id": "1",
+      "user_id": "qgB1In",
+      "reply": {
+        "answer_text": "",
+        "teacher_id": "",
+        "created_at": ""
+      },
+      "created_at": "2025-08-12T13:21:52.882Z"
+    }
+  ],
+  "messages": [
+    {
+      "id": "75b5",
+      "email": "ahmodywaelsafy@gmail.com",
+      "message": "This is a test message"
+    },
+    {
+      "id": "e3f9",
+      "email": "ahmodywaelsafy@gmail.com",
+      "message": "This is a test message",
+      "created_at": "2025-08-07T12:06:01.441Z"
+    },
+    {
+      "id": "b895",
+      "email": "demo@scan2eat.com",
+      "message": "This is a test message",
+      "created_at": "2025-08-07T12:06:24.236Z"
+    },
+    {
+      "id": "d259",
+      "email": "johndoe@gmail.com",
+      "message": "This is a test message",
+      "created_at": "2025-08-07T12:07:04.089Z"
+    },
+    {
+      "id": "a502",
+      "email": "johndoe@gmail.com",
+      "message": "This is a test message",
+      "created_at": "2025-08-07T12:08:04.516Z"
+    },
+    {
+      "id": "5022",
+      "email": "johndoe@gmail.com",
+      "message": "This is a test message",
+      "created_at": "2025-08-07T12:08:06.793Z"
+    },
+    {
+      "id": "0e1e",
+      "email": "johndoe@gmail.com",
+      "message": "This is a test message from John Doe",
+      "created_at": "2025-08-07T12:09:52.897Z"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "e3f9",
+      "user_id": "u1",
+      "tasks": [
         {
-            "id": "1",
-            "course_id": "1",
-            "user_id": "qgB1In",
-            "enrolled_at": "2022-01-01T12:00:00Z",
-            "created_at": "2022-01-01T12:00:00Z",
-            "teacher_id": "u3",
-            "is_paid": true,
-            "review": "1"
+          "id": "dbdc",
+          "title": "Add the search bar and filters for the course page and subscription",
+          "status": "pending"
         },
         {
-            "id": "2",
-            "course_id": "2",
-            "user_id": "qgB1In",
-            "enrolled_at": "2022-01-01T12:00:00Z",
-            "created_at": "2022-01-01T12:00:00Z",
-            "teacher_id": "u3",
-            "is_paid": true,
-            "review": "2"
+          "id": "SoS8",
+          "title": "Add Exams: Assignment, Quiz, Exam ",
+          "status": "pending"
         },
         {
-            "id": "3",
-            "course_id": "3",
-            "user_id": "qgB1In",
-            "enrolled_at": "2022-01-01T12:00:00Z",
-            "created_at": "2022-01-01T12:00:00Z",
-            "teacher_id": "u3",
-            "is_paid": true,
-            "review": "3"
+          "id": "0uFP",
+          "title": "Add teachers section",
+          "status": "pending"
         }
-    ],
-    "videos": [
-        {
-            "id": "1",
-            "title": "Video 1",
-            "description":
-                "This is the description for video 1. it helps you see the benefits of this video before watching it.",
-            "url": "/videos/video-1.mp4",
-            "thumbnail": "/videos/thumbnails/video-1.jpg",
-            "course_id": "1",
-            "likes": 0,
-            "views": 0,
-            "created_at": "2022-01-01T12:00:00Z"
-        },
-        {
-            "id": "2",
-            "title": "Video 2",
-            "description":
-                "This is the description for video 2. it helps you see the benefits of this video before watching it.",
-            "url": "/videos/video-2.mp4",
-            "thumbnail": "/videos/thumbnails/video-2.jpg",
-            "course_id": "1",
-            "likes": 0,
-            "views": 0,
-            "created_at": "2022-01-01T12:00:00Z"
-        },
-        {
-            "id": "3",
-            "title": "Video 3",
-            "description":
-                "This is the description for video 3. it helps you see the benefits of this video before watching it.",
-            "url": "/videos/video-3.mp4",
-            "thumbnail": "/videos/thumbnails/video-3.jpg",
-            "course_id": "1",
-            "likes": 0,
-            "views": 0,
-            "created_at": "2022-01-01T12:00:00Z"
-        },
-        {
-            "id": "4",
-            "title": "Video 4",
-            "description":
-                "This is the description for video 4. it helps you see the benefits of this video before watching it.",
-            "url": "/videos/video-4.mp4",
-            "thumbnail": "/videos/thumbnails/video-4.jpg",
-            "course_id": "1",
-            "likes": 0,
-            "views": 0,
-            "created_at": "2022-01-01T12:00:00Z"
-        },
-        {
-            "id": "5",
-            "title": "Video 5",
-            "description":
-                "This is the description for video 5. it helps you see the benefits of this video before watching it.",
-            "url": "/videos/video-5.mp4",
-            "thumbnail": "/videos/thumbnails/video-5.jpg",
-            "course_id": "1",
-            "likes": 0,
-            "views": 0,
-            "created_at": "2022-01-01T12:00:00Z"
-        }
-    ],
-    "books": [
-        {
-            "id": "1",
-            "title": "Book Title 1",
-            "src": "/books/covers/book-1.jpg",
-            "course_id": "1",
-            "video_id": "1"
-        },
-        {
-            "id": "2",
-            "title": "Book Title 2",
-            "src": "/books/covers/book-2.jpg",
-            "course_id": "1",
-            "video_id": "1"
-        },
-        {
-            "id": "3",
-            "title": "Book Title 3",
-            "src": "/books/covers/book-3.jpg",
-            "course_id": "1",
-            "video_id": "2"
-        },
-        {
-            "id": "4",
-            "title": "Book Title 4",
-            "src": "/books/covers/book-4.jpg",
-            "course_id": "1",
-            "video_id": "2"
-        },
-        {
-            "id": "5",
-            "title": "Book Title 5",
-            "src": "/books/covers/book-5.jpg",
-            "course_id": "1",
-            "video_id": "3"
-        }
-    ],
-    "exams": [
-        {
-            "id": "1",
-            "title": "Exam 1",
-            "duration": 15,
-            "course_id": "1",
-            "marks": 40,
-            "questions": [
-                {
-                    "question_text": "What is the capital of France?",
-                    "answers": [
-                        {
-                            "answer_text": "Paris",
-                            "is_correct": true
-                        },
-                        {
-                            "answer_text": "London",
-                            "is_correct": false
-                        },
-                        {
-                            "answer_text": "Berlin",
-                            "is_correct": false
-                        },
-                        {
-                            "answer_text": "Madrid",
-                            "is_correct": false
-                        }
-                    ],
-                    "mark": 5,
-                    "type": "multiple_choice"
-                },
-                {
-                    "question_text": "What is the capital of Spain?",
-                    "answers": [
-                        {
-                            "answer_text": "France",
-                            "is_correct": false
-                        },
-                        {
-                            "answer_text": "London",
-                            "is_correct": false
-                        },
-                        {
-                            "answer_text": "Berlin",
-                            "is_correct": false
-                        },
-                        {
-                            "answer_text": "Madrid",
-                            "is_correct": true
-                        }
-                    ],
-                    "mark": 5,
-                    "type": "multiple_choice"
-                },
-                {
-                    "question_text": "What is the capital of Germany?",
-                    "answers": [
-                        {
-                            "answer_text": "Paris",
-                            "is_correct": false
-                        },
-                        {
-                            "answer_text": "London",
-                            "is_correct": false
-                        },
-                        {
-                            "answer_text": "Berlin",
-                            "is_correct": true
-                        },
-                        {
-                            "answer_text": "Madrid",
-                            "is_correct": false
-                        }
-                    ],
-                    "mark": 5,
-                    "type": "multiple_choice"
-                },
-                {
-                    "question_text": "What is the capital of Italy?",
-                    "answers": [
-                        {
-                            "answer_text": "Paris",
-                            "is_correct": false
-                        },
-                        {
-                            "answer_text": "London",
-                            "is_correct": false
-                        },
-                        {
-                            "answer_text": "Berlin",
-                            "is_correct": false
-                        },
-                        {
-                            "answer_text": "Rome",
-                            "is_correct": true
-                        }
-                    ],
-                    "mark": 5,
-                    "type": "multiple_choice"
-                },
-                {
-                    "question_text": "What is the capital of Portugal?",
-                    "answers": [
-                        {
-                            "answer_text": "Lisbon",
-                            "is_correct": true
-                        },
-                        {
-                            "answer_text": "London",
-                            "is_correct": false
-                        },
-                        {
-                            "answer_text": "Berlin",
-                            "is_correct": false
-                        },
-                        {
-                            "answer_text": "Rome",
-                            "is_correct": true
-                        }
-                    ],
-                    "mark": 5,
-                    "type": "multiple_choice"
-                },
-                {
-                    "question_text": "What is the capital of Greece?",
-                    "answers": [
-                        {
-                            "answer_text": "London",
-                            "is_correct": false
-                        },
-                        {
-                            "answer_text": "Athens",
-                            "is_correct": true
-                        },
-                        {
-                            "answer_text": "Berlin",
-                            "is_correct": false
-                        },
-                        {
-                            "answer_text": "Rome",
-                            "is_correct": true
-                        }
-                    ],
-                    "mark": 5,
-                    "type": "multiple_choice"
-                },
-                {
-                    "question_text": "Mention 3 cities in Egypt?",
-                    "answers": [
-                        {
-                            "guide_answer": "Cairo, Giza and Alexandria"
-                        }
-                    ],
-                    "mark": 10,
-                    "type": "essay"
-                }
-            ]
-        }
-    ],
-    "assignments": [
-        {
-            "id": "1",
-            "title": "Homework 1",
-            "duration": 0,
-            "course_id": "1",
-            "marks": 40,
-            "questions": [
-                {
-                    "question_text": "What is the capital of France?",
-                    "answers": [
-                        {
-                            "answer_text": "Paris",
-                            "is_correct": true
-                        },
-                        {
-                            "answer_text": "London",
-                            "is_correct": false
-                        },
-                        {
-                            "answer_text": "Berlin",
-                            "is_correct": false
-                        },
-                        {
-                            "answer_text": "Madrid",
-                            "is_correct": false
-                        }
-                    ],
-                    "mark": 5,
-                    "type": "multiple_choice"
-                },
-                {
-                    "question_text": "What is the capital of Spain?",
-                    "answers": [
-                        {
-                            "answer_text": "France",
-                            "is_correct": false
-                        },
-                        {
-                            "answer_text": "London",
-                            "is_correct": false
-                        },
-                        {
-                            "answer_text": "Berlin",
-                            "is_correct": false
-                        },
-                        {
-                            "answer_text": "Madrid",
-                            "is_correct": true
-                        }
-                    ],
-                    "mark": 5,
-                    "type": "multiple_choice"
-                },
-                {
-                    "question_text": "What is the capital of Germany?",
-                    "answers": [
-                        {
-                            "answer_text": "Paris",
-                            "is_correct": false
-                        },
-                        {
-                            "answer_text": "London",
-                            "is_correct": false
-                        },
-                        {
-                            "answer_text": "Berlin",
-                            "is_correct": true
-                        },
-                        {
-                            "answer_text": "Madrid",
-                            "is_correct": false
-                        }
-                    ],
-                    "mark": 5,
-                    "type": "multiple_choice"
-                },
-                {
-                    "question_text": "What is the capital of Italy?",
-                    "answers": [
-                        {
-                            "answer_text": "Paris",
-                            "is_correct": false
-                        },
-                        {
-                            "answer_text": "London",
-                            "is_correct": false
-                        },
-                        {
-                            "answer_text": "Berlin",
-                            "is_correct": false
-                        },
-                        {
-                            "answer_text": "Rome",
-                            "is_correct": true
-                        }
-                    ],
-                    "mark": 5,
-                    "type": "multiple_choice"
-                },
-                {
-                    "question_text": "What is the capital of Portugal?",
-                    "answers": [
-                        {
-                            "answer_text": "Lisbon",
-                            "is_correct": true
-                        },
-                        {
-                            "answer_text": "London",
-                            "is_correct": false
-                        },
-                        {
-                            "answer_text": "Berlin",
-                            "is_correct": false
-                        },
-                        {
-                            "answer_text": "Rome",
-                            "is_correct": true
-                        }
-                    ],
-                    "mark": 5,
-                    "type": "multiple_choice"
-                },
-                {
-                    "question_text": "What is the capital of Greece?",
-                    "answers": [
-                        {
-                            "answer_text": "London",
-                            "is_correct": false
-                        },
-                        {
-                            "answer_text": "Athens",
-                            "is_correct": true
-                        },
-                        {
-                            "answer_text": "Berlin",
-                            "is_correct": false
-                        },
-                        {
-                            "answer_text": "Rome",
-                            "is_correct": true
-                        }
-                    ],
-                    "mark": 5,
-                    "type": "multiple_choice"
-                },
-                {
-                    "question_text": "Mention 3 cities in Egypt?",
-                    "answers": [
-                        {
-                            "guide_answer": "Cairo, Giza and Alexandria"
-                        }
-                    ],
-                    "mark": 10,
-                    "type": "essay"
-                }
-            ]
-        }
-    ],
-    "messages": [
-        {
-            "id": "75b5",
-            "email": "ahmodywaelsafy@gmail.com",
-            "message": "This is a test message"
-        },
-        {
-            "id": "e3f9",
-            "email": "ahmodywaelsafy@gmail.com",
-            "message": "This is a test message",
-            "created_at": "2025-08-07T12:06:01.441Z"
-        },
-        {
-            "id": "b895",
-            "email": "demo@scan2eat.com",
-            "message": "This is a test message",
-            "created_at": "2025-08-07T12:06:24.236Z"
-        },
-        {
-            "id": "d259",
-            "email": "johndoe@gmail.com",
-            "message": "This is a test message",
-            "created_at": "2025-08-07T12:07:04.089Z"
-        },
-        {
-            "id": "a502",
-            "email": "johndoe@gmail.com",
-            "message": "This is a test message",
-            "created_at": "2025-08-07T12:08:04.516Z"
-        },
-        {
-            "id": "5022",
-            "email": "johndoe@gmail.com",
-            "message": "This is a test message",
-            "created_at": "2025-08-07T12:08:06.793Z"
-        },
-        {
-            "id": "0e1e",
-            "email": "johndoe@gmail.com",
-            "message": "This is a test message from John Doe",
-            "created_at": "2025-08-07T12:09:52.897Z"
-        }
-    ],
-    "tasks": [
-        {
-            "id": "e3f9",
-            "user_id": "u1",
-            "tasks": []
-        }
-    ],
-    "notes": [
-        {
-            "id": "e3f1",
-            "user_id": "qgB1In",
-            "notes": [
-                {
-                    "id": "qB1O",
-                    "title": "Ahmed Wael",
-                    "category": "Math",
-                    "content": "<p>This is a note\t</p>",
-                    "color": "yellow",
-                    "created_at": "2025-08-11T14:52:05.977Z"
-                }
-            ]
-        }
-    ]
+      ]
+    }
+  ],
+  "notes": [
+    {
+      "id": "e3f1",
+      "user_id": "qgB1In",
+      "notes": []
+    }
+  ]
 }

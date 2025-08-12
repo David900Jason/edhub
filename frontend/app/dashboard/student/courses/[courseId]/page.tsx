@@ -10,7 +10,7 @@ import Tag from "@/components/ui/Tag";
 
 import { getCourse } from "@/lib/api/course";
 import { getTeacherById } from "@/lib/api/user";
-import { getVideosByCourseId } from "@/lib/api/video";
+import { getVideosById, getVideoById } from "@/lib/api/video";
 import { getBooksByCourseId } from "@/lib/api/book";
 import { getAssignmentsByCourseId } from "@/lib/api/exam";
 import { getExamsByCourseId } from "@/lib/api/exam";
@@ -18,6 +18,7 @@ import { Award, Book, BookTypeIcon, Download, Video } from "lucide-react";
 import Image from "next/image";
 
 import { format } from "timeago.js";
+import Link from "next/link";
 
 const PrivateCoursePage = async ({
     params,
@@ -33,7 +34,7 @@ const PrivateCoursePage = async ({
     const teacher = await getTeacherById(teacher_id || "");
 
     // Fetch the rest of the content
-    const videos: Video[] = await getVideosByCourseId(courseId);
+    const videos: Video[] = await getVideosById(courseId);
     const books: Book[] = await getBooksByCourseId(courseId);
     const assignments: Exam[] = await getAssignmentsByCourseId(courseId);
     const exams: Exam[] = await getExamsByCourseId(courseId);
@@ -96,7 +97,11 @@ const PrivateCoursePage = async ({
                                                         className="mt-2"
                                                         variant="outline"
                                                     >
-                                                        Watch Video
+                                                        <Link
+                                                            href={`/dashboard/student/courses/${courseId}/videos/${id}`}
+                                                        >
+                                                            Watch Video
+                                                        </Link>
                                                     </Button>
                                                 </CardContent>
                                             </Card>

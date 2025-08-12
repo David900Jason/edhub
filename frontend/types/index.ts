@@ -157,3 +157,16 @@ declare interface Exam {
         type: string;
     }[];
 }
+
+declare interface Question {
+    id: string;
+    user_id: string;
+    video_id: string;
+    question_text: string;
+    reply: {
+        answer_text: string;
+        teacher_id: string;
+        created_at: string;
+    };
+    created_at: string;
+}

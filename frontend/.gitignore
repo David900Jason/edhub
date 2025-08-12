@@ -15,7 +15,7 @@
 
 # next.js
 /.next/
-frontend/*
+/backend/
 
 # production
 /build/

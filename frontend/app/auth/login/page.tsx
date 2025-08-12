@@ -11,6 +11,7 @@ import Link from "next/link";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 interface LoginFormData {
     email: string;
@@ -29,33 +30,22 @@ const Login = () => {
 
     const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
         // Delay the function with a promise for 2 seconds
-        await new Promise((resolve) => setTimeout(resolve, 2000));
+        await new Promise((resolve) => setTimeout(resolve, 1000));
 
         if (!isValid) {
             return;
         }
 
-        try {
-            const res = await fetch("/api/auth/", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-            });
-            const user = await res.json();
+        const response = await axios.post("/api/auth/", data);
+        const user = response.data[0];
 
-            if (!res.ok) {
-                throw new Error(user.error || "Login failed");
-            }
-
-            // Store user data in localstorage
-            localStorage.setItem("user", JSON.stringify(user));
-
-            router.push("/");
-        } catch (error) {
-            console.error("Login error:", error);
+        if (!user) {
+            return;
         }
+
+        // Store user data in localstorage
+        localStorage.setItem("user", JSON.stringify(user));
+        router.push("/");
     };
 
     return (

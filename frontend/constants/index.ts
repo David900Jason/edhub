@@ -14,6 +14,7 @@ import {
     DollarSign,
     Pen,
     List,
+    Users,
 } from "lucide-react";
 
 const navLinks = [
@@ -114,6 +115,11 @@ const dashboardLinks = [
         title: "My Courses",
         href: "/dashboard/student/courses",
         icon: BookOpen,
+    },
+    {
+        title: "Teachers",
+        href: "/dashboard/student/teachers",
+        icon: Users,
     },
     {
         title: "Subscriptions",

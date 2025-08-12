@@ -1,32 +1,30 @@
-import { NextResponse } from "next/server";
+import api from "@/lib/api";
 import { getUserByEmailAndPassword } from "@/lib/api/auth";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
     try {
-        // Request
         const body = await req.json();
         const { email, password } = body;
         const user = await getUserByEmailAndPassword({ email, password });
-
-        // Response
         if (!user) {
-            throw new Error("User not found");
+            return NextResponse.json(
+                { error: "User not found" },
+                { status: 404 },
+            );
         }
-        console.log("User found:", user);
 
-        // Store user session in http-only cookie
-        const response = NextResponse.json(user);
-        response.cookies.set({
-            name: "user",
-            value: JSON.stringify(user),
+        // Set User in an http-only cookie
+        const response = NextResponse.json({ success: true });
+        response.cookies.set("user_token", JSON.stringify(user), {
             httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
             sameSite: "strict",
-            maxAge: 60 * 60 * 24 * 7,
             path: "/",
-            secure: true,
+            maxAge: 60 * 60, // 1 hour
         });
-
-        return response;
+        
+        return NextResponse.json(user);
     } catch (error) {
         console.error(error);
         return NextResponse.json(

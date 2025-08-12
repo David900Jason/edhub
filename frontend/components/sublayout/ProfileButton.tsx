@@ -27,7 +27,7 @@ const ProfileButton = ({ user }: { user: UserType }) => {
                         className="rounded-full border object-cover shadow"
                     />
                     <span className="text-sm font-bold">
-                        Hi, {user.full_name}
+                        Hi, {user?.full_name}
                     </span>
                 </div>
             </DropdownMenuTrigger>

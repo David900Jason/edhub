@@ -47,12 +47,12 @@ const updateUserActivation = async (userId: string) => {
     }
 };
 
-const getUserByEmailAndPassword = async (data: { email: string; password: string }) => {
+const getUserByEmailAndPassword = async (data: { email: string; password: string }): Promise<UserType | null> => {
     try {
         const res = await axios.get(
             `http://localhost:8000/users?email=${data.email}&password=${data.password}`,
         );
-        return res.data[0];
+        return res.data;
     } catch (error: unknown) {
         console.error(error);
         return null;
