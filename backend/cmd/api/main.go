@@ -111,6 +111,27 @@ func main() {
 		{
 			teacher.GET("/activity/:student_id", controllers.GetStudentActivity)
 		}
+
+		// Video Comments
+		comments := protected.Group("/comments")
+		{
+			comments.POST("/video", middleware.RequireRole("student"), controllers.CreateVideoComment)
+			comments.POST("/:comment_id/reply", middleware.RequireRole("teacher"), controllers.CreateTeacherReply)
+			comments.GET("/video/:item_id", controllers.GetVideoComments)
+			comments.DELETE("/:comment_id", controllers.DeleteVideoComment)
+		}
+
+		// Student Notes
+		notes := protected.Group("/notes")
+		notes.Use(middleware.RequireRole("student"))
+		{
+			notes.POST("", controllers.CreateStudentNote)
+			notes.GET("", controllers.GetStudentNotes)
+			notes.GET("/:note_id", controllers.GetStudentNote)
+			notes.PUT("/:note_id", controllers.UpdateStudentNote)
+			notes.DELETE("/:note_id", controllers.DeleteStudentNote)
+			notes.GET("/categories", controllers.GetNoteCategories)
+		}
 	}
 
 	// Start server

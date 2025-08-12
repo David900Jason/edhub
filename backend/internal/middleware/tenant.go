@@ -6,6 +6,7 @@ import (
 	"strings"
 	"sync"
 
+	"doroosy-backend/config"
 	"doroosy-backend/internal/db"
 	"github.com/gin-gonic/gin"
 )
@@ -17,21 +18,87 @@ var (
 
 func TenantMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		// Extract subdomain from Host header
-		tenantSlug := extractSubdomain(c.Request.Host)
-		
-		if tenantSlug == "" {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid subdomain"})
+		// Get config from context
+		cfg, exists := c.Get("config")
+		if !exists {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Configuration not found"})
 			c.Abort()
 			return
 		}
+		config := cfg.(*config.Config)
 
-		// Get tenant from cache or database
-		tenant, err := getTenantWithCache(c.Request.Context(), tenantSlug)
-		if err != nil {
-			c.JSON(http.StatusNotFound, gin.H{"error": "Tenant not found"})
-			c.Abort()
-			return
+		// Set API mode in context
+		c.Set("api_mode", config.APIMode)
+
+		var tenantSlug string
+		var tenantID int
+		host := c.Request.Host
+
+		// Skip tenant resolution for API subdomain health checks
+		if strings.HasPrefix(host, "api.") {
+			// For API subdomain, use simple mode logic or skip tenant entirely for health endpoints
+			if c.Request.URL.Path == "/health" {
+				c.Next()
+				return
+			}
+			
+			// For API subdomain, get tenant from headers/query in both modes
+			tenantSlug = c.GetHeader("X-Teacher-Slug")
+			if tenantSlug == "" {
+				tenantSlug = c.Query("teacher")
+			}
+			if tenantSlug == "" && config.APIMode == "simple" {
+				tenantSlug = "platform" // Default tenant for simple mode
+			}
+			
+			if tenantSlug != "" {
+				tenant, err := getTenantWithCache(c.Request.Context(), tenantSlug)
+				if err != nil {
+					tenantID = 1 // Default tenant ID
+				} else {
+					tenantID = int(tenant.ID)
+				}
+			} else if config.APIMode == "complete" {
+				c.JSON(http.StatusBadRequest, gin.H{"error": "Teacher slug required in complete mode"})
+				c.Abort()
+				return
+			}
+		} else if config.APIMode == "complete" {
+			// In complete mode with teacher subdomains, extract subdomain from Host header
+			tenantSlug = extractSubdomain(host)
+			
+			if tenantSlug == "" {
+				c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid subdomain"})
+				c.Abort()
+				return
+			}
+
+			// Get tenant from cache or database
+			tenant, err := getTenantWithCache(c.Request.Context(), tenantSlug)
+			if err != nil {
+				c.JSON(http.StatusNotFound, gin.H{"error": "Tenant not found"})
+				c.Abort()
+				return
+			}
+			tenantID = int(tenant.ID)
+		} else {
+			// Simple mode: use default tenant or from headers/query
+			tenantSlug = c.GetHeader("X-Teacher-Slug")
+			if tenantSlug == "" {
+				tenantSlug = c.Query("teacher")
+			}
+			if tenantSlug == "" {
+				tenantSlug = "platform" // Default tenant
+			}
+
+			// Try to get tenant, create default if needed
+			tenant, err := getTenantWithCache(c.Request.Context(), tenantSlug)
+			if err != nil {
+				// In simple mode, use a default tenant ID
+				tenantID = 1
+			} else {
+				tenantID = int(tenant.ID)
+			}
 		}
 
 		// Acquire a dedicated connection for this request
@@ -42,19 +109,21 @@ func TenantMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		// Set tenant context for RLS (convert int64 to int)
-		if err := db.SetTenantContext(c.Request.Context(), conn, int(tenant.ID)); err != nil {
-			conn.Release()
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to set tenant context"})
-			c.Abort()
-			return
+		// Set tenant context for RLS
+		if tenantID > 0 {
+			if err := db.SetTenantContext(c.Request.Context(), conn, tenantID); err != nil {
+				conn.Release()
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to set tenant context"})
+				c.Abort()
+				return
+			}
 		}
 
-		// Store tenant info and connection in context
-		c.Set("tenant", tenant)
-		c.Set("tenant_id", int(tenant.ID))
-		c.Set("tenant_slug", tenant.Slug)
+		// Store common info in context
+		c.Set("tenant_slug", tenantSlug)
+		c.Set("tenant_id", tenantID)
 		c.Set("db_conn", conn)
+		c.Set("api_mode", config.APIMode)
 
 		// Ensure connection is released after request
 		defer conn.Release()

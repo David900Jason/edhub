@@ -22,6 +22,7 @@ type Config struct {
 	// Server
 	Port           string
 	Environment    string
+	APIMode        string // "simple" or "complete" - controls subdomain behavior
 	
 	// File Storage
 	S3Bucket       string
@@ -54,6 +55,7 @@ func LoadConfig() (*Config, error) {
 		// Server
 		Port:           getEnv("PORT", "8080"),
 		Environment:    getEnv("ENVIRONMENT", "development"),
+		APIMode:        getEnv("API_MODE", "simple"), // default to simple mode
 		
 		// File Storage
 		S3Bucket:       getEnv("S3_BUCKET", ""),
