@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from users.views import UserListView, UserMeView, TeacherDetailView
+from users.views import UserListView, UserMeView, TeacherDetailView, UserDetailView, UserDeactivateView
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -28,6 +28,8 @@ urlpatterns = [
     path('api/auth/', include('users.urls')),
     path('api/users/', UserListView.as_view(), name="user-list"),
     path('api/user/me', UserMeView.as_view(), name="user-me"),
+    path('api/user/<uuid:pk>', UserDetailView.as_view(), name="user-detail"),
+    path('api/user/<uuid:pk>/deactivate', UserDeactivateView.as_view(), name="user-deactivate"),
     path('api/teacher/<uuid:pk>', TeacherDetailView.as_view(), name="teacher-detail"),
 
     # Courses API

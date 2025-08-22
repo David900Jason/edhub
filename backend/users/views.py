@@ -2,9 +2,12 @@
 from rest_framework import generics, permissions, viewsets, status
 from rest_framework.response import Response
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAdminUser
 from django.utils import timezone
+
+from users.permissions import IsAdminOrTeacher
 from .serializers import LoginSerializer, UserSerializer, UserCreateSerializer, TeacherPublicSerializer, ForgotPasswordSerializer
 from .models import User
 
@@ -50,6 +53,21 @@ class UserListView(generics.ListAPIView):
 
         else:
             raise PermissionDenied("Your role is not allowed to view users.")
+
+class UserDetailView(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    lookup_field = "pk"  # UUID lookup
+    permission_classes = [permissions.IsAuthenticated]  # only logged-in students can access
+
+    def get_queryset(self):
+        """
+            Restrict teachers and admins to only viewing user by ID
+        """
+        user = self.request.user
+        if user.role == "teacher" or user.role == "admin":
+            return super().get_queryset()
+        return User.objects.none()  # deny access for non-teachers and non-admins
 
 class TeacherDetailView(generics.RetrieveAPIView):
     queryset = User.objects.filter(role="teacher")
@@ -116,6 +134,35 @@ class UserActivateView(generics.UpdateAPIView):
                 {"error": "User not found"},
                 status=status.HTTP_404_NOT_FOUND
             )
+
+class UserDeactivateView(APIView):
+    permission_classes = [IsAdminOrTeacher]
+
+    def delete(self, request, pk):
+        """
+        Soft delete (deactivate) a student user.
+        """
+        user = generics.get_object_or_404(User, pk=pk)
+
+        if user.role != "student":
+            return Response(
+                {"detail": "❌ Only students can be deactivated."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if not user.is_active:
+            return Response(
+                {"detail": "⚠️ User is already inactive."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        user.is_active = False
+        user.save()
+
+        return Response(
+            {"detail": f"✅ User {user.email} has been successfully deactivated."},
+            status=status.HTTP_200_OK
+        )
 
 class ForgotPasswordView(generics.GenericAPIView):
     serializer_class = ForgotPasswordSerializer
