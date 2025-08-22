@@ -1,19 +1,19 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext_lazy as _
-from .models import User
 from courses.models import Video, Book, Question, Exam, Quiz, Assignment, Course
+from .models import User
 
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
     list_display = (
         "id", "full_name", "email", "role",
-        "phone_number", "parent_number", "school_year", "birth_date",
+        "phone_number", "parent_number", "birth_date",
         "city", "is_active", "is_verified",
         "last_login", "created_at", "updated_at",
     )
-    list_filter = ("role", "is_active", "is_verified", "city", "school_year")
+    list_filter = ("role", "is_active", "is_verified", "city")
     search_fields = ("full_name", "email", "phone_number", "parent_number", "city")
     ordering = ("-created_at",)
 
@@ -24,7 +24,7 @@ class UserAdmin(BaseUserAdmin):
         (None, {"fields": ("email", "password")}),
         (_("Personal Info"), {
             "fields": (
-                "full_name", "phone_number", "parent_number", "school_year",
+                "full_name", "phone_number", "parent_number",
                 "birth_date", "city"
             )
         }),
@@ -42,7 +42,7 @@ class UserAdmin(BaseUserAdmin):
             "classes": ("wide",),
             "fields": (
                 "email", "full_name", "password1", "password2", "role",
-                "phone_number", "parent_number", "school_year", "birth_date", "city",
+                "phone_number", "parent_number", "birth_date", "city",
                 "is_active", "is_verified"
             ),
         }),

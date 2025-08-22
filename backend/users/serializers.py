@@ -11,8 +11,7 @@ class TeacherPublicSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id", "full_name", "email", "phone_number", "parent_number", "city", "school_year", "birth_date", "role", "is_active", "is_verified", "last_login", "created_at", "updated_at"]
-        # exclude = ["password", "groups", "user_permissions", "is_staff", "is_superuser"]  # don’t expose hash
+        fields = ["id", "full_name", "email", "phone_number", "parent_number", "city", "birth_date", "role", "is_active", "is_verified", "last_login", "created_at", "updated_at"]
         read_only_fields = ["is_staff", "is_superuser", "groups", "user_permissions"]
 
 class UserCreateSerializer(serializers.ModelSerializer):
@@ -20,7 +19,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["id", "full_name", "email", "password", "role", "phone_number", "parent_number", "city", "school_year", "birth_date"]
+        fields = ["id", "full_name", "email", "password", "role", "phone_number", "parent_number", "city", "birth_date"]
 
     def create(self, validated_data):
         password = validated_data.pop("password")

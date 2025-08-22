@@ -1,8 +1,6 @@
 import uuid
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.db import models
-from django.utils import timezone
-from django.core.validators import MinValueValidator, MaxValueValidator
 
 class UserManager(BaseUserManager):
     def create_user(self, email, full_name, password=None, **extra_fields):
@@ -42,7 +40,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     city = models.CharField(max_length=100, blank=True, null=True)
 
     # --- Education ---
-    school_year = models.IntegerField(default=3, validators=[MinValueValidator(1), MaxValueValidator(3)])  # [1,2,3]
     birth_date = models.DateField(blank=True, null=True)
 
     # --- Status ---
@@ -52,7 +49,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     # --- Timestamps ---
     last_login = models.DateTimeField(blank=True, null=True)
-    created_at = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     # --- Manager ---
