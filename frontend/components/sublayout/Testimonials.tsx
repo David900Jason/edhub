@@ -1,49 +1,63 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
 import SectionHeading from "./SectionHeading";
 import TestimonialCard from "../cards/TestimonialCard";
+import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
-import { reviews } from "@/constants";
-import { cn, getRandomValue } from "@/lib/utils";
+const TESTIMONIAL_KEYS = [
+    "STUDENT_1",
+    "STUDENT_2",
+    "STUDENT_3",
+    "STUDENT_4",
+    "STUDENT_5",
+    "STUDENT_6",
+];
 
 const Testimonials = () => {
-    const [testimonial, setTestimonial] = useState(reviews[0]);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const t = useTranslations("HOME");
 
-    // Randomly choose a testimonial every 1000ms
+    // Cycle through testimonials every 3 seconds
     useEffect(() => {
         const intervalId = setInterval(() => {
-            const randomIndex = getRandomValue(reviews.length);
-            setTestimonial(reviews[randomIndex]);
+            setCurrentIndex((prev) => (prev + 1) % TESTIMONIAL_KEYS.length);
         }, 3000);
         return () => clearInterval(intervalId);
     }, []);
 
+    const currentStudent = TESTIMONIAL_KEYS[currentIndex];
+
     return (
-        <>
-            <SectionHeading title="Reviews" />
-            <div className="mx-auto flex flex-col gap-8 px-16">
-                {/* Testimonial Card */}
-                <div className="flex flex-2/3 items-center justify-center">
-                    <TestimonialCard review={testimonial} />
-                </div>
-                <div className="bullets flex items-center justify-center gap-2">
-                    {reviews.map((review, index) => (
-                        <div
-                            key={index}
-                            onClick={() => setTestimonial(review)}
-                            className={cn(
-                                "hover:bg-primary-foreground flex aspect-square w-6 cursor-pointer items-center justify-center rounded-full border-1",
-                                review.name === testimonial.name
-                                    ? "bg-primary border-0"
-                                    : "border-slate-400",
-                            )}
-                        ></div>
-                    ))}
+        <section className="py-16" id="testimonials">
+            <div className="container mx-auto px-4">
+                <SectionHeading title={t("TESTIMONIALS.title")} />
+                <div className="mx-auto flex flex-col gap-8">
+                    <div className="flex flex-2/3 items-center justify-center">
+                        <TestimonialCard 
+                            studentKey={currentStudent} 
+                            index={currentIndex} 
+                        />
+                    </div>
+                    <div className="bullets flex items-center justify-center gap-2">
+                        {TESTIMONIAL_KEYS.map((student, index) => (
+                            <button
+                                key={student}
+                                onClick={() => setCurrentIndex(index)}
+                                className={cn(
+                                    "aspect-square w-4 cursor-pointer rounded-full transition-all",
+                                    index === currentIndex 
+                                        ? "w-6 bg-primary" 
+                                        : "bg-slate-300 hover:bg-slate-400"
+                                )}
+                                aria-label={`View testimonial ${index + 1}`}
+                            />
+                        ))}
+                    </div>
                 </div>
             </div>
-        </>
+        </section>
     );
 };
 

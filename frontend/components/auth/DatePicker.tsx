@@ -10,10 +10,12 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { ChevronDownIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 function DatePicker({ date, setDate }: { date: Date | null; setDate: (date: Date | null) => void }) {
     const [open, setOpen] = useState(false);
     const [isClient, setIsClient] = useState(false);
+    const t = useTranslations("AUTH_FORMS");
 
     useEffect(() => {
         setIsClient(true);
@@ -28,7 +30,7 @@ function DatePicker({ date, setDate }: { date: Date | null; setDate: (date: Date
     return (
         <div className="input-group">
             <Label htmlFor="date" className="mb-2">
-                Date of birth
+                {t("SIGN_UP.DATE_OF_BIRTH.label")}
             </Label>
             <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger className="w-full" asChild>
@@ -37,7 +39,7 @@ function DatePicker({ date, setDate }: { date: Date | null; setDate: (date: Date
                         id="date"
                         className="w-full justify-between font-normal text-gray-500"
                     >
-                        {isClient && date ? formatDate(date) : "Select date"}
+                        {isClient && date ? formatDate(date) : t("SIGN_UP.DATE_OF_BIRTH.placeholder")}
                         <ChevronDownIcon />
                     </Button>
                 </PopoverTrigger>

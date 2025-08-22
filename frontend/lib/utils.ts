@@ -44,3 +44,43 @@ export function generateId(length: number): string {
     }
     return result;
 }
+
+/**
+ * Formats time in seconds to HH:MM:SS or MM:SS format
+ * @param totalSeconds - Total seconds to format
+ * @returns Formatted time string
+ */
+export function formatTime(seconds: number) {
+    const m = String(Math.floor(seconds / 60)).padStart(2, "0");
+    const s = String(seconds % 60).padStart(2, "0");
+    return `${m}:${s}`;
+}
+
+export function startCountdown(minutes: number, onTick: (time: string) => void, onComplete?: () => void) {
+    let totalSeconds = minutes * 60;
+
+    function formatTime(seconds: number) {
+        const m = String(Math.floor(seconds / 60)).padStart(2, "0");
+        const s = String(seconds % 60).padStart(2, "0");
+        return `${m}:${s}`;
+    }
+
+    // Send initial time immediately
+    onTick(formatTime(totalSeconds));
+
+    const interval = setInterval(() => {
+        totalSeconds--;
+
+        if (totalSeconds <= 0) {
+            clearInterval(interval);
+            onTick("00:00");
+            if (onComplete) onComplete();
+            return;
+        }
+
+        onTick(formatTime(totalSeconds));
+    }, 1000);
+
+    // Return a function to stop the timer manually
+    return () => clearInterval(interval);
+}

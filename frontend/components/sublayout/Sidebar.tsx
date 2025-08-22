@@ -1,10 +1,10 @@
 "use client";
 
 import { Button } from "../ui/button";
-import { GraduationCap, LogOut, User, MoonStar, Settings } from "lucide-react";
+import { LogOut, User, MoonStar, Settings, Globe, Check } from "lucide-react";
 import { dashboardLinks } from "@/constants";
-import { usePathname } from "next/navigation";
-import Link from "next/link";
+import { Link, usePathname, useRouter } from "@/i18n/routing";
+import { useLocale, useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import {
     DropdownMenu,
@@ -13,21 +13,47 @@ import {
     DropdownMenuSeparator,
     DropdownMenuShortcut,
     DropdownMenuTrigger,
+    DropdownMenuSub,
+    DropdownMenuSubContent,
+    DropdownMenuSubTrigger,
 } from "../ui/dropdown-menu";
 import { useTheme } from "next-themes";
+import Image from "next/image";
+
+const DASH_SIDEBAR_LINKS = [
+    "link1",
+    "link2",
+    "link3",
+    "link4",
+    "link5",
+    "link6",
+];
 
 const Sidebar = () => {
     const pathname = usePathname();
+    const locale = useLocale();
+    const router = useRouter();
     const { theme, setTheme } = useTheme();
 
+    const t = useTranslations("STUDENT_DASHBOARD.SIDEBAR");
+
+    const switchTo = (locale: "en" | "ar") => {
+        router.push(pathname, { locale });
+    };
+
     return (
-        <div className="bg-primary sticky top-0 z-50 hidden h-screen w-64 flex-col justify-between sm:flex dark:bg-purple-950">
+        <div className="bg-primary flex-shrink-0 sticky top-0 z-50 hidden h-screen flex-1/5 flex-col justify-between sm:flex dark:bg-purple-950">
             <header>
                 <div className="flex items-center justify-between gap-3 p-4">
                     <div className="flex items-center gap-2">
-                        <GraduationCap size={42} className="text-secondary" />
+                        <Image
+                            src={"/logo.png"}
+                            width={60}
+                            height={60}
+                            alt="Logo"
+                        />
                         <h2 className="text-2xl font-bold text-white">
-                            <Link href="/">Doroosy</Link>
+                            <Link href="/">Edhub</Link>
                         </h2>
                     </div>
                 </div>
@@ -38,6 +64,7 @@ const Sidebar = () => {
                             index: number,
                         ) => {
                             const Icon: React.ElementType = icon;
+                            const t = useTranslations("S_DASH_SIDEBAR");
                             return (
                                 <li
                                     key={index}
@@ -54,7 +81,7 @@ const Sidebar = () => {
                                             size={24}
                                             className="text-purple-300"
                                         />
-                                        {title}
+                                        {t(DASH_SIDEBAR_LINKS[index])}
                                     </Link>
                                 </li>
                             );
@@ -70,26 +97,63 @@ const Sidebar = () => {
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="w-48">
-                        <DropdownMenuItem>
-                            <User size={20} /> Profile
+                        <DropdownMenuItem asChild>
+                            <Link href="/dashboard/student/profile">
+                                <span className="flex items-center gap-2">
+                                    <User size={20} /> {t("profile")}
+                                </span>
+                            </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem
                             onClick={() =>
                                 setTheme(theme === "dark" ? "light" : "dark")
                             }
+                            asChild
                         >
-                            <MoonStar size={20} /> Theme
-                            <DropdownMenuShortcut>
-                                {theme === "dark" ? "Dark" : "Light"}
-                            </DropdownMenuShortcut>
+                            <span className="flex items-center gap-2">
+                                <MoonStar size={20} /> {t("theme")}
+                                <DropdownMenuShortcut>
+                                    {theme === "dark" ? t("mode2") : t("mode1")}
+                                </DropdownMenuShortcut>
+                            </span>
                         </DropdownMenuItem>
+                        <DropdownMenuSub>
+                            <DropdownMenuSubTrigger>
+                                <Globe className="mr-2 h-4 w-4" />
+                                <span>{t("language")}</span>
+                            </DropdownMenuSubTrigger>
+                            <DropdownMenuSubContent>
+                                <DropdownMenuItem
+                                    onClick={() => switchTo("ar")}
+                                >
+                                    AR
+                                    {locale === "ar" && (
+                                        <Check className="ml-auto h-4 w-4" />
+                                    )}
+                                </DropdownMenuItem>
+                                <DropdownMenuItem
+                                    onClick={() => switchTo("en")}
+                                >
+                                    EN
+                                    {locale === "en" && (
+                                        <Check className="ml-auto h-4 w-4" />
+                                    )}
+                                </DropdownMenuItem>
+                            </DropdownMenuSubContent>
+                        </DropdownMenuSub>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>
+                        <DropdownMenuItem asChild>
                             <Link
-                                className="flex items-center gap-2"
+                                className="flex flex-1 items-center gap-2 !text-red-500 hover:!text-red-600"
                                 href="/auth/logout"
                             >
-                                <LogOut size={20} /> Logout
+                                <span className="flex items-center gap-2">
+                                    <LogOut
+                                        className="!text-red-500"
+                                        size={20}
+                                    />{" "}
+                                    {t("logout")}
+                                </span>
                             </Link>
                         </DropdownMenuItem>
                     </DropdownMenuContent>

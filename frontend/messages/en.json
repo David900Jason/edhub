@@ -1,0 +1,830 @@
+{
+    "NAVBAR": {
+        "PROFILE_STUDENT": {
+            "welcome": "Hi, ",
+            "DROPDOWN": {
+                "link1": "Dashboard",
+                "link2": "My Courses",
+                "link3": "Subscriptions",
+                "link4": "Todo List",
+                "link5": "Language",
+                "link6": "Theme",
+                "link7": "Logout",
+                "mode1": "Light",
+                "mode2": "Dark"
+            }
+        },
+        "PROFILE_TEACHER": {
+            "welcome": "Hi, ",
+            "DROPDOWN": {
+                "link1": "Dashboard",
+                "link2": "My Courses",
+                "link3": "Q&A",
+                "link4": "My Students",
+                "link5": "Language",
+                "link6": "Theme",
+                "link7": "Logout",
+                "mode1": "Light",
+                "mode2": "Dark"
+            }
+        },
+        "SIDEBAR": {
+            "title": "Actions",
+            "description": "Choose an action to continue.",
+            "mode1": "Light",
+            "mode2": "Dark"
+        },
+        "cta1": "Login",
+        "cta2": "Sign Up"
+    },
+    "STUDENT_DASHBOARD": {
+        "SIDEBAR": {
+            "profile": "Profile",
+            "theme": "Theme",
+            "mode1": "Light",
+            "mode2": "Dark",
+            "language": "Language",
+            "logout": "Logout"
+        },
+        "HOME_PAGE": {
+            "welcome": "Hi, ",
+            "description": "Welcome to your dashboard. Let's learn something new!",
+            "search_placeholder": "Search your courses...",
+            "card_title1": "Enrolled Courses",
+            "card_title2": "Questions asked",
+            "card_title3": "Average Score",
+            "card_title4": "Completed Videos",
+            "section_1": {
+                "title": "Recent Activities",
+                "description": "Check your recent activities"
+            },
+            "section_2": {
+                "title": "Leaderboard",
+                "description": "Check your leaderboard"
+            },
+            "section_3": {
+                "title": "Top 5 Courses",
+                "description": "A table your top 5 courses"
+            },
+            "coming_soon": "Coming soon"
+        },
+        "COURSES": {
+            "title": "Courses",
+            "description": "Check your courses",
+            "loading": "Loading...",
+            "search_placeholder": "Search your courses...",
+            "no_courses": "No courses found",
+            "by": "By",
+            "unknown_teacher": "Unknown Teacher",
+            "thumbnail_alt": "Course Thumbnail",
+            "cta1": "View Course",
+            "content": {
+                "videos": "Videos",
+                "views": "views",
+                "videos_tabs": {
+                    "description": "Description",
+                    "qa": "Q&A",
+                    "qa_placeholder": "Ask a question",
+                    "qa_cta": "Ask a question",
+                    "no_reply": "No reply yet",
+                    "resources": "Resources",
+                    "quiz": "Quizzes",
+                    "no_questions": "No questions found",
+                    "take_quiz": "Take Quiz",
+                    "no_quizzes": "No quizzes found",
+                    "loading_resources": "Loading Resources...",
+                    "loading_quizzes": "Loading Quizzes...",
+                    "no_books": "No books found"
+                },
+                "watch": "Watch Video",
+                "no_videos": "No videos found",
+                "books": "Books",
+                "no_books": "No books found",
+                "assignments": "Assignments",
+                "start_assignment": "Do Homework",
+                "no_assignments": "No assignments found",
+                "exams": "Exams",
+                "start_exam": "Start Exam",
+                "no_exams": "No exams found"
+            }
+        },
+        "TEACHERS": {
+            "title": "Teachers",
+            "description": "Check your teachers",
+            "not_found": "No courses found",
+            "loading": "Loading...",
+            "search_placeholder": "Search your teachers...",
+            "by": "By",
+            "cta1": "View Courses",
+            "cta2": "Back"
+        },
+        "SUBSCRIPTIONS": {
+            "title": "Your Subscriptions",
+            "description": "Manage your subscriptions and access your favorite content.",
+            "currency": "EGP",
+            "card1": "Wallet Balance",
+            "card2": "Total Courses",
+            "card3": "Average cost",
+            "card4": "Total Spent",
+            "card5": {
+                "title": "Billing History",
+                "description": "Check your billing history and manage your subscriptions.",
+                "table": {
+                    "head1": "Date",
+                    "head2": "Amount",
+                    "head3": "Course",
+                    "head4": "Teacher",
+                    "head5": "Amount",
+                    "head6": "Status",
+                    "caption": "A list of your subscriptions."
+                }
+            }
+        },
+        "TODO_LIST": {
+            "title": "My Tasks",
+            "no_tasks": "No tasks found",
+            "add_task_placeholder": "Add task",
+            "cta1": "Create Task"
+        },
+        "NOTES": {
+            "title": "My Notes",
+            "no_notes": "No notes yet",
+            "add_note_placeholder": "Add note",
+            "cta1": "Create Note",
+            "edit_note": "Edit Note",
+            "write_new_note": "Write new Note",
+            "new_note_title": "Title",
+            "new_note_category": "Category",
+            "new_note_color": "Color",
+            "new_note_content": "Content",
+            "new_note_cta": "Create Note"
+        }
+    },
+    "TEACHER_DASHBOARD": {
+        "HOME": {
+            "welcome": "Hi, ",
+            "description": "Welcome to your dashboard. Let's make magic!",
+            "card_title1": "Enrolled Students",
+            "card_title2": "Total Revenue",
+            "card_title3": "Videos Uploaded",
+            "card_title4": "Average Students score",
+            "section_1": {
+                "title": "Average Revenue",
+                "description": "Check how your platform did in the past months"
+            },
+            "section_2": {
+                "title": "Leaderboard",
+                "description": "Check your leaderboard"
+            },
+            "section_3": {
+                "title": "Students Exams Score",
+                "description": "Check how your students did in the past months"
+            },
+            "coming_soon": "Coming soon"
+        },
+        "COURSES": {
+            "title": "My Courses",
+            "description": "Manage your courses and track their performance",
+            "cta1": "View Students",
+            "cta2": "New Course",
+            "courses_table": {
+                "views": {
+                    "table": "Table view",
+                    "grid": "Grid view"
+                },
+                "columns": {
+                    "title": "Title",
+                    "category": "Category",
+                    "grade": "Grade",
+                    "rating": "Rating",
+                    "price": "Price",
+                    "created": "Created at"
+                },
+                "actions": {
+                    "new": "New Course",
+                    "edit": "Edit",
+                    "delete": "Delete",
+                    "view": "View",
+                    "assignments": "Assignments",
+                    "quizzes": "Quizzes"
+                },
+                "filter_placeholder": "Filter courses...",
+                "no_courses": "No courses found.",
+                "delete_confirm": "Are you sure you want to delete this course?",
+                "delete_success": "Course deleted successfully",
+                "delete_error": "Failed to delete course",
+                "currency": "EGP",
+                "free": "Free",
+                "paid": "Paid",
+                "published": "Published",
+                "draft": "Draft",
+                "view_details": "View details",
+                "edit_course": "Edit course",
+                "delete_course": "Delete course",
+                "view_assignments": "View assignments",
+                "view_quizzes": "View quizzes"
+            },
+            "link1": "View Assignments",
+            "link2": "View Quizzes",
+            "EDIT_COURSE": {
+                "title": "Edit Course",
+                "description": "Update the course details below",
+                "cta1": "Save changes",
+                "cta2": "Cancel",
+                "cta3": "Back to courses",
+                "label1": "Title",
+                "label2": "Category",
+                "label3": "Grade",
+                "label4": "Price (EGP)",
+                "label5": "Description"
+            }
+        },
+        "STUDENTS": {
+            "title": "My Students",
+            "description": "View and manage your students across all courses",
+            "search_placeholder": "Search All students",
+            "filter_columns_btn": "Columns",
+            "students_table": {
+                "head1": "Name",
+                "head2": "Amount",
+                "head3": "Questions",
+                "head4": "Avg. Score",
+                "head5": "Courses",
+                "head6": "Videos",
+                "head7": "Exams",
+                "head8": "Joined at",
+                "head9": "Parent's Number",
+                "currency": "EGP"
+            }
+        },
+        "VIDEOS": {
+            "title": "My Videos",
+            "description": "Manage your videos and track their performance",
+            "upload_btn": "Upload Video",
+            "search_placeholder": "Search videos...",
+            "no_videos": "No videos uploaded yet",
+            "NEW_VIDEO": {
+                "title": "Upload new video",
+                "description": "Add a new video to your courses",
+                "label1": "Title",
+                "label1_cap": "Enter the title of the video",
+                "label2": "Description",
+                "label2_cap": "Enter the description of the video",
+                "label4": "Course",
+                "label4_cap": "Select the course for the video",
+                "label5": "Tags",
+                "label5_cap": "Add tags to help students find your video",
+                "label6": "Publish video",
+                "label6_cap": "This video will be visible to students if published",
+                "label7": "Video File",
+                "label7_cap": "Select a video file",
+                "label8": "Thumbnail (Optional)",
+                "label8_cap": "Select a thumbnail",
+                "cta1": "Upload Video",
+                "cta2": "Cancel"
+            }
+        },
+        "Q&A": {
+            "title": "Students Questions",
+            "description": "View and reply to student questions",
+            "search_placeholder": "Search questions ...",
+            "no_qa": "No questions yet",
+            "no_qa2": "Student questions will appear here when they ask about videos."
+        },
+        "ASSIGNMENTS": {
+            "title": "My Assignments",
+            "description": "Manage your assignments",
+            "cta1": "Create new Assignment",
+            "search_placeholder": "Search assignments...",
+            "assignments_table": {
+                "head1": "Title",
+                "head2": "Course",
+                "head3": "Marks",
+                "head4": "Created at",
+                "head5": "Questions",
+                "head6": "Actions",
+                "currency": "EGP",
+                "questions": "Questions"
+            },
+            "QUESTIONS": {
+                "title": "'s Questions",
+                "description": "Manage assignment questions",
+                "cta": "Add Question",
+                "cta2": "Delete Question",
+                "cta3": "Cancel",
+                "options": "options",
+                "question_type": [
+                    "Multiple Choice Question",
+                    "Essay Question",
+                    "Model Answer",
+                    "No model answer provided",
+                    "No questions yet",
+                    "Get started by adding your first question.",
+                    "Are you sure?",
+                    "This Action can't be undone"
+                ],
+                "EDIT_QUESTION": {
+                    "back": "Back to Questions",
+                    "title": "Edit question",
+                    "label1": "Question Type",
+                    "option1": "Multiple Choice",
+                    "option2": "Essay",
+                    "label2": "Question Text",
+                    "label2_cap": "Enter the question text",
+                    "label3": "Marks",
+                    "label4": "Answers",
+                    "label4_alt": "Model Answer",
+                    "label4_cap": "Enter the model answer",
+                    "cta3": "Add Answer",
+                    "cta1": "Save changes",
+                    "cta2": "Cancel"
+                },
+                "NEW_QUESTION": {
+                    "back": "Back to Questions",
+                    "title": "Create a Question",
+                    "description": "Add a new question to your assignment",
+                    "label1": "Question Type",
+                    "option1": "Multiple Choice",
+                    "option2": "Essay",
+                    "label2": "Question Text",
+                    "label2_cap": "Enter the question text",
+                    "label3": "Marks",
+                    "label4": "Answers",
+                    "label4_alt": "Model Answer",
+                    "label4_cap": "Enter the model answer",
+                    "answer1": "Answer 1",
+                    "answer2": "Answer 2",
+                    "answer3": "Answer 3",
+                    "answer4": "Answer 4",
+                    "cta3": "Add Question",
+                    "cta1": "Create new Question",
+                    "cta2": "Cancel"
+                }
+            },
+            "NEW_ASSIGNMENT": {
+                "back": "Back to Assignments",
+                "title": "Create your account",
+                "description": "Create a new assignment for your students.",
+                "label1": "Title",
+                "label1_cap": "Enter the title of the assignment",
+                "label2": "Description",
+                "label2_cap": "Enter the description of the assignment",
+                "label3": "Marks",
+                "label3_cap": "Enter the marks of the assignment",
+                "label4": "Course",
+                "label4_cap": "Select the course for the assignment",
+                "cta1": "Create Assignment",
+                "cta2": "Cancel"
+            },
+            "EDIT_ASSIGNMENT": {
+                "back": "Back to Assignments",
+                "title": "Title",
+                "description": "Description",
+                "marks": "Marks",
+                "course": "Course",
+                "cta1": "Save changes",
+                "cta2": "Cancel"
+            }
+        },
+        "EXAMS": {
+            "title": "My Exams",
+            "description": "Manage your exams and questions",
+            "search_placeholder": "Search exams...",
+            "exams_table": {
+                "head1": "Title",
+                "head2": "Duration (min.)",
+                "head3": "Created at",
+                "head4": "Marks",
+                "head5": "Questions",
+                "head6": "Actions",
+                "currency": "EGP",
+                "questions": "Questions"
+            },
+            "cta1": "Create new Exam",
+            "QUESTIONS": {
+                "title": "'s Questions",
+                "description": "Manage exam questions",
+                "cta": "Add Question",
+                "cta2": "Delete Question",
+                "cta3": "Cancel",
+                "options": "options",
+                "question_type": [
+                    "Multiple Choice Question",
+                    "Essay Question",
+                    "Model Answer",
+                    "No model answer provided",
+                    "No questions yet",
+                    "Get started by adding your first question.",
+                    "Are you sure?",
+                    "This Action can't be undone"
+                ],
+                "EDIT_QUESTION": {
+                    "back": "Back to Questions",
+                    "title": "Edit question",
+                    "label1": "Question Type",
+                    "option1": "Multiple Choice",
+                    "option2": "Essay",
+                    "label2": "Question Text",
+                    "label2_cap": "Enter the question text",
+                    "label3": "Marks",
+                    "label4": "Answers",
+                    "label4_alt": "Model Answer",
+                    "label4_cap": "Enter the model answer",
+                    "answer1": "Answer 1",
+                    "answer2": "Answer 2",
+                    "answer3": "Answer 3",
+                    "answer4": "Answer 4",
+                    "cta3": "Add Answer",
+                    "cta1": "Save changes",
+                    "cta2": "Cancel"
+                },
+                "NEW_QUESTION": {
+                    "back": "Back to Questions",
+                    "title": "Create a Question",
+                    "description": "Add a new question to your exam",
+                    "label1": "Question Type",
+                    "option1": "Multiple Choice",
+                    "option2": "Essay",
+                    "label2": "Question Text",
+                    "label2_cap": "Enter the question text",
+                    "label3": "Marks",
+                    "label4": "Answers",
+                    "label4_alt": "Model Answer",
+                    "label4_cap": "Enter the model answer",
+                    "answer1": "Answer 1",
+                    "answer2": "Answer 2",
+                    "answer3": "Answer 3",
+                    "answer4": "Answer 4",
+                    "cta3": "Add Answer",
+                    "cta1": "Create new Question",
+                    "cta2": "Cancel"
+                }
+            },
+            "NEW_EXAM": {
+                "back": "Back to Exams",
+                "title": "Create your account",
+                "description": "Create a new exam for your students.",
+                "label1": "Title",
+                "label1_cap": "Enter the title of the exam",
+                "label2": "Duration (min.)",
+                "label2_cap": "Enter the description of the exam",
+                "label3": "Marks",
+                "label3_cap": "Enter the marks of the exam",
+                "label4": "Course",
+                "label4_cap": "Select the course for the exam",
+                "cta1": "Create Exam",
+                "cta2": "Cancel"
+            },
+            "EDIT_EXAM": {
+                "back": "Back to Exams",
+                "title": "Edit Exam",
+                "description": "Edit exam details and questions",
+                "label1": "Title",
+                "label1_cap": "Enter the title of the exam",
+                "label2": "Description",
+                "label2_cap": "Enter the description of the exam",
+                "label3": "Duration (min.)",
+                "label3_cap": "Enter the duration of the exam",
+                "label4": "Marks",
+                "label4_cap": "Enter the marks of the exam",
+                "label5": "Course",
+                "label5_cap": "Select the course for the exam",
+                "cta1": "Save changes",
+                "cta2": "Cancel"
+            }
+        },
+        "QUIZZES": {
+            "title": "My Quizzes",
+            "description": "Manage your quizzes",
+            "cta1": "Create new Quiz",
+            "search_placeholder": "Search quizzes...",
+            "quizzes_table": {
+                "head1": "Title",
+                "head2": "Course",
+                "head3": "Duration (min.)",
+                "head4": "Marks",
+                "head5": "Created at",
+                "head6": "Questions",
+                "head7": "Actions",
+                "currency": "EGP",
+                "questions": "Questions"
+            },
+            "QUESTIONS": {
+                "title": "'s Questions",
+                "description": "Manage quiz questions",
+                "cta": "Add Question",
+                "cta2": "Delete Question",
+                "cta3": "Cancel",
+                "options": "options",
+                "question_type": [
+                    "Multiple Choice Question",
+                    "Essay Question",
+                    "Model Answer",
+                    "No model answer provided",
+                    "No questions yet",
+                    "Get started by adding your first question.",
+                    "Are you sure?",
+                    "This Action can't be undone"
+                ],
+                "EDIT_QUESTION": {
+                    "back": "Back to Questions",
+                    "title": "Edit question",
+                    "label1": "Question Type",
+                    "option1": "Multiple Choice",
+                    "option2": "Essay",
+                    "label2": "Question Text",
+                    "label2_cap": "Enter the question text",
+                    "label3": "Marks",
+                    "label4": "Answers",
+                    "label4_alt": "Model Answer",
+                    "label4_cap": "Enter the model answer",
+                    "cta3": "Add Answer",
+                    "cta1": "Save changes",
+                    "cta2": "Cancel"
+                },
+                "NEW_QUESTION": {
+                    "back": "Back to Questions",
+                    "title": "Create a Question",
+                    "description": "Add a new question to your quiz",
+                    "label1": "Question Type",
+                    "option1": "Multiple Choice",
+                    "option2": "Essay",
+                    "label2": "Question Text",
+                    "label2_cap": "Enter the question text",
+                    "label3": "Marks",
+                    "label4": "Answers",
+                    "label4_alt": "Model Answer",
+                    "label4_cap": "Enter the model answer",
+                    "answer1": "Answer 1",
+                    "answer2": "Answer 2",
+                    "answer3": "Answer 3",
+                    "answer4": "Answer 4",
+                    "cta3": "Add Question",
+                    "cta1": "Create new Question",
+                    "cta2": "Cancel"
+                }
+            },
+            "NEW_QUIZ": {
+                "back": "Back to Quizzes",
+                "title": "Create your account",
+                "description": "Create a new quiz for your students.",
+                "label1": "Title",
+                "label1_cap": "Enter the title of the quiz",
+                "label2": "Description",
+                "label2_cap": "Enter the description of the exam",
+                "label3": "Marks",
+                "label3_cap": "Enter the marks of the exam",
+                "label4": "Course",
+                "label4_cap": "Select the course for the exam",
+                "cta1": "Create Exam",
+                "cta2": "Cancel"
+            },
+            "EDIT_QUIZ": {
+                "back": "Back to Quizzes",
+                "title": "Title",
+                "description": "Description",
+                "marks": "Marks",
+                "course": "Course",
+                "cta1": "Save changes",
+                "cta2": "Cancel"
+            }
+        },
+        "BOOKS": {
+            "title": "Books & Resources",
+            "description": "Manage your teaching materials",
+            "cta1": "Add book",
+            "search_placeholder": "Search books...",
+            "books_table": {
+                "head1": "Title",
+                "head2": "Course",
+                "head3": "Video",
+                "head4": "Actions",
+                "currency": "EGP",
+                "no_books": "No books found"
+            }
+        }
+    },
+    "S_DASH_SIDEBAR": {
+        "link1": "Home",
+        "link2": "My Courses",
+        "link3": "Teachers",
+        "link4": "Subscriptions",
+        "link5": "Todo List",
+        "link6": "Notes"
+    },
+    "T_DASH_SIDEBAR": {
+        "link1": "Home",
+        "link2": "My Courses",
+        "link3": "Students",
+        "link4": "Videos",
+        "link5": "Q&A",
+        "link6": "Assignments",
+        "link7": "Exams",
+        "link8": "Quizzes",
+        "link9": "Books"
+    },
+    "HOME": {
+        "HERO_SECTION": {
+            "title": "Empowering Online Education with <color>Edhub</color>.",
+            "description": "Your gateway to quality education, expert instructors, and interactive courses — all in one place.",
+            "btn1": "Get started",
+            "btn2": "Check our courses"
+        },
+        "STATISTICS": {
+            "1": "Teachers",
+            "2": "Students",
+            "3": "Courses",
+            "4": "Videos"
+        },
+        "ABOUT_US": {
+            "title": "About Us",
+            "paragraph1": "At <color>Edhub</color>, we believe that education should be accessible, engaging, and empowering. Our mission is to connect learners with high-quality content, expert instructors, and a supportive community that fosters growth.",
+            "paragraph2": "Whether you're preparing for exams, developing new skills, or exploring new interests, Edhub provides the tools and resources to help you succeed — anytime, anywhere. With a strong focus on innovation, integrity, and inclusivity, we aim to become a global hub for learners who are passionate about continuous learning and self-improvement."
+        },
+        "CTA": {
+            "title": "Ready to get started?",
+            "description": "Check out our awesome and amazing courses brought to you by our fully-competent teachers. Sign up now and start learning!",
+            "btn": "Get started"
+        },
+        "TESTIMONIALS": {
+            "title": "Reviews",
+            "job": "Student",
+            "STUDENT_1": {
+                "name": "John Doe",
+                "description": "This course is amazing! I learned so much about web development in such a short time. The instructors are incredibly knowledgeable and supportive."
+            },
+            "STUDENT_2": {
+                "name": "Sarah Johnson",
+                "description": "As a Grade 11 student, I was struggling with math until I found these courses. The explanations are clear and the practice problems really help reinforce the concepts."
+            },
+            "STUDENT_3": {
+                "name": "Michael Chen",
+                "description": "Great platform for science subjects! The interactive lessons made complex topics much easier to understand. Would love to see more advanced physics content."
+            },
+            "STUDENT_4": {
+                "name": "Emily Davis",
+                "description": "The best online learning experience I've had. The literature courses are engaging and the teachers are passionate about the subjects they teach. Highly recommend!"
+            },
+            "STUDENT_5": {
+                "name": "David Wilson",
+                "description": "As someone who was falling behind in chemistry, these courses were a game-changer. The step-by-step explanations and practice problems helped me improve my grades significantly."
+            },
+            "STUDENT_6": {
+                "name": "Aisha Mohamed",
+                "description": "The computer science courses are exceptional! The projects are challenging but rewarding, and the instructors provide excellent feedback. Perfect for aspiring programmers."
+            }
+        },
+        "FOOTER": "Edhub. All rights reserved. | Made with ❤️ by"
+    },
+    "AUTH_FORMS": {
+        "LOG_IN": {
+            "title": "Login to your account",
+            "description": "Enter your data to login",
+            "EMAIL": {
+                "label": "Email",
+                "placeholder": "Your email address (e.g. example@gmail.com)",
+                "req_msg": "Email is required",
+                "pattern_msg": "Invalid email format"
+            },
+            "PASSWORD": {
+                "label": "Password",
+                "placeholder": "Your password",
+                "req_msg": "Password is required",
+                "len_msg": "Invalid password format"
+            },
+            "forgot_password": "Forgot password?",
+            "have_account": "Don't have an account?",
+            "btn": "Login",
+            "sign_up": "Sign Up"
+        },
+        "SIGN_UP": {
+            "title": "Create your account",
+            "description": "Subscribe to our platform to view our content",
+            "FULL_NAME": {
+                "label": "Your Full Name",
+                "placeholder": "Enter your full name",
+                "req_msg": "Full name is required",
+                "min_msg": "Full name must be at least 3 characters long",
+                "max_msg": "Full name must be at most 50 characters long",
+                "pattern_msg": "Full name must contain only letters"
+            },
+            "EMAIL": {
+                "label": "Your Email",
+                "placeholder": "Your email address (e.g. example@gmail.com)",
+                "req_msg": "Email is required",
+                "pattern_msg": "Invalid email format"
+            },
+            "PASSWORD": {
+                "label": "Your Password",
+                "placeholder": "Enter your password (8 characters min.)",
+                "req_msg": "Password is required",
+                "min_msg": "Password must be at least 8 characters long",
+                "max_msg": "Password must be at most 20 characters long"
+            },
+            "CONFIRM_PASSWORD": {
+                "label": "Confirm your Password",
+                "placeholder": "Confirm your password",
+                "req_msg": "Confirm password is required",
+                "mat_msg": "Passwords do not match"
+            },
+            "PHONE_NUMBER": {
+                "label": "Your Phone Number",
+                "placeholder": "Your phone number (e.g. 01098765432)",
+                "req_msg": "Phone number is required",
+                "pattern_msg": "Invalid phone number",
+                "max_msg": "Phone number must be 11 digits long"
+            },
+            "PARENT_PHONE_NUMBER": {
+                "label": "Parent Phone Number",
+                "placeholder": "Your parent phone number (e.g. 01098765432) (students only)",
+                "req_msg": "Parent phone number is required",
+                "pattern_msg": "Invalid phone number",
+                "max_msg": "Phone number must be 11 digits long"
+            },
+            "ROLE": {
+                "label": "Who are you?",
+                "placeholder": "Choose your identity",
+                "option1": "Student",
+                "option2": "Teacher"
+            },
+            "SCHOOL_YEAR": {
+                "label": "Your school year",
+                "placeholder": "Select your school year",
+                "option1": "Grade 10",
+                "option2": "Grade 11",
+                "option3": "Grade 12"
+            },
+            "CITY": {
+                "label": "Your city",
+                "placeholder": "Select your city",
+                "cities": [
+                    "Cairo",
+                    "Giza",
+                    "Alexandria",
+                    "Dakahlia",
+                    "Red Sea",
+                    "Beheira",
+                    "Fayoum",
+                    "Gharbia",
+                    "Ismailia",
+                    "Menoufia",
+                    "Minya",
+                    "Qalyubia",
+                    "New Valley",
+                    "Suez",
+                    "Aswan",
+                    "Asyut",
+                    "Beni Suef",
+                    "Port Said",
+                    "Damietta",
+                    "Sharkia",
+                    "South Sinai",
+                    "Kafr El Sheikh",
+                    "Matrouh",
+                    "Luxor",
+                    "Qena",
+                    "North Sinai",
+                    "Sohag"
+                ]
+            },
+            "DATE_OF_BIRTH": {
+                "label": "Date of Birth",
+                "placeholder": "Select Date of Birth"
+            },
+            "btn": "Create Account",
+            "have_account": "Already have an account?",
+            "sign_in": "Login"
+        },
+        "LOG_OUT": {
+            "title": "Logout",
+            "description": "Enter your data to logout",
+            "btn": "Logout"
+        },
+        "RESET_PASSWORD": {
+            "title": "إعادة تعيين كلمة المرور",
+            "description": "أدخل بياناتك لإعادة تعيين كلمة المرور",
+            "btn": "إعادة تعيين كلمة المرور"
+        },
+        "FORGOT_PASSWORD": {
+            "title": "إعادة تعيين كلمة المرور",
+            "description": "أدخل بياناتك لإعادة تعيين كلمة المرور",
+            "btn": "إعادة تعيين كلمة المرور"
+        },
+        "VERIFY": {
+            "title": "التحقق",
+            "description": "أدخل بياناتك للتحقق",
+            "btn": "التحقق"
+        },
+        "CONTACT": {
+            "title": "اتصل بنا",
+            "description": "أدخل بياناتك للاتصال بنا",
+            "btn": "اتصل بنا"
+        }
+    },
+    "COMMON": {
+        "actions": "Actions",
+        "view": "View",
+        "delete": "Delete",
+        "edit": "Edit"
+    }
+}

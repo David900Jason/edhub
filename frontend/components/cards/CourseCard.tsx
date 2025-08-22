@@ -9,7 +9,7 @@ import PaymentDialog from "../sublayout/PaymentDialog";
 
 // Next.js Components
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 
 // Util Function
 import { getTeacherById } from "@/lib/api/user";

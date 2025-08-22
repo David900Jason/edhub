@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -11,12 +11,22 @@ import {
     DropdownMenuSubTrigger,
     DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { Check, LogOut, MoonStar, User } from "lucide-react";
-import { ProfileButtonLinks } from "@/constants";
+import { Check, Globe, LogOut, MoonStar, User } from "lucide-react";
+import { ProfileButtonLinks, TeacherProfileButtonLinks } from "@/constants";
 import { useTheme } from "next-themes";
+import { useLocale, useTranslations } from "next-intl";
+import { useRouter, usePathname } from "@/i18n/routing";
 
 const ProfileButton = ({ user }: { user: UserType }) => {
     const { theme, setTheme } = useTheme();
+    const locale = useLocale();
+    const router = useRouter();
+    const pathname = usePathname();
+    const t = useTranslations();
+
+    const switchTo = (locale: "en" | "ar") => {
+        router.push(pathname, { locale });
+    };
 
     return (
         <DropdownMenu>
@@ -24,43 +34,91 @@ const ProfileButton = ({ user }: { user: UserType }) => {
                 <div className="flex cursor-pointer items-center gap-4 rounded-full border bg-white p-2 shadow-md transition-colors hover:bg-white dark:bg-black">
                     <User
                         size={32}
-                        className="rounded-full border object-cover shadow"
+                        className="order-2 rounded-full border object-cover shadow"
                     />
-                    <span className="text-sm font-bold">
-                        Hi, {user?.full_name}
+                    <span className="order-1 text-sm font-bold">
+                        {t("NAVBAR.PROFILE_STUDENT.welcome")}{" "}
+                        {user?.full_name.split(" ")[0]}
                     </span>
                 </div>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="z-[99999999] flex w-48 flex-col gap-1">
-                {ProfileButtonLinks.map(({ label, href, icon }, index) => {
-                    const Icon: React.ElementType = icon;
-                    return (
-                        <DropdownMenuItem key={index}>
-                            <Link
-                                className="flex items-center gap-2"
-                                href={href}
-                            >
-                                <Icon size={20} />
-                                {label}
-                            </Link>
-                        </DropdownMenuItem>
-                    );
-                })}
+            <DropdownMenuContent className="flex w-48 flex-col gap-1">
+                {user.role === "student"
+                    ? ProfileButtonLinks.map(({ href, icon }, index) => {
+                          const Icon: React.ElementType = icon;
+                          const t = useTranslations(
+                              "NAVBAR.PROFILE_STUDENT.DROPDOWN",
+                          );
+                          return (
+                              <DropdownMenuItem key={index}>
+                                  <Link
+                                      className="flex flex-1 items-center justify-start gap-2 text-start"
+                                      href={href}
+                                      dir={locale === "ar" ? "rtl" : "ltr"}
+                                  >
+                                      <Icon size={20} />
+                                      {t(`link${index + 1}`)}
+                                  </Link>
+                              </DropdownMenuItem>
+                          );
+                      })
+                    : TeacherProfileButtonLinks.map(({ href, icon }, index) => {
+                          const Icon: React.ElementType = icon;
+                          const t = useTranslations(
+                              "NAVBAR.PROFILE_TEACHER.DROPDOWN",
+                          );
+                          return (
+                              <DropdownMenuItem key={index}>
+                                  <Link
+                                      className="flex flex-1 items-center justify-start gap-2 text-start"
+                                      href={href}
+                                      dir={locale === "ar" ? "rtl" : "ltr"}
+                                  >
+                                      <Icon size={20} />
+                                      {t(`link${index + 1}`)}
+                                  </Link>
+                              </DropdownMenuItem>
+                          );
+                      })}
                 <DropdownMenuSeparator />
                 <DropdownMenuSub>
                     <DropdownMenuSubTrigger>
+                        <Globe className="mr-2 h-4 w-4" />
+                        <span>
+                            {t("NAVBAR.PROFILE_STUDENT.DROPDOWN.link5")}
+                        </span>
+                    </DropdownMenuSubTrigger>
+                    <DropdownMenuSubContent>
+                        <DropdownMenuItem onClick={() => switchTo("ar")}>
+                            AR
+                            {locale === "ar" && (
+                                <Check className="ml-auto h-4 w-4" />
+                            )}
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => switchTo("en")}>
+                            EN
+                            {locale === "en" && (
+                                <Check className="ml-auto h-4 w-4" />
+                            )}
+                        </DropdownMenuItem>
+                    </DropdownMenuSubContent>
+                </DropdownMenuSub>
+                <DropdownMenuSub>
+                    <DropdownMenuSubTrigger>
                         <MoonStar className="mr-2 h-4 w-4" />
-                        <span>Theme</span>
+                        <span>
+                            {t("NAVBAR.PROFILE_STUDENT.DROPDOWN.link6")}
+                        </span>
                     </DropdownMenuSubTrigger>
                     <DropdownMenuSubContent>
                         <DropdownMenuItem onClick={() => setTheme("light")}>
-                            Light
+                            {t("NAVBAR.PROFILE_STUDENT.DROPDOWN.mode1")}
                             {theme === "light" && (
                                 <Check className="ml-auto h-4 w-4" />
                             )}
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => setTheme("dark")}>
-                            Dark
+                            {t("NAVBAR.PROFILE_STUDENT.DROPDOWN.mode2")}
                             {theme === "dark" && (
                                 <Check className="ml-auto h-4 w-4" />
                             )}
@@ -69,11 +127,11 @@ const ProfileButton = ({ user }: { user: UserType }) => {
                 </DropdownMenuSub>
                 <DropdownMenuItem>
                     <Link
-                        className="flex cursor-pointer items-center gap-2 text-red-500"
+                        className="flex cursor-pointer items-center justify-start gap-2 text-start text-red-500"
                         href="/auth/logout"
                     >
                         <LogOut className="text-red-500" />
-                        Logout
+                        {t("NAVBAR.PROFILE_STUDENT.DROPDOWN.link7")}
                     </Link>
                 </DropdownMenuItem>
             </DropdownMenuContent>

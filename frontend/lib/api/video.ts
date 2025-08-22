@@ -36,10 +36,22 @@ export const getVideoBooks = async (videoId: string | number): Promise<Book[]> =
     }
 };
 
-export const getVideoQuestions = async (videoId: string | number): Promise<Question[]> => {
+export const getVideoQuestions = async (videoId: string | number): Promise<QnA[]> => {
     try {
         const response = await axios.get(
             `http://localhost:8000/questions?video_id=${videoId}`,
+        );
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+}
+
+export const getVideoQuestionsByUserId = async (userId: string | number): Promise<QnA[]> => {
+    try {
+        const response = await axios.get(
+            `http://localhost:8000/questions?user_id=${userId}`,
         );
         return response.data;
     } catch (error) {

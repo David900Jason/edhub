@@ -35,7 +35,7 @@ const createUser = async (data: UserType): Promise<object | null> => {
     }
 };
 
-const updateUserActivation = async (userId: string) => {
+const updateUserActivation = async (userId: string | number) => {
     try {
         const res = await axios.patch(`http://localhost:8000/users/${userId}`, {
             is_active: true,
@@ -53,6 +53,18 @@ const getUserByEmailAndPassword = async (data: { email: string; password: string
             `http://localhost:8000/users?email=${data.email}&password=${data.password}`,
         );
         return res.data;
+    } catch (error: unknown) {
+        console.error(error);
+        return null;
+    }
+};
+
+const getUserByEmail = async (email: string): Promise<UserType | null> => {
+    try {
+        const res = await axios.get(
+            `http://localhost:8000/users?email=${email}`,
+        );
+        return res.data[0];
     } catch (error: unknown) {
         console.error(error);
         return null;
@@ -118,6 +130,7 @@ const createMessage = async (data: object): Promise<object | null> => {
 export {
     createUser,
     createMessage,
+    getUserByEmail,
     getUserByEmailAndPassword,
     getUserIdByEmail,
     updateUserActivation,

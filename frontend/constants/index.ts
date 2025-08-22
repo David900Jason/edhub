@@ -1,6 +1,3 @@
-// This will be displayed in the page title and in search engine results
-
-import { ChartConfig } from "@/components/ui/chart";
 import {
     LogIn,
     UserPlus,
@@ -15,20 +12,9 @@ import {
     Pen,
     List,
     Users,
+    CircleQuestionMark,
+    MessageCircleQuestion,
 } from "lucide-react";
-
-const navLinks = [
-    {
-        title: "Sign In",
-        href: "/auth/login",
-        icon: LogIn,
-    },
-    {
-        title: "Sign Up",
-        href: "/auth/signup",
-        icon: UserPlus,
-    },
-];
 
 const stats = [
     {
@@ -138,6 +124,54 @@ const dashboardLinks = [
     },
 ];
 
+const TeacherDashboardLinks = [
+    {
+        title: "Home",
+        href: "/dashboard/teacher",
+        icon: Home,
+    },
+    {
+        title: "Courses",
+        href: "/dashboard/teacher/courses",
+        icon: BookOpen,
+    },
+    {
+        title: "Students",
+        href: "/dashboard/teacher/students",
+        icon: Users,
+    },
+    {
+        title: "Videos",
+        href: "/dashboard/teacher/videos",
+        icon: Video,
+    },
+    {
+        title: "Q&A",
+        href: "/dashboard/teacher/qa",
+        icon: MessageCircleQuestion,
+    },
+    {
+        title: "Assignments",
+        href: "/dashboard/teacher/assignments",
+        icon: Pen,
+    },
+    {
+        title: "Exams",
+        href: "/dashboard/teacher/exams",
+        icon: Award,
+    },
+    {
+        title: "Quizzes",
+        href: "/dashboard/teacher/quizzes",
+        icon: CircleQuestionMark,
+    },
+    {
+        title: "Books",
+        href: "/dashboard/teacher/books",
+        icon: Book,
+    }
+];
+
 const ProfileButtonLinks: ProfileButtonLinksType[] = [
     {
         label: "Account",
@@ -158,6 +192,29 @@ const ProfileButtonLinks: ProfileButtonLinksType[] = [
         label: "Todo List",
         href: "/dashboard/student/todo-list",
         icon: List,
+    },
+];
+
+const TeacherProfileButtonLinks: ProfileButtonLinksType[] = [
+    {
+        label: "Account",
+        href: "/dashboard/teacher",
+        icon: User,
+    },
+    {
+        label: "My Courses",
+        href: "/dashboard/teacher/courses",
+        icon: BookOpen,
+    },
+    {
+        label: "Q&A",
+        href: "/dashboard/teacher/qa",
+        icon: MessageCircleQuestion,
+    },
+    {
+        label: "Students",
+        href: "/dashboard/teacher/students",
+        icon: Users,
     },
 ];
 
@@ -243,12 +300,13 @@ const cities = [
 ];
 
 export {
-    navLinks,
     stats,
     reviews,
     dashboardLinks,
+    TeacherDashboardLinks,
     dashboardHomeCards,
     ProfileButtonLinks,
+    TeacherProfileButtonLinks,
     dummyTasksData,
     cities,
 };

@@ -1,8 +1,13 @@
-import { useState, useEffect } from "react";
+"use client";
 
-// Build a useLocalStorage hook
+import { useState, useEffect, useMemo } from "react";
+
+// Build a useLocalStorage hook that respects SSR
 export const useLocalStorage = (key: string, initialValue: any) => {
-    const [value, setValue] = useState(() => {
+    const [storedValue, setStoredValue] = useState(() => {
+        if (typeof window === "undefined") {
+            return initialValue;
+        }
         try {
             const item = localStorage.getItem(key);
             return item ? JSON.parse(item) : initialValue;
@@ -12,9 +17,31 @@ export const useLocalStorage = (key: string, initialValue: any) => {
         }
     });
 
-    useEffect(() => {
-        localStorage.setItem(key, JSON.stringify(value));
-    }, [value]);
+    const setValue = useMemo(() => {
+        if (typeof window === "undefined") {
+            return () => {};
+        }
+        return (value: any) => {
+            try {
+                localStorage.setItem(key, JSON.stringify(value));
+                setStoredValue(value);
+            } catch (error) {
+                console.error("Error writing to localStorage:", error);
+            }
+        };
+    }, [key]);
 
-    return [value, setValue];
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const listener = (event: StorageEvent) => {
+                if (event.key === key) {
+                    setStoredValue(JSON.parse(event.newValue || ""));
+                }
+            };
+            window.addEventListener("storage", listener);
+            return () => window.removeEventListener("storage", listener);
+        }
+    }, [key]);
+
+    return [storedValue, setValue];
 };

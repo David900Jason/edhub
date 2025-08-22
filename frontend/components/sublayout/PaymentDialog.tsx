@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 
 const PaymentDialog = ({
     children,
@@ -23,10 +23,6 @@ const PaymentDialog = ({
     paymentItem: string;
     courseId: number | undefined;
 }) => {
-    const handlePayment = () => {
-        window.alert("Payment done successfully !");
-    };
-
     return (
         <Dialog>
             <form>
@@ -40,11 +36,7 @@ const PaymentDialog = ({
                     </DialogHeader>
                     <DialogFooter>
                         <DialogClose asChild>
-                            <Button
-                                type="submit"
-                                onClick={handlePayment}
-                                variant="secondary"
-                            >
+                            <Button type="submit" variant="secondary" asChild>
                                 <Link
                                     className="flex items-center gap-2"
                                     href={`/checkout/${courseId}`}

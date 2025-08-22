@@ -1,5 +1,21 @@
 import axios from "axios";
 
+export const updateUser = async (
+    id: string | number,
+    userData: UpdateUserData
+): Promise<UserType | undefined> => {
+    try {
+        const res = await axios.patch(
+            `http://localhost:8000/users/${id}`,
+            userData
+        );
+        return res.data;
+    } catch (error: unknown) {
+        console.error("Error updating user:", error);
+        throw error; // Re-throw to handle in the component
+    }
+};
+
 export const getTeacherById = async (
     id: string | number | "",
 ): Promise<UserType | undefined> => {

@@ -1,26 +1,35 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
+import { useTranslations, useLocale } from "next-intl";
 
 const HeroSection = () => {
+    const t = useTranslations("HOME.HERO_SECTION");
+    const locale = useLocale();
+
     return (
         <>
-            <h1 className="max-w-[800px] text-6xl leading-[1.2] font-bold tracking-tighter">
-                Empowering Online Education with{" "}
-                <span className="text-primary dark:bg-gradient-to-r dark:from-blue-400 dark:via-purple-400 dark:to-blue-400 dark:bg-clip-text dark:text-transparent">
-                    Doroosy
-                </span>
-                .
+            <h1 className="mx-5 max-w-[800px] text-5xl leading-[1.2] font-bold tracking-tighter sm:text-6xl">
+                {t.rich("title", {
+                    color: (chunks) => (
+                        <span className="text-primary dark:bg-gradient-to-r dark:from-blue-400 dark:via-purple-400 dark:to-blue-400 dark:bg-clip-text dark:text-transparent">
+                            {chunks}
+                        </span>
+                    ),
+                })}
+                {/* 
+                . */}
             </h1>
-            <p className="p-lead mx-auto mt-4 max-w-[600px]">
-                Your gateway to quality education, expert instructors, and
-                interactive courses — all in one place.
+            <p className="p-lead mx-5 mt-4 max-w-[600px] sm:mx-auto">
+                {t("description")}
             </p>
             <div className="mt-8 flex justify-center gap-4">
-                <Button className="btn btn-primary" variant="default">
-                    <Link href="/signup">Get started</Link>
+                <Button asChild className="btn-primary" variant="default">
+                    <Link href={`/auth/signup`}>{t("btn1")}</Link>
                 </Button>
-                <Button className="btn" variant="outline">
-                    <Link href="/courses">Check it out</Link>
+                <Button asChild variant="outline">
+                    <Link href={`/courses`}>{t("btn2")}</Link>
                 </Button>
             </div>
         </>

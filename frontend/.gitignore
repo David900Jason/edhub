@@ -43,3 +43,5 @@ next-env.d.ts
 
 # md
 todo-list.md
+
+/lib/generated/prisma

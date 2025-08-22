@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import CountUp from "react-countup";
 
 const Statistics = ({
@@ -7,10 +8,12 @@ const Statistics = ({
     inView: boolean;
     stats: StatsType[];
 }) => {
+    const t = useTranslations("HOME.STATISTICS");
+
     return (
         <div className="mx-auto grid grid-cols-1 gap-4 px-14 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {stats.map(({ icon, title, value }: StatsType, index: number) => {
-                const Icon = icon;
+                const Icon: React.ElementType = icon;
                 return (
                     <div
                         key={index}
@@ -33,7 +36,7 @@ const Statistics = ({
                                     )}
                                     {!inView && <span>0+</span>}
                                 </h3>
-                                <p className="text-lg font-light">{title}</p>
+                                <p className="text-lg font-light">{t(`${index + 1}`)}</p>
                             </div>
                         </div>
                     </div>
