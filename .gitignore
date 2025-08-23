@@ -27,7 +27,6 @@ venv.bak/
 *.mo
 db.sqlite3
 media/
-courses/
 staticfiles/
 
 # VS Code

@@ -8,6 +8,13 @@ class TeacherPublicSerializer(serializers.ModelSerializer):
         model = User
         fields = ["id", "full_name", "email", "phone_number", "parent_number", "city"]
 
+
+class TeacherBriefSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["id", "full_name"]
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

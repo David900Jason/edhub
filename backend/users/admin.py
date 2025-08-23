@@ -119,14 +119,3 @@ class UserAdmin(BaseUserAdmin):
 #     fields = ("course", "title", "description", "created_at")
 
 
-# # -----------------------------
-# # Course Admin
-# # -----------------------------
-# @admin.register(Course)
-# class CourseAdmin(admin.ModelAdmin):
-#     list_display = ("id", "title", "subject", "school_year", "price", "is_paid", "created_at")
-#     list_filter = ("subject", "school_year", "is_paid")
-#     search_fields = ("title", "description")
-#     readonly_fields = ("created_at",)
-#     fields = ("title", "description", "price", "school_year", "discount", "currency",
-#             "is_paid", "subject", "thumbnail", "teacher", "created_at")

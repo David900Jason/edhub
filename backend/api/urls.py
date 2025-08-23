@@ -26,6 +26,9 @@ urlpatterns = [
     # Users / Authentication
     path('api/auth/', include('users.auth')),
     path("api/users/", include("users.urls")),
+
+    # Courses API
+    path('courses/', include('courses.urls')),
 ]
 
 if settings.DEBUG:
