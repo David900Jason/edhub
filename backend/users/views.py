@@ -32,7 +32,7 @@ class UserListView(generics.ListAPIView):
         user = self.request.user
         role = self.request.query_params.get("role")
 
-        if not role:
+        if not role and not user.is_superuser:
             raise PermissionDenied("You must specify ?role=student or ?role=teacher")
 
         # Teacher can only see students
@@ -49,7 +49,9 @@ class UserListView(generics.ListAPIView):
 
         # Admins can see anyone (optional)
         elif user.role == "admin":
-            return User.objects.filter(role=role)
+            if role:
+                return User.objects.filter(role=role)
+            return User.objects.all()
 
         else:
             raise PermissionDenied("Your role is not allowed to view users.")
@@ -122,7 +124,7 @@ class UserActivateView(generics.UpdateAPIView):
                     {"message": f"User is already active"},
                     status=status.HTTP_200_OK
                 )
-            
+
             user.is_active = True
             user.save(update_fields=["is_active"])
             return Response(
