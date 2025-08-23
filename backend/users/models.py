@@ -14,25 +14,26 @@ class UserManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, full_name, password=None, **extra_fields):
-        extra_fields.setdefault("role", "admin")
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
         return self.create_user(email, full_name, password, **extra_fields)
 
 # Create your models here.
 class User(AbstractBaseUser, PermissionsMixin):
-    ROLE_CHOICES = (
-        ("student", "Student"),
-        ("teacher", "Teacher"),
-        ("admin", "Admin"),
-    )
+    @property
+    def role(self):
+        if self.is_superuser:
+            return "admin"
+        elif self.is_staff:
+            return "teacher"
+        else:
+            return "student"
 
     # --- Core Fields ---
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     full_name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=255)  # will store hashed password
-    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default="student")
 
     # --- Contact ---
     phone_number = models.CharField(max_length=15, blank=True, null=True)
@@ -45,7 +46,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     # --- Status ---
     is_active = models.BooleanField(default=True)  # controls soft deletion
     is_verified = models.BooleanField(default=False)  # teacher/student verification
-    is_staff = models.BooleanField(default=False)  # for Django admin
+    is_superuser = models.BooleanField(default=False)  # for Django admin
+    is_staff = models.BooleanField(default=False) # for teacher status
 
     # --- Timestamps ---
     last_login = models.DateTimeField(blank=True, null=True)
