@@ -8,6 +8,8 @@ class UserManager(BaseUserManager):
             raise ValueError("Users must have an email address")
 
         email = self.normalize_email(email)
+        if str(extra_fields.pop("role")).lower() == "teacher":
+            user.is_staff = True
         user = self.model(email=email, full_name=full_name, **extra_fields)
         user.set_password(password)  # stores hash in `password` field
         user.save(using=self._db)

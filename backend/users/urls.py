@@ -1,12 +1,11 @@
 # users/urls.py
 from django.urls import path
-from rest_framework_simplejwt.views import TokenRefreshView
-from .views import UserActivateView, SignupView, LoginView, ForgotPasswordView
+from .views import UserListView, UserMeView, TeacherDetailView, UserDetailView, UserDeactivateView
 
 urlpatterns = [
-    path("signup", SignupView.as_view()),
-    path("login", LoginView.as_view()),
-    path("refresh", TokenRefreshView.as_view()),  # optional
-    path("activate/<uuid:pk>", UserActivateView.as_view(), name="user-activate"),
-    path("forgot-password", ForgotPasswordView.as_view(), name="forgot-password"),
+    path('', UserListView.as_view(), name="user-list"),
+    path('me', UserMeView.as_view(), name="user-me"),
+    path('<uuid:pk>', UserDetailView.as_view(), name="user-detail"),
+    path('<uuid:pk>/deactivate', UserDeactivateView.as_view(), name="user-deactivate"),
+    path('teacher/<uuid:pk>', TeacherDetailView.as_view(), name="teacher-detail"),
 ]

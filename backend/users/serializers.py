@@ -9,10 +9,14 @@ class TeacherPublicSerializer(serializers.ModelSerializer):
         fields = ["id", "full_name", "email", "phone_number", "parent_number", "city"]
 
 class UserSerializer(serializers.ModelSerializer):
+    role = serializers.SerializerMethodField()
     class Meta:
         model = User
         fields = ["id", "full_name", "email", "phone_number", "parent_number", "city", "birth_date", "role", "is_active", "is_verified", "last_login", "created_at", "updated_at"]
         read_only_fields = ["is_staff", "is_superuser", "groups", "user_permissions"]
+
+    def get_role(self, obj):
+        return obj.role
 
 class UserCreateSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
