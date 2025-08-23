@@ -19,7 +19,12 @@ class Course(models.Model):
     updated_at = models.DateField(auto_now=True)
 
     rating = models.FloatField(default=0)
-    teacher = models.ForeignKey(User, on_delete=models.CASCADE)
+    teacher = models.ForeignKey(
+        User,
+        limit_choices_to={'role': 'teacher'},
+        related_name="courses",
+        on_delete=models.CASCADE
+    )
 
     thumbnail = models.URLField()
 
