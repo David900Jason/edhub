@@ -19,6 +19,8 @@ class ListCreateCoursesView(ListCreateAPIView):
 
 
     def create(self, request, *args, **kwargs):
+        if not request.data.get("teacher").is_staff:
+            return Response({"error": "teacher field is a student"}, 400)
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         course = serializer.save()
