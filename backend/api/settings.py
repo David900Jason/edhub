@@ -57,6 +57,10 @@ CORS_ALLOW_HEADERS = [
     'x-requested-with',
 ]
 
+SECURE_SSL_REDIRECT = False  # for local
+CSRF_COOKIE_SECURE = False   # for local
+SESSION_COOKIE_SECURE = False
+
 
 # Application definition
 
