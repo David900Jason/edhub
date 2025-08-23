@@ -8,8 +8,6 @@ class UserManager(BaseUserManager):
             raise ValueError("Users must have an email address")
 
         email = self.normalize_email(email)
-        if str(extra_fields.pop("role")).lower() == "teacher":
-            user.is_staff = True
         user = self.model(email=email, full_name=full_name, **extra_fields)
         user.set_password(password)  # stores hash in `password` field
         user.save(using=self._db)
@@ -22,20 +20,12 @@ class UserManager(BaseUserManager):
 
 # Create your models here.
 class User(AbstractBaseUser, PermissionsMixin):
-    @property
-    def role(self):
-        if self.is_superuser:
-            return "admin"
-        elif self.is_staff:
-            return "teacher"
-        else:
-            return "student"
-
     # --- Core Fields ---
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     full_name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=255)  # will store hashed password
+    role = models.CharField(max_length=10, default="student")
 
     # --- Contact ---
     phone_number = models.CharField(max_length=15, blank=True, null=True)
