@@ -1,52 +1,51 @@
-# from django.contrib import admin
-# from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-# from django.utils.translation import gettext_lazy as _
-# from courses.models import Video, Book, Question, Exam, Quiz, Assignment, Course
-# from .models import User
+from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.utils.translation import gettext_lazy as _
+from .models import User
 
 
-# @admin.register(User)
-# class UserAdmin(BaseUserAdmin):
-#     list_display = (
-#         "id", "full_name", "email", "role",
-#         "phone_number", "parent_number", "birth_date",
-#         "city", "is_active", "is_verified",
-#         "last_login", "created_at", "updated_at",
-#     )
-#     list_filter = ("role", "is_active", "is_verified", "city")
-#     search_fields = ("full_name", "email", "phone_number", "parent_number", "city")
-#     ordering = ("-created_at",)
+@admin.register(User)
+class UserAdmin(BaseUserAdmin):
+    list_display = (
+        "id", "full_name", "email", "role",
+        "phone_number", "parent_number", "birth_date",
+        "city", "is_active", "is_verified",
+        "last_login", "created_at", "updated_at",
+    )
+    list_filter = ("role", "is_active", "is_verified", "city")
+    search_fields = ("full_name", "email", "phone_number", "parent_number", "city")
+    ordering = ("-created_at",)
 
-#     # Make some fields read-only (auto-managed)
-#     readonly_fields = ("last_login", "created_at", "updated_at")
+    # Make some fields read-only (auto-managed)
+    readonly_fields = ("last_login", "created_at", "updated_at")
 
-#     fieldsets = (
-#         (None, {"fields": ("email", "password")}),
-#         (_("Personal Info"), {
-#             "fields": (
-#                 "full_name", "phone_number", "parent_number",
-#                 "birth_date", "city"
-#             )
-#         }),
-#         (_("Status & Permissions"), {
-#             "fields": (
-#                 "role", "is_active", "is_verified",
-#                 "is_staff", "is_superuser", "groups", "user_permissions"
-#             )
-#         }),
-#         (_("Important Dates"), {"fields": ("last_login", "created_at", "updated_at")}),
-#     )
+    fieldsets = (
+        (None, {"fields": ("email", "password")}),
+        (_("Personal Info"), {
+            "fields": (
+                "full_name", "phone_number", "parent_number",
+                "birth_date", "city"
+            )
+        }),
+        (_("Status & Permissions"), {
+            "fields": (
+                "role", "is_active", "is_verified",
+                "is_staff", "is_superuser", "groups", "user_permissions"
+            )
+        }),
+        (_("Important Dates"), {"fields": ("last_login", "created_at", "updated_at")}),
+    )
 
-#     add_fieldsets = (
-#         (None, {
-#             "classes": ("wide",),
-#             "fields": (
-#                 "email", "full_name", "password1", "password2", "role",
-#                 "phone_number", "parent_number", "birth_date", "city",
-#                 "is_active", "is_verified"
-#             ),
-#         }),
-#     )
+    add_fieldsets = (
+        (None, {
+            "classes": ("wide",),
+            "fields": (
+                "email", "full_name", "password1", "password2", "role",
+                "phone_number", "parent_number", "birth_date", "city",
+                "is_active", "is_verified"
+            ),
+        }),
+    )
 
 # # -----------------------------
 # # Video Admin

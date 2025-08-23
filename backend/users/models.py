@@ -20,12 +20,18 @@ class UserManager(BaseUserManager):
 
 # Create your models here.
 class User(AbstractBaseUser, PermissionsMixin):
+    ROLES_CHOICES = [
+        ("student", "Student"),
+        ("teacher", "Teacher"),
+        ("admin", "Admin"),
+    ]
+
     # --- Core Fields ---
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     full_name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=255)  # will store hashed password
-    role = models.CharField(max_length=10, default="student")
+    role = models.CharField(max_length=10, choices=ROLES_CHOICES, default="student")
 
     # --- Contact ---
     phone_number = models.CharField(max_length=15, blank=True, null=True)

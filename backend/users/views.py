@@ -1,4 +1,5 @@
 # users/views.py
+import json
 from rest_framework import generics, permissions, viewsets, status
 from rest_framework.response import Response
 from rest_framework.exceptions import PermissionDenied
@@ -97,19 +98,25 @@ class LoginView(generics.GenericAPIView):
 
         user = serializer.validated_data["user"]
 
-        if user is not None:
-            user.last_login = timezone.now()
-            user.save(update_fields=["last_login"])
-            refresh = RefreshToken.for_user(user)
+        if not user: 
             return Response({
-                "refresh": str(refresh),
-                "access": str(refresh.access_token),
-                "message": "Login successful"
-            }, status=status.HTTP_200_OK)
+                "message": "Invalid email or password"
+            }, status=status.HTTP_401_UNAUTHORIZED)
 
-        return Response({
-            "message": "Invalid email or password"
-        }, status=status.HTTP_401_UNAUTHORIZED)
+        user.last_login = timezone.now()
+        user.save(update_fields=["last_login"])
+
+        refresh = RefreshToken.for_user(user)
+        refresh_token = str(refresh)
+        access_token = str(refresh.access_token)
+
+        response = Response({
+            "access": access_token,
+            "refresh": refresh_token,
+            "message": "Login successful"
+        })
+
+        return response
 
 class UserActivateView(generics.UpdateAPIView):
     queryset = User.objects.all()
