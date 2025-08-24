@@ -76,6 +76,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'users',
     'courses',
+    "videos",
+    "enrollments",
 ]
 
 REST_FRAMEWORK = {
