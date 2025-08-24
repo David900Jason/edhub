@@ -31,5 +31,7 @@ class LikeReaction(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="liked_videos")
     timestamp = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        unique_together = ("student", "video")
 
 
