@@ -32,6 +32,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=255)  # will store hashed password
     role = models.CharField(max_length=10, choices=ROLES_CHOICES, default="student")
+    profile_img = models.FileField(upload_to="profile_images/" ,blank=True, null=True)
 
     # --- Contact ---
     phone_number = models.CharField(max_length=15, blank=True, null=True)

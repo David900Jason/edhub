@@ -85,6 +85,18 @@ class TeacherDetailView(generics.RetrieveAPIView):
             return super().get_queryset()
         return User.objects.none()  # deny access for non-students
 
+class TeacherListView(generics.ListAPIView):
+    queryset = User.objects.filter(role="teacher")
+    serializer_class = TeacherPublicSerializer
+    permission_classes = [permissions.IsAuthenticated]  # only logged-in students can access
+
+    def get_queryset(self):
+        """Restrict students to only viewing teachers"""
+        user = self.request.user
+        if user.role == "student" or user.role == "admin":
+            return super().get_queryset()
+        return User.objects.none()  # deny access for non-students
+
 class SignupView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserCreateSerializer

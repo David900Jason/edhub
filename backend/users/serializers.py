@@ -6,7 +6,7 @@ from .models import User
 class TeacherPublicSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id", "full_name", "email", "phone_number", "parent_number", "city"]
+        fields = ["id", "full_name", "email", "phone_number", "parent_number", "city", "profile_img"]
 
 
 class TeacherBriefSerializer(serializers.ModelSerializer):

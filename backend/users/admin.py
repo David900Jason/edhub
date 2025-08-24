@@ -9,7 +9,7 @@ class UserAdmin(BaseUserAdmin):
     list_display = (
         "id", "full_name", "email", "role",
         "phone_number", "parent_number", "birth_date",
-        "city", "is_active", "is_verified",
+        "city", "profile_img", "is_active", "is_verified",
         "last_login", "created_at", "updated_at",
     )
     list_filter = ("role", "is_active", "is_verified", "city")
@@ -24,7 +24,7 @@ class UserAdmin(BaseUserAdmin):
         (_("Personal Info"), {
             "fields": (
                 "full_name", "phone_number", "parent_number",
-                "birth_date", "city"
+                "birth_date", "city", "profile_img"
             )
         }),
         (_("Status & Permissions"), {
@@ -42,7 +42,7 @@ class UserAdmin(BaseUserAdmin):
             "fields": (
                 "email", "full_name", "password1", "password2", "role",
                 "phone_number", "parent_number", "birth_date", "city",
-                "is_active", "is_verified"
+                "is_active", "is_verified", "profile_img"
             ),
         }),
     )
