@@ -1,6 +1,8 @@
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.response import Response
+from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
 from .serializers import ListCreateVideoSerializer, RetrieveUpdateDestroySerializer
 from .models import Video, ViewSession, LikeReaction
@@ -19,14 +21,13 @@ class ListCreateVideoView(ListCreateAPIView):
 
     def get_queryset(self):
         if self.request.user.is_superuser:
-            print("Admin detected")
             return Video.objects.all()
         elif self.request.user.is_staff:
-            return Video.objects.filter(course__in=self.request.user.courses)
+            return Video.objects.filter(course__in=self.request.user.courses.all())
         enrolled_courses = self.request.user.enrollments.values_list("course", flat=True)
         return Video.objects.filter(course__in=enrolled_courses)
 
-    def get_serializer(self):
+    def get_serializer_class(self):
         if self.request.method.lower() == "post":
             return RetrieveUpdateDestroySerializer
         return ListCreateVideoSerializer
@@ -57,7 +58,7 @@ class RetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
             print("Admin detected")
             return Video.objects.all()
         elif self.request.user.is_staff:
-            return Video.objects.filter(course__in=self.request.user.courses)
+            return Video.objects.filter(course__in=self.request.user.courses.all())
         enrolled_courses = self.request.user.enrollments.values_list("course", flat=True)
         return Video.objects.filter(course__in=enrolled_courses)
 

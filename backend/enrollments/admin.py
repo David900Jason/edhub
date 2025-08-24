@@ -1,3 +1,11 @@
 from django.contrib import admin
+from .models import Enrollment
 
-# Register your models here.
+
+@admin.register(Enrollment)
+class EnrollmentAdmin(admin.ModelAdmin):
+    list_display = ("id", "user", "course", "timestamp", "rating")
+    list_filter = ("course", "timestamp")
+    search_fields = ("user__fullname", "course__title")
+    ordering = ("-timestamp",)
+

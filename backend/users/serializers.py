@@ -18,7 +18,7 @@ class TeacherBriefSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id", "full_name", "email", "phone_number", "parent_number", "city", "birth_date", "role", "is_active", "is_verified", "last_login", "created_at", "updated_at"]
+        fields = ["id", "email", "full_name", "phone_number", "parent_number", "city", "birth_date", "role", "is_active", "is_verified", "last_login", "created_at", "updated_at"]
         read_only_fields = ["is_staff", "is_superuser", "groups", "user_permissions"]
 
 

@@ -1,11 +1,19 @@
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import Course
 from .serializers import ListRetrieveCoursesSerializer, CreateCourseSerializer
+from users.models import User
+from users.serializers import UserSerializer
 
 
 class ListCreateCoursesView(ListCreateAPIView):
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ["teacher"]
+
     def get_permissions(self):
         if self.request.method.lower() == "post":
             return [IsAdminUser()]

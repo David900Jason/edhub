@@ -81,6 +81,7 @@ INSTALLED_APPS = [
     "payments",
     "notes",
     "todo"
+    "books",
 ]
 
 REST_FRAMEWORK = {
