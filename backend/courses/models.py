@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from users.models import User
 import uuid
@@ -5,20 +6,27 @@ import uuid
 
 class Course(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    title = models.CharField(max_length=25, unique=True, null=False)
+    title = models.CharField(max_length=40, unique=True, null=False)
     description = models.TextField()
+    category = models.CharField(max_length=40, blank=False, null=False)
 
+    # Money
     price = models.FloatField(default=0, null=False)
     discount = models.FloatField(default=0)
     currency = models.CharField(max_length=3, default="EGP")
 
+    # Booleans
     is_paid = models.BooleanField(default=False)
     is_published = models.BooleanField(default=False)
-    category = models.CharField(max_length=12, blank=False, null=False)
+
+    # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
 
-    rating = models.FloatField(default=0)
+    # Rating
+    rating = models.FloatField(default=0, validators=[MinValueValidator(0), MaxValueValidator(5)])
+
+    # Relations
     teacher = models.ForeignKey(
         User,
         limit_choices_to={'role': 'teacher'},
@@ -26,6 +34,6 @@ class Course(models.Model):
         on_delete=models.CASCADE
     )
 
-    thumbnail = models.URLField()
+    thumbnail = models.URLField(default="")
 
 

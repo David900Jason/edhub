@@ -9,9 +9,9 @@ from .models import Course
 # -----------------------------
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ("id", "title", "price", "is_paid", "created_at")
+    list_display = ("id", "title", "price", "category", "is_paid", "is_published", "created_at")
     list_filter = ("is_paid",)
     search_fields = ("title", "description")
     readonly_fields = ("created_at",)
     fields = ("title", "description", "price", "discount", "currency", "is_published",
-            "is_paid", "thumbnail", "teacher", "created_at")
+            "is_paid", "thumbnail", "category", "teacher", "created_at")
