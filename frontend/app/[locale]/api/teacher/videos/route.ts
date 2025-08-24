@@ -7,7 +7,7 @@ export async function GET() {
         // const { userId } = await getCurrentUser();
 
         // For now, we'll use a mock implementation
-        const videos = await axios.get("http://localhost:8000/videos");
+        const videos = await axios.get("http://localhost:8001/videos");
 
         const formattedVideos = videos.data.map((video: any) => ({
             ...video,
@@ -24,4 +24,3 @@ export async function GET() {
         );
     }
 }
-

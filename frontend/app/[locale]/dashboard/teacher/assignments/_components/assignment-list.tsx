@@ -25,7 +25,7 @@ import { useTranslations } from "next-intl";
 
 const AssignmentsList = () => {
     const t = useTranslations("TEACHER_DASHBOARD.ASSIGNMENTS");
-    const [user] = useLocalStorage("user", null);
+    const [user] = useLocalStorage("user_profile", null);
     const [assignments, setAssignments] = useState<Assignment[]>([]);
     const [courses, setCourses] = useState<CourseType[]>([]);
     const [filteredAssignments, setFilteredAssignments] = useState<
@@ -92,12 +92,24 @@ const AssignmentsList = () => {
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead className="text-start">{t("assignments_table.head1")}</TableHead>
-                            <TableHead className="text-start">{t("assignments_table.head2")}</TableHead>
-                            <TableHead className="text-start">{t("assignments_table.head3")}</TableHead>
-                            <TableHead className="text-start">{t("assignments_table.head4")}</TableHead>
-                            <TableHead className="text-start">{t("assignments_table.head5")}</TableHead>
-                            <TableHead className="text-start">{t("assignments_table.head6")}</TableHead>
+                            <TableHead className="text-start">
+                                {t("assignments_table.head1")}
+                            </TableHead>
+                            <TableHead className="text-start">
+                                {t("assignments_table.head2")}
+                            </TableHead>
+                            <TableHead className="text-start">
+                                {t("assignments_table.head3")}
+                            </TableHead>
+                            <TableHead className="text-start">
+                                {t("assignments_table.head4")}
+                            </TableHead>
+                            <TableHead className="text-start">
+                                {t("assignments_table.head5")}
+                            </TableHead>
+                            <TableHead className="text-start">
+                                {t("assignments_table.head6")}
+                            </TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -121,7 +133,8 @@ const AssignmentsList = () => {
                                         <Link
                                             href={`/dashboard/teacher/assignments/${assignment.id}/questions`}
                                         >
-                                            <FileText /> {t("assignments_table.questions")}
+                                            <FileText />{" "}
+                                            {t("assignments_table.questions")}
                                         </Link>
                                     </Button>
                                 </TableCell>

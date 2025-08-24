@@ -5,7 +5,7 @@ import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useLocale } from "next-intl";
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
-    const [user] = useLocalStorage("user", null);
+    const [user] = useLocalStorage("user_profile", null);
     const pathName = usePathname();
     const locale = useLocale();
 

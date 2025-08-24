@@ -1,10 +1,11 @@
 // API Utilities for Frontend
 import axios from "axios";
 import { generateId, convertSchoolYear } from "../utils";
+import api from ".";
 
 const createUser = async (data: UserType): Promise<object | null> => {
     try {
-        const res = await axios.post(`http://localhost:8000/users`, {
+        const res = await axios.post(`http://localhost:8001/users`, {
             ...data,
             id: generateId(6),
             is_active: false,
@@ -15,12 +16,12 @@ const createUser = async (data: UserType): Promise<object | null> => {
             notes_id: generateId(4),
             tasks_id: generateId(4),
         });
-        const notesRes = await axios.post(`http://localhost:8000/notes`, {
+        const notesRes = await axios.post(`http://localhost:8001/notes`, {
             id: generateId(4),
             user_id: res.data.id,
             notes: [],
         });
-        const tasksRes = await axios.post(`http://localhost:8000/tasks`, {
+        const tasksRes = await axios.post(`http://localhost:8001/tasks`, {
             id: generateId(4),
             user_id: res.data.id,
             tasks: [],
@@ -37,7 +38,7 @@ const createUser = async (data: UserType): Promise<object | null> => {
 
 const updateUserActivation = async (userId: string | number) => {
     try {
-        const res = await axios.patch(`http://localhost:8000/users/${userId}`, {
+        const res = await axios.patch(`http://localhost:8001/users/${userId}`, {
             is_active: true,
         });
         return res.data;
@@ -47,11 +48,9 @@ const updateUserActivation = async (userId: string | number) => {
     }
 };
 
-const getUserByEmailAndPassword = async (data: { email: string; password: string }): Promise<UserType | null> => {
+export const loginUser = async (data: { email: string; password: string }) => {
     try {
-        const res = await axios.get(
-            `http://localhost:8000/users?email=${data.email}&password=${data.password}`,
-        );
+        const res = await api.post("/auth/login/", data);
         return res.data;
     } catch (error: unknown) {
         console.error(error);
@@ -59,10 +58,54 @@ const getUserByEmailAndPassword = async (data: { email: string; password: string
     }
 };
 
+export const logoutUser = async () => {
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
+    localStorage.removeItem("user_profile");
+};
+
+export const refreshUser = async () => {
+    const refresh = localStorage.getItem("refresh");
+    if (!refresh) return;
+
+    try {
+        const res = await api.post("/auth/refresh/", {
+            refresh: refresh,
+        });
+        const data = await res.data;
+        if (data) {
+            localStorage.setItem("access", data.access);
+            location.reload();
+        };
+    } catch (error: any) {
+        console.error(error);
+        return;
+    }
+};
+
+export const getUserProfile = async (userToken: string) => {
+    if (!userToken) return;
+
+    try {
+        const res = await api.get("/users/me", {
+            headers: {
+                Authorization: `Bearer ${userToken}`,
+            },
+        });
+        return res.data;
+    } catch (error: any) {
+        if (error.status === 401) {
+            refreshUser();
+            getUserProfile(userToken);
+        }
+        console.log(error);
+    }
+};
+
 const getUserByEmail = async (email: string): Promise<UserType | null> => {
     try {
         const res = await axios.get(
-            `http://localhost:8000/users?email=${email}`,
+            `http://localhost:8001/users?email=${email}`,
         );
         return res.data[0];
     } catch (error: unknown) {
@@ -76,7 +119,7 @@ const getUserIdByEmail = async (
 ): Promise<string | null | number> => {
     try {
         const res = await axios.get(
-            `http://localhost:8000/users?email=${email}`,
+            `http://localhost:8001/users?email=${email}`,
         );
         return res.data[0].id;
     } catch (error: unknown) {
@@ -92,7 +135,7 @@ const updateUserVerification = async (
 ) => {
     try {
         // add new element to an existing user
-        const res = await axios.patch(`http://localhost:8000/users/${userId}`, {
+        const res = await axios.patch(`http://localhost:8001/users/${userId}`, {
             is_verified: true,
         });
         console.log(res.data);
@@ -107,7 +150,7 @@ const updateUserPassword = async (
     password: string,
 ) => {
     try {
-        const res = await axios.patch(`http://localhost:8000/users/${userId}`, {
+        const res = await axios.patch(`http://localhost:8001/users/${userId}`, {
             password: password,
         });
         console.log(res.data);
@@ -119,7 +162,7 @@ const updateUserPassword = async (
 
 const createMessage = async (data: object): Promise<object | null> => {
     try {
-        const res = await axios.post(`http://localhost:8000/messages`, data);
+        const res = await axios.post(`http://localhost:8001/messages`, data);
         return res.data;
     } catch (error: unknown) {
         console.error(error);
@@ -131,7 +174,6 @@ export {
     createUser,
     createMessage,
     getUserByEmail,
-    getUserByEmailAndPassword,
     getUserIdByEmail,
     updateUserActivation,
     updateUserVerification,

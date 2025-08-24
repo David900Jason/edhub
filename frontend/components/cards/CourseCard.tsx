@@ -11,23 +11,21 @@ import PaymentDialog from "../sublayout/PaymentDialog";
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
 
-// Util Function
-import { getTeacherById } from "@/lib/api/user";
-import { useQuery } from "@tanstack/react-query";
-
 const CourseCard = ({ course }: { course: CourseType }) => {
-    const { id, title, school_year, teacher_id, category, price, thumbnail } =
-        course;
-    const { data } = useQuery({
-        queryKey: ["teacher"],
-        queryFn: () => getTeacherById(teacher_id),
-    });
+    const { 
+        id, 
+        title, 
+        category, 
+        price, 
+        teacher,
+        currency
+    } = course;
 
     return (
         <Card className="group gap-0 overflow-hidden py-0 hover:cursor-pointer">
             <Image
-                src={thumbnail}
-                blurDataURL={thumbnail}
+                src={"https://dummyimage.com/600x400"}
+                blurDataURL={"https://dummyimage.com/600x400"}
                 width={600}
                 height={400}
                 alt=""
@@ -36,9 +34,6 @@ const CourseCard = ({ course }: { course: CourseType }) => {
             <div className="flex flex-col px-4 py-5">
                 <ul className="mb-4 flex items-center gap-2">
                     <li>
-                        <Tag color="purple">{school_year}</Tag>
-                    </li>
-                    <li>
                         <Tag color="blue">{category}</Tag>
                     </li>
                 </ul>
@@ -46,16 +41,16 @@ const CourseCard = ({ course }: { course: CourseType }) => {
                     <Link href={`/courses/${id}`}>{title}</Link>
                 </h3>
                 <span className="text-sm text-gray-500">
-                    by: {data?.full_name}
+                    by: {teacher?.full_name}
                 </span>
                 <p className="text-primary-foreground mt-2 mb-6 text-start text-lg font-bold tracking-tighter">
                     {price.toFixed(2)}{" "}
                     <span className="text-xs font-extrabold text-gray-500">
-                        EGP
+                        {currency}
                     </span>
                 </p>
                 <div>
-                    <PaymentDialog paymentItem="course" courseId={Number(id)}>
+                    <PaymentDialog paymentItem="course" courseId={id}>
                         <Button
                             className="hover:bg-secondary bg-secondary w-full text-black transition-colors hover:opacity-80"
                             type="button"

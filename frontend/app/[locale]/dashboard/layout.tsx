@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { useLocale } from "next-intl";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
-    const [user] = useLocalStorage("user", null);
+    const [user] = useLocalStorage("user_profile", null);
     const locale = useLocale();
 
     useEffect(() => {

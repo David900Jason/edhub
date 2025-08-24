@@ -12,43 +12,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { ShoppingBag } from "lucide-react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { generateId } from "@/lib/utils";
 
 const PaymnetToggle = ({ course }: { course: CourseType }) => {
-    const router = useRouter();
-    const [user] = useLocalStorage("user", null);
     const [paymentMethod, setPaymentMethod] = useState("digital wallet");
-
-    const handlePayNow = async () => {
-        const enrollment = {
-            course_id: course.id,
-            user_id: user?.id,
-            payment_id: `CRS-${generateId(9)}`,
-            enrolled_at: new Date().toISOString(),
-            created_at: new Date().toISOString(),
-            teacher_id: course.teacher_id,
-            is_paid: true,
-            price: course.price,
-            review: "",
-            status: "inactive",
-        };
-
-        const response = await fetch("http://localhost:8000/enrollments", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(enrollment),
-        });
-
-        if (!response.ok) {
-            throw new Error("Failed to enroll in course");
-        }
-
-        console.log(enrollment);
-
-        router.push(`/dashboard/student/courses/${course.id}`);
-    };
+    const [user] = useLocalStorage("user_profile", null);
+    const router = useRouter();
 
     return (
         <>
@@ -80,23 +48,26 @@ const PaymnetToggle = ({ course }: { course: CourseType }) => {
                 </p>
             </div>
             <hr className="mt-6" />
-            {paymentMethod === "digital wallet" && (
+            {/* {paymentMethod === "digital wallet" && (
                 <div className="flex items-center justify-center p-4">
                     <Button
                         className="bg-secondary ml-2 w-56"
                         variant="outline"
-                        onClick={handlePayNow}
+                        onClick={() => {}}
                     >
                         <ShoppingBag className="h-4 w-4" />
                         Pay Now
                     </Button>
                 </div>
-            )}
-            {paymentMethod === "visa card" && (
+            )} */}
+            {/* {paymentMethod === "visa card" && (
                 <div className="flex items-center justify-center p-4">
                     <p className="text-gray-500">Coming soon...</p>
                 </div>
-            )}
+            )} */}
+            <div className="flex items-center justify-center p-4">
+                <p className="text-gray-500">Coming soon...</p>
+            </div>
         </>
     );
 };

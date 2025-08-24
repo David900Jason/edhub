@@ -22,7 +22,7 @@ import { useTranslations } from "next-intl";
 
 const ExamsList = () => {
     const t = useTranslations("TEACHER_DASHBOARD.EXAMS");
-    const [user] = useLocalStorage("user", null);
+    const [user] = useLocalStorage("user_profile", null);
     const [search, setSearch] = useState("");
     const [exams, setExams] = useState<Exam[]>([]);
     const [filteredExams, setFilteredExams] = useState<Exam[]>([]);
@@ -72,12 +72,24 @@ const ExamsList = () => {
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead className="text-start">{t("exams_table.head1")}</TableHead>
-                            <TableHead className="text-start">{t("exams_table.head2")}</TableHead>
-                            <TableHead className="text-start">{t("exams_table.head3")}</TableHead>
-                            <TableHead className="text-start">{t("exams_table.head4")}</TableHead>
-                            <TableHead className="text-start">{t("exams_table.head5")}</TableHead>
-                            <TableHead className="text-start">{t("exams_table.head6")}</TableHead>
+                            <TableHead className="text-start">
+                                {t("exams_table.head1")}
+                            </TableHead>
+                            <TableHead className="text-start">
+                                {t("exams_table.head2")}
+                            </TableHead>
+                            <TableHead className="text-start">
+                                {t("exams_table.head3")}
+                            </TableHead>
+                            <TableHead className="text-start">
+                                {t("exams_table.head4")}
+                            </TableHead>
+                            <TableHead className="text-start">
+                                {t("exams_table.head5")}
+                            </TableHead>
+                            <TableHead className="text-start">
+                                {t("exams_table.head6")}
+                            </TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>

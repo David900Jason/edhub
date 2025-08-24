@@ -34,7 +34,7 @@ const NewExamForm = () => {
         handleSubmit,
         formState: { errors, isSubmitting, isValid },
     } = useForm<NewExamFormType>();
-    const [user] = useLocalStorage("user", null);
+    const [user] = useLocalStorage("user_profile", null);
     const [courses, setCourses] = useState<CourseType[]>([]);
     const router = useRouter();
     const t = useTranslations("TEACHER_DASHBOARD.EXAMS.NEW_EXAM");

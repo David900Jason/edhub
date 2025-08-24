@@ -1,32 +1,30 @@
-import { Suspense } from "react";
-import { cookies } from "next/headers";
-import { getLocale, getTranslations } from "next-intl/server";
+"use client";
+
+import { Suspense, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { getCourses } from "@/lib/api/course";
 import CoursesView from "./_components/CoursesView";
 
-const PrivateCoursesPage = async ({ searchParams }: { searchParams: Promise<{ search: string }> }) => {
-    // Get user from cookies
-    const cookiesStore = await cookies();
-    const userId = JSON.parse(cookiesStore.get("user")?.value || "")?.id;
+const PrivateCoursesPage = () => {
+    const [courses, setCourses] = useState<CourseType[]>([]);
 
     // Get locale
-    const locale = await getLocale();
-    const t = await getTranslations("STUDENT_DASHBOARD.COURSES");
+    // const locale = useLocale();
+    const t = useTranslations("STUDENT_DASHBOARD.COURSES");
 
     // Extract search query
-    const { search } = await searchParams;
+    const searchParams = useSearchParams();
+    const search = searchParams.get("search");
 
-    // Fetch All Enrollments
-    const enrollments = await fetch(`http://localhost:3000/${locale}/api/courses`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            user_id: userId,
-            search
-        })
-    });
-    const courses = await enrollments.json();
+    // Fetch All Courses
+    useEffect(() => {
+        const fetchCourses = async () => {
+            const courses = await getCourses();
+            setCourses(courses);
+        }
+        fetchCourses();
+    }, [search]);
 
     return (
         <section>
@@ -38,8 +36,8 @@ const PrivateCoursesPage = async ({ searchParams }: { searchParams: Promise<{ se
             </header>
             <Suspense fallback={<div>{t("loading")}</div>}>
                 <CoursesView
-                    courses={courses || []}
-                    searchQuery={search}
+                    searchQuery={search || ""}
+                    courses={courses}
                 />
             </Suspense>
         </section>

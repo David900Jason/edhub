@@ -1,9 +1,6 @@
-import { getCourse, getEnrollmentsByUserId } from "@/lib/api/course";
-import { getTeacherById } from "@/lib/api/user";
-import { Star } from "lucide-react";
+"use client";
+
 import { Link } from "@/i18n/routing";
-import { cookies } from "next/headers";
-import { getTranslations } from "next-intl/server";
 import {
     Card,
     CardHeader,
@@ -13,32 +10,29 @@ import {
 } from "@/components/ui/card";
 import Tag from "@/components/ui/Tag";
 import Image from "next/image";
-import RatingButton from "../../courses/_components/RatingButton";
 import { Button } from "@/components/ui/button";
+import { useParams } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
+import { getTeacherById } from "@/lib/api/user";
+import { TeacherType } from "../page";
 
-const TeacherCourses = async ({
-    params,
-}: {
-    params: { teacherId: string };
-}) => {
-    const cookieStore = await cookies();
-    const user = JSON.parse(cookieStore.get("user")?.value || "");
+const TeacherCourses = () => {
+    // States
+    const [teacher, setTeacher] = useState<TeacherType | null>(null);
 
-    const { teacherId } = await params;
-    const teacher = await getTeacherById(teacherId);
+    const t = useTranslations("STUDENT_DASHBOARD");
+    const { teacherId }: { teacherId: string } = useParams();
 
-    const t = await getTranslations("STUDENT_DASHBOARD");
+    const coursesRelatedToTeacherOnly: CourseType[] = [];
 
-    const enrollments: EnrollmentType[] | null = await getEnrollmentsByUserId(
-        user?.id || "",
-    );
-    const courses: CourseType[] = (await Promise.all(
-        enrollments?.map((enrollment) => getCourse(enrollment.course_id)) || [],
-    )) as CourseType[];
-
-    const coursesRelatedToTeacherOnly = courses.filter(
-        (course) => course?.teacher_id === teacherId,
-    );
+    useEffect(() => {
+        const getTeacher = async () => {
+            const teacher: TeacherType | null = await getTeacherById(teacherId);
+            setTeacher(teacher);
+        };
+        getTeacher();
+    }, []);
 
     return (
         <section>
@@ -71,9 +65,6 @@ const TeacherCourses = async ({
                                         <Tag color="green">
                                             {course?.category}
                                         </Tag>
-                                        <Tag color="yellow">
-                                            {course?.school_year}
-                                        </Tag>
                                     </div>
                                     <CardTitle className="mb-1 text-lg font-semibold">
                                         {course?.title}
@@ -82,36 +73,6 @@ const TeacherCourses = async ({
                                         {t("TEACHERS.by")}:{" "}
                                         {teacher?.full_name ||
                                             "Unknown Teacher"}
-                                    </CardDescription>
-                                    <CardDescription>
-                                        {Number(
-                                            enrollments?.find(
-                                                (enrollment) =>
-                                                    enrollment.course_id ===
-                                                    course?.id,
-                                            )?.review,
-                                        ) === 0 ? (
-                                            <RatingButton
-                                                id={
-                                                    enrollments?.find(
-                                                        (enrollment) =>
-                                                            enrollment.course_id ==
-                                                            course?.id,
-                                                    )?.id || ""
-                                                }
-                                            />
-                                        ) : (
-                                            <>
-                                                <Star className="inline h-4 w-4 text-yellow-300" />{" "}
-                                                {Number(
-                                                    enrollments?.find(
-                                                        (enrollment) =>
-                                                            enrollment.course_id ==
-                                                            course?.id,
-                                                    )?.review,
-                                                )?.toFixed(1)}
-                                            </>
-                                        )}
                                     </CardDescription>
                                 </div>
                             </CardHeader>

@@ -31,7 +31,7 @@ const DashboardInfoCards = [
 ];
 
 const TeacherDash = () => {
-    const [user] = useLocalStorage("user", null);
+    const [user] = useLocalStorage("user_profile", null);
     const t = useTranslations("TEACHER_DASHBOARD.HOME");
 
     return (
@@ -82,9 +82,7 @@ const TeacherDash = () => {
                     <h2 className="text-2xl font-semibold">
                         {t("section_1.title")}
                     </h2>
-                    <p className="p-lead">
-                        {t("section_1.description")}
-                    </p>
+                    <p className="p-lead">{t("section_1.description")}</p>
                     <div className="mt-6 grid min-h-[50vh] place-content-center rounded-xl bg-slate-100 dark:bg-slate-800">
                         <p>{t("coming_soon")}</p>
                     </div>
@@ -93,9 +91,7 @@ const TeacherDash = () => {
                     <h2 className="text-2xl font-semibold">
                         {t("section_2.title")}
                     </h2>
-                    <p className="p-lead mb-6">
-                        {t("section_2.description")}
-                    </p>
+                    <p className="p-lead mb-6">{t("section_2.description")}</p>
                     {/* <ul className="flex flex-col gap-2">
                         <li className="flex items-center justify-between rounded-lg bg-slate-100 p-4">
                             <div className="text-primary bg-primary/10 aspect-square w-fit rounded-full p-2 font-bold">
@@ -145,9 +141,7 @@ const TeacherDash = () => {
                 <h2 className="text-2xl font-semibold">
                     {t("section_3.title")}
                 </h2>
-                <p className="p-lead">
-                    {t("section_3.description")}
-                </p>
+                <p className="p-lead">{t("section_3.description")}</p>
                 {/* <StudentsLineChart /> */}
                 <div className="mt-6 grid min-h-[50vh] place-content-center rounded-xl bg-slate-100 dark:bg-slate-800">
                     <p>{t("coming_soon")}</p>

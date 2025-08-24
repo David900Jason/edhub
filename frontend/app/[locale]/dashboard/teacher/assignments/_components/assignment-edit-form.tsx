@@ -36,7 +36,7 @@ const AssignmentEditForm = () => {
         formState: { isSubmitting },
     } = useForm<Assignment>();
 
-    const [user] = useLocalStorage("user", null);
+    const [user] = useLocalStorage("user_profile", null);
     const { assignmentId } = useParams();
     const router = useRouter();
 

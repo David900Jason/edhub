@@ -7,7 +7,7 @@ export async function POST(req: Request) {
         const { rating, enrollmentId } = body;
 
         const data = await axios.patch(
-            `http://localhost:8000/enrollments/${enrollmentId}`,
+            `http://localhost:8001/enrollments/${enrollmentId}`,
             {
                 review: rating,
             },

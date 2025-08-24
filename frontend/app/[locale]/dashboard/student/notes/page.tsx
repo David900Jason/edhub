@@ -1,241 +1,63 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
-import { cn, generateId } from "@/lib/utils";
-import axios from "axios";
-import { Check, Edit, Plus, Trash, X } from "lucide-react";
-import { Editor } from "primereact/editor";
-import { format } from "timeago.js";
+import { getAllNotes } from "@/lib/api/notes";
+import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { useTranslations } from "next-intl";
-import { useLocale } from "next-intl";
-
-const colorMap: { [key: string]: string } = {
-    red: "bg-red-200",
-    blue: "bg-blue-200",
-    green: "bg-green-200",
-    yellow: "bg-yellow-200",
-    purple: "bg-purple-200",
-};
-
-interface NoteType {
-    id: string;
-    title: string;
-    category: string;
-    content: string;
-    color: string;
-    created_at: string;
-}
+import NoteCard from "./_components/NoteCard";
 
 const NotesPage = () => {
-    const [user] = useLocalStorage("user", null);
+    const [notes, setNotes] = useState<NotesType[]>([]);
 
-    const [notes, setNotes] = useState<NoteType[]>([]);
-    const [categories, setCategories] = useState<string[]>([]);
-    const [toggleVisibility, setToggleVisibility] = useState(false);
-    const [editingNote, setEditingNote] = useState<NoteType | null>(null); // Track the note being edited
-    const [newNote, setNewNote] = useState({
-        title: "",
-        category: "",
-        content: "",
-        color: "red", // Default color
-    });
-
-    const t = useTranslations("STUDENT_DASHBOARD.NOTES");
-    const locale = useLocale();
-
+    // Handle List All Notess
     useEffect(() => {
-        const fetchAllCategoriesFromCourses = async () => {
-            const response = await fetch("http://localhost:8000/courses");
-            const data = await response.json();
-            const categories = data.map(
-                (course: CourseType) => course.category,
-            );
-            const uniqueCategories = [...new Set(categories)];
-            setCategories(uniqueCategories as string[]);
-        };
-        const fetchAllNotes = async () => {
-            if (user && user.notes_id) {
-                const response = await fetch(
-                    `http://localhost:8000/notes/${user.notes_id}`,
-                );
-                const data = await response.json();
-                setNotes(
-                    data.notes.sort(
-                        (a: NoteType, b: NoteType) =>
-                            new Date(b.created_at).getTime() -
-                            new Date(a.created_at).getTime(),
-                    ),
-                );
-            }
-        };
-        fetchAllCategoriesFromCourses();
-        fetchAllNotes();
-    }, [user]);
-
-    // Set form for editing an existing note
-    const handleEditClick = (note: NoteType) => {
-        setEditingNote(note);
-        setNewNote({
-            title: note.title,
-            category: note.category,
-            content: note.content,
-            color: note.color,
+        getAllNotes().then((data) => {
+            setNotes(data);
         });
-        setToggleVisibility(true);
-    };
+    }, [getAllNotes]);
 
-    // Reset form and hide it
-    const handleCancel = () => {
-        setEditingNote(null);
-        setNewNote({
-            title: "",
-            category: "",
-            content: "",
-            color: "red",
-        });
-        setToggleVisibility(false);
-    };
+    // Handle Create Note
 
-    // Handles both creating and updating notes
-    const handleSaveNote = async () => {
-        if (
-            !newNote.title.trim() ||
-            !newNote.content.trim() ||
-            !newNote.category
-        ) {
-            return; // Basic validation
-        }
+    // Handle Edit Save Note
 
-        let updatedNotes;
+    // Handle Editing Note
 
-        if (editingNote) {
-            // Update existing note
-            updatedNotes = notes.map((note: NoteType) =>
-                note.id === editingNote.id ? { ...note, ...newNote } : note,
-            );
-        } else {
-            // Add new note
-            updatedNotes = [
-                ...notes,
-                {
-                    id: generateId(4),
-                    ...newNote,
-                    created_at: new Date().toISOString(),
-                },
-            ];
-        }
-
-        try {
-            await axios.patch(`http://localhost:8000/notes/${user.notes_id}`, {
-                notes: updatedNotes,
-            });
-
-            setNotes(updatedNotes); // Immediately update the UI with the new data
-            handleCancel(); // Reset state and hide form
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    const handleDeleteNote = async (noteId: string) => {
-        try {
-            const updatedNotes = notes.filter(
-                (note: NoteType) => note.id !== noteId,
-            );
-            await axios.patch(`http://localhost:8000/notes/${user.notes_id}`, {
-                notes: updatedNotes,
-            });
-            setNotes(updatedNotes); // Optimistic UI update
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    // Handle Delete Note
 
     return (
         <section>
             <header className="mb-8 flex items-center justify-between">
-                <h1 className="text-3xl font-semibold">{t("title")}</h1>
-                {toggleVisibility == false && (
-                    <Button
-                        className="flex items-center gap-2 text-white"
-                        onClick={() => {
-                            setEditingNote(null); // Ensure we are in 'create' mode
-                            setToggleVisibility(true);
-                        }}
-                    >
-                        <Plus /> {t("cta1")}
-                    </Button>
-                )}
+                <h1 className="text-3xl font-semibold">Notes</h1>
+                <Button
+                    className="flex items-center gap-2 text-white"
+                    onClick={() => {}}
+                >
+                    <Plus /> Create Note
+                </Button>
             </header>
             {notes.length > 0 ? (
                 <main className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    {notes.map((note: NoteType) => (
-                        <div
-                            key={note.id}
-                            className={cn(
-                                "flex flex-col rounded-2xl border p-6 dark:text-black",
-                                colorMap[note.color],
-                            )}
-                        >
-                            <h2 className="text-xl font-semibold">
-                                {note.title}
-                            </h2>
-                            <p className="text-sm text-gray-500">
-                                {note.category} | Created{" "}
-                                {format(note.created_at)}
-                            </p>
-                            <div
-                                className="prose mt-4 flex-grow"
-                                dangerouslySetInnerHTML={{
-                                    __html: note.content,
-                                }}
-                            />
-                            <div className="mt-4 flex items-center justify-end gap-2 border-t pt-4">
-                                <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    onClick={() => handleEditClick(note)}
-                                >
-                                    <Edit className="h-5 w-5" />
-                                </Button>
-                                <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    onClick={() => handleDeleteNote(note.id)}
-                                >
-                                    <Trash className="h-5 w-5 text-red-500" />
-                                </Button>
-                            </div>
-                        </div>
+                    {notes.map((note: NotesType) => (
+                        <NoteCard key={note.id} note={note} />
                     ))}
                 </main>
             ) : (
                 <div className="flex h-64 items-center justify-center rounded-2xl border-2 border-dashed">
-                    <p className="text-lg text-gray-500">{t("no_notes")}</p>
+                    <p className="text-lg text-gray-500">No Notes</p>
                 </div>
             )}
 
-            {toggleVisibility && (
+            {/* Create Note */}
+
+            {/* Edit Note */}
+
+            {/* {toggleVisibility && (
                 <footer className="mt-12 flex flex-col gap-6 rounded-2xl border p-6">
                     <div className="flex flex-1 items-center justify-between">
                         <h2 className="text-xl font-semibold">
                             {editingNote ? t("edit_note") : t("write_new_note")}
                         </h2>
-                        <X
-                            className="cursor-pointer"
-                            onClick={handleCancel}
-                        />
+                        <X className="cursor-pointer" onClick={handleCancel} />
                     </div>
                     <div className="input-group">
                         <Label className="mb-2">{t("new_note_title")}</Label>
@@ -318,7 +140,7 @@ const NotesPage = () => {
                         {editingNote ? t("edit_note") : t("new_note_cta")}
                     </Button>
                 </footer>
-            )}
+            )} */}
         </section>
     );
 };

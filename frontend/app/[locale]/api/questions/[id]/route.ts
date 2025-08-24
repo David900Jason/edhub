@@ -8,7 +8,7 @@ export async function DELETE(
     try {
         const { id } = params;
         const response = await axios.delete(
-            `http://localhost:8000/questions/${id}`,
+            `http://localhost:8001/questions/${id}`,
         );
         return NextResponse.json(
             { ...response.data },
@@ -33,7 +33,7 @@ export async function PATCH(
         const { id } = params;
         const body = await request.json();
         const response = await axios.patch(
-            `http://localhost:8000/questions/${id}`,
+            `http://localhost:8001/questions/${id}`,
             {
                 question_text: body?.question_text,
             },

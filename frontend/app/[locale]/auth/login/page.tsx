@@ -12,6 +12,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { useRouter } from "@/i18n/routing";
 import { useLocale, useTranslations } from "next-intl";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { getUserProfile, loginUser } from "@/lib/api/auth";
 
 interface LoginFormData {
     email: string;
@@ -31,30 +33,19 @@ const Login = () => {
     } = useForm<LoginFormData>();
 
     const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
-        // Delay the function with a promise for 2 seconds
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        if (!isValid) return;
 
-        if (!isValid) {
-            return;
-        }
+        try {
+            const res = await loginUser(data);
+            const user_profile = await getUserProfile(res.access);
 
-        const res = await fetch(`/${locale}/api/auth`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                email: data.email,
-                password: data.password,
-            }),
-        });
+            localStorage.setItem("access", res.access);
+            localStorage.setItem("refresh", res.refresh);
+            localStorage.setItem("user_profile", JSON.stringify(user_profile));
 
-        const resData = await res.json();
-        console.log(resData.user);
-
-        if (resData.success) {
-            localStorage.setItem("user", JSON.stringify(resData.user));
-            router.push(`/dashboard`);
-        } else {
-            alert(resData.error);
+            router.push("/dashboard");
+        } catch (error) {
+            console.log(error);
         }
     };
 
@@ -116,7 +107,7 @@ const Login = () => {
                         variant="ghost"
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className={`absolute top-5.5 cursor-pointer rounded-md text-gray-500 !bg-transparent hover:!bg-transparent ${locale === "ar" ? "left-0" : "right-0"}`}
+                        className={`absolute top-5.5 cursor-pointer rounded-md !bg-transparent text-gray-500 hover:!bg-transparent ${locale === "ar" ? "left-0" : "right-0"}`}
                     >
                         {showPassword ? <Eye /> : <EyeOff />}
                     </Button>

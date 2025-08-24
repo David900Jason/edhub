@@ -1,37 +1,21 @@
-import { Suspense } from "react";
-import { School } from "lucide-react";
+"use client";
 
-import { getCourses, getEnrollmentsByUserId } from "@/lib/api/course";
+import { Suspense, useEffect, useState } from "react";
+import { School } from "lucide-react";
 import Banner from "@/components/containers/Banner";
 import CoursesFilter from "@/app/[locale]/courses/CoursesFilter";
-import { cookies } from "next/headers";
-import { redirect } from "@/i18n/routing";
-import { getLocale } from "next-intl/server";
+import { getCourses } from "@/lib/api/course";
 
-export default async function Courses() {
-    const cookieStore = await cookies();
-    const user = cookieStore.get("user");
-    const locale = await getLocale();
+export default function Courses() {
+    const [courses, setCourses] = useState<CourseType[]>([]);
 
-    let userData;
-    if (user) {
-        userData = JSON.parse(user.value);
-    }
-
-    // Check user role before opening this page
-    if (userData?.role === "teacher") {
-        return redirect({ href: "/dashboard/teacher/courses", locale });
-    }
-
-    const courses = await getCourses();
-    const enrollments = await getEnrollmentsByUserId(userData?.id || "");
-
-    const coursesNotInEnrollments = courses.filter(
-        (course) =>
-            !enrollments?.some(
-                (enrollment) => enrollment.course_id === course.id,
-            ),
-    );
+    useEffect(() => {
+        const fetchCourses = async () => {
+            const res = await getCourses();
+            setCourses(res);
+        };
+        fetchCourses();
+    }, []);
 
     return (
         <>
@@ -54,9 +38,7 @@ export default async function Courses() {
                     </p>
                 }
             >
-                <CoursesFilter
-                    coursesData={userData ? coursesNotInEnrollments : courses}
-                />
+                <CoursesFilter coursesData={courses} />
             </Suspense>
         </>
     );

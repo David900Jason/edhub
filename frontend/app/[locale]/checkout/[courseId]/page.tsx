@@ -1,3 +1,5 @@
+"use client";
+
 import {
     Card,
     CardContent,
@@ -6,17 +8,23 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import Tag from "@/components/ui/Tag";
-import { getCourse } from "@/lib/api/course";
-import { getTeacherById } from "@/lib/api/user";
 import PaymentToggle from "./PaymentToggle";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import { getCourse } from "@/lib/api/course";
 
-const CheckoutClient = ({
-    course,
-    teacher,
-}: {
-    course: CourseType;
-    teacher: UserType;
-}) => {
+const CheckoutPage = () => {
+    const { courseId } = useParams();
+    const [course, setCourse] = useState<CourseType | null>(null);
+
+    useEffect(() => {
+        const fetchCourse = async () => {
+            const res = await getCourse(courseId as string);
+            setCourse(res);
+        };
+        fetchCourse();
+    }, []);
+
     return (
         <main className="flex min-h-screen flex-col items-center justify-center">
             <Card className="min-w-[450px]">
@@ -35,7 +43,7 @@ const CheckoutClient = ({
                                 ID:
                             </h3>
                             <p className="flex-1/2 text-end text-lg text-gray-500">
-                                {course.id}
+                                {course?.id}
                             </p>
                         </div>
                         <div className="flex items-start justify-between">
@@ -43,15 +51,7 @@ const CheckoutClient = ({
                                 Course Name:
                             </h3>
                             <p className="flex-1/2 text-end text-lg text-gray-500">
-                                &quot;{course.title}&quot;
-                            </p>
-                        </div>
-                        <div className="flex items-start justify-between">
-                            <h3 className="flex-1/2 text-lg font-medium">
-                                School Year:
-                            </h3>
-                            <p className="flex-1/2 text-end text-lg text-gray-500">
-                                <Tag color="purple">{course.school_year}</Tag>
+                                &quot;{course?.title}&quot;
                             </p>
                         </div>
                         <div className="flex items-start justify-between">
@@ -59,7 +59,7 @@ const CheckoutClient = ({
                                 Teacher Name:
                             </h3>
                             <p className="flex-1/2 text-end text-lg text-gray-500">
-                                {teacher.full_name}
+                                {course?.teacher?.full_name}
                             </p>
                         </div>
                         <div className="flex items-start justify-between">
@@ -67,7 +67,7 @@ const CheckoutClient = ({
                                 Subject:
                             </h3>
                             <p className="flex-1/2 text-end text-lg text-gray-500">
-                                <Tag color="blue">{course.category}</Tag>
+                                <Tag color="blue">{course?.category}</Tag>
                             </p>
                         </div>
                         <div className="flex items-start justify-between">
@@ -75,14 +75,14 @@ const CheckoutClient = ({
                                 Price:
                             </h3>
                             <p className="text-primary flex-1/2 text-end text-lg font-extrabold">
-                                {course.price}
+                                {course?.price}
                                 <span className="text-xs font-extrabold text-gray-500">
                                     {" "}
-                                    EGP
+                                    {course?.currency}
                                 </span>
                             </p>
                         </div>
-                        <PaymentToggle course={course} />
+                        <PaymentToggle course={course as CourseType} />
                     </div>
                 </CardContent>
             </Card>
@@ -90,18 +90,4 @@ const CheckoutClient = ({
     );
 };
 
-export default async function CheckoutPage({
-    params,
-}: {
-    params: { courseId: string };
-}) {
-    const course = await getCourse(params.courseId);
-    const teacher = await getTeacherById(course?.teacher_id || "1");
-
-    return (
-        <CheckoutClient
-            course={course as CourseType}
-            teacher={teacher as UserType}
-        />
-    );
-}
+export default CheckoutPage;

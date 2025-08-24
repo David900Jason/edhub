@@ -10,7 +10,7 @@ const TodoList = async () => {
     const tasksId = JSON.parse(cookiesStore.get("user")?.value || "")?.tasks_id;
     const t = await getTranslations("STUDENT_DASHBOARD.TODO_LIST");
 
-    const res = await axios.get(`http://localhost:8000/tasks/${tasksId}`);
+    const res = await axios.get(`http://localhost:8001/tasks/${tasksId}`);
     const tasks = res.data;
 
     return (

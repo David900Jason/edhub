@@ -29,7 +29,7 @@ type Answer = {
 };
 
 const Quiz = ({ quiz }: { quiz: Quiz | null }) => {
-    const [user] = useLocalStorage("user", null);
+    const [user] = useLocalStorage("user_profile", null);
     const [questionIndex, setQuestionIndex] = useState(0);
     const [quizSession, setQuizSession] = useState<QuizSession | null>({
         id: generateId(4),
@@ -54,7 +54,10 @@ const Quiz = ({ quiz }: { quiz: Quiz | null }) => {
 
         // Check if quiz session exists
         const fetchQuizSession = async () => {
-            const quizSession = await getQuizSessionByUserId(user?.id || "", quiz?.id || "");
+            const quizSession = await getQuizSessionByUserId(
+                user?.id || "",
+                quiz?.id || "",
+            );
             setQuizSession(quizSession);
 
             if (quizSession) {
@@ -128,7 +131,10 @@ const Quiz = ({ quiz }: { quiz: Quiz | null }) => {
             <CardHeader className="flex items-start justify-between">
                 <CardTitle>
                     <h2 className="mb-4 text-2xl font-semibold">
-                        Question {questionIndex + 1} <span className="text-sm p-lead font-semibold">({quiz?.questions[questionIndex].mark} marks)</span>
+                        Question {questionIndex + 1}{" "}
+                        <span className="p-lead text-sm font-semibold">
+                            ({quiz?.questions[questionIndex].mark} marks)
+                        </span>
                     </h2>
                     <p className="text-lg font-semibold">
                         {quiz?.questions[questionIndex].question_text}

@@ -21,7 +21,7 @@ const PaymentDialog = ({
 }: {
     children: React.ReactNode;
     paymentItem: string;
-    courseId: number | undefined;
+    courseId: string;
 }) => {
     return (
         <Dialog>

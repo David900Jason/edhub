@@ -4,16 +4,11 @@ import { Loader2 } from "lucide-react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { redirect } from "@/i18n/routing";
 import { useLocale } from "next-intl";
+import { logoutUser } from "@/lib/api/auth";
 
 const Logout = () => {
-    const [user, setUser] = useLocalStorage("user", null);
     const locale = useLocale();
-    
-    async function logoutUser() {
-        await fetch(`/${locale}/api/auth/logout`, {
-            method: "POST",
-        });
-    }
+    const [user] = useLocalStorage("user_profile", null);
 
     // No user, redirect to login
     if (!user) {
@@ -22,7 +17,6 @@ const Logout = () => {
 
     // User found, logout
     if (user) {
-        setUser(null);
         logoutUser();
         redirect({ href: "/auth/login", locale });
     }

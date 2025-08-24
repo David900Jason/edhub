@@ -3,14 +3,9 @@
 import { useState, useMemo, useDeferredValue } from "react";
 import CoursesGrid from "./CoursesGrid";
 
-const CoursesFilter = ({
-    coursesData,
-}: {
-    coursesData: CourseType[] | undefined;
-}) => {
+const CoursesFilter = ({ coursesData }: { coursesData: CourseType[] }) => {
     const [searchQuery, setSearchQuery] = useState("");
     const [filters, setFilters] = useState({
-        school_year: "",
         category: "",
     });
 
@@ -28,9 +23,6 @@ const CoursesFilter = ({
                 course.category
                     .toLowerCase()
                     .includes(filters?.category.toLowerCase()) &&
-                course.school_year
-                    .toLowerCase()
-                    .includes(filters?.school_year.toLowerCase()) &&
                 course.title
                     .toLowerCase()
                     .includes(deferredSearchQuery.toLowerCase())

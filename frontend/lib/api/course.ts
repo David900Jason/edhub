@@ -1,11 +1,24 @@
 import axios from "axios";
+import api from ".";
 import { getTeacherById } from "./user";
+import { refreshUser } from "./auth";
 
 export const getCourses = async (): Promise<CourseType[]> => {
+    const access = localStorage.getItem("access");
+    if (!access) return [];
+
     try {
-        const res = await axios.get(`http://localhost:8000/courses/`);
+        const res = await api.get("/courses/", {
+            headers: {
+                Authorization: `Bearer ${access}`,
+            },
+        });
         return res.data;
-    } catch (error: unknown) {
+    } catch (error: any) {
+        if (error.status === 401) {
+            refreshUser();
+            getCourses();
+        }
         console.error(error);
         return [];
     }
@@ -14,12 +27,21 @@ export const getCourses = async (): Promise<CourseType[]> => {
 export const getCourse = async (
     courseId: string,
 ): Promise<CourseType | null> => {
+    const access = localStorage.getItem("access");
+    if (!access) return null;
+
     try {
-        const res = await axios.get(
-            `http://localhost:8000/courses/${courseId}`,
-        );
+        const res = await api.get(`/courses/${courseId}`, {
+            headers: {
+                Authorization: `Bearer ${access}`,
+            },
+        });
         return res.data;
-    } catch (error: unknown) {
+    } catch (error: any) {
+        if (error.status === 401) {
+            refreshUser();
+            getCourse(courseId);
+        }
         console.error(error);
         return null;
     }
@@ -30,7 +52,7 @@ export const getEnrollmentsByUserId = async (
 ): Promise<EnrollmentType[] | null> => {
     try {
         const res = await axios.get(
-            `http://localhost:8000/enrollments?user_id=${userId}&status=active`,
+            `http://localhost:8001/enrollments?user_id=${userId}&status=active`,
         );
         return res.data;
     } catch (error: unknown) {
@@ -45,7 +67,7 @@ export const getEnrollmentByCourseId = async (
 ): Promise<EnrollmentType[]> => {
     try {
         const res = await axios.get(
-            `http://localhost:8000/enrollments?course_id=${courseId}&user_id=${userId}`,
+            `http://localhost:8001/enrollments?course_id=${courseId}&user_id=${userId}`,
         );
         return res.data;
     } catch (error: unknown) {
@@ -54,33 +76,66 @@ export const getEnrollmentByCourseId = async (
     }
 };
 
-export const getInvoicesByUserId = async (
-    userId: string,
-): Promise<InvoiceType[]> => {
+export const getUserWallet = async () => {
+    const access = localStorage.getItem("access");
+    if (!access) return;
+
     try {
-        const res = await axios.get(
-            `http://localhost:8000/enrollments?user_id=${userId}`,
-        );
-        const teachers = await Promise.all(
-            res.data.map((enrollment: EnrollmentType) =>
-                getTeacherById(enrollment.teacher_id),
-            ),
-        );
-        const courses = await Promise.all(
-            res.data.map((enrollment: EnrollmentType) => getCourse(enrollment.course_id)) ||
-                [],
-        );
-        const enrollments = res.data.map((enrollment: EnrollmentType) => ({
-            ...enrollment,
-            teacher_name: teachers?.find(
-                (teacher) => teacher?.id === enrollment?.teacher_id,
-            )?.full_name,
-            course_name: courses?.find(
-                (course) => course?.id === enrollment?.course_id,
-            )?.title,
-        }));
-        return enrollments;
-    } catch (error: unknown) {
+        const res = await api.get("/payments/wallet/me/", {
+            headers: {
+                Authorization: `Bearer ${access}`,
+            },
+        });
+        return res.data;
+    } catch (error: any) {
+        if (error.status === 401) {
+            refreshUser();
+            getUserWallet();
+        }
+        console.error(error);
+        return;
+    }
+};
+
+export const updateWallet = async (code: string) => {
+    const access = localStorage.getItem("access");
+    if (!access) return;
+
+    try {
+        const res = await api.post("/payments/wallet/me/topup/", {
+            code: code,
+        }, {
+            headers: {
+                Authorization: `Bearer ${access}`,
+            },
+        });
+        return res.data;
+    } catch (error: any) {
+        if (error.status === 401) {
+            refreshUser();
+            updateWallet(code);
+        }
+        console.error(error);
+        return;
+    }
+};
+
+export const getUserTransactions = async (): Promise<InvoiceType[]> => {
+    const access = localStorage.getItem("access");
+    if (!access) return [];
+
+    try {
+        const res = await api.get("/payments/wallet/me/payments/", {
+            headers: {
+                Authorization: `Bearer ${access}`,
+            },
+        });
+        return res.data;
+    } catch (error: any) {
+        if (error.status === 401) {
+            refreshUser();
+            getUserTransactions();
+        }
         console.error(error);
         return [];
     }
@@ -92,7 +147,7 @@ export const checkEnrollment = async (
 ): Promise<boolean> => {
     try {
         const res = await axios.get(
-            `http://localhost:8000/enrollments?course_id=${courseId}&user_id=${userId}&status=active`,
+            `http://localhost:8001/enrollments?course_id=${courseId}&user_id=${userId}&status=active`,
         );
         return res.data.length > 0;
     } catch (error: unknown) {
@@ -106,7 +161,7 @@ export const getAllTeachersCourses = async (
 ): Promise<CourseType[]> => {
     try {
         const res = await axios.get(
-            `http://localhost:8000/courses?teacher_id=${teacherId}`,
+            `http://localhost:8001/courses?teacher_id=${teacherId}`,
         );
         return res.data;
     } catch (error: unknown) {
@@ -117,7 +172,7 @@ export const getAllTeachersCourses = async (
 
 export const deleteCourse = async (courseId: string): Promise<boolean> => {
     try {
-        await axios.delete(`http://localhost:8000/courses/${courseId}`);
+        await axios.delete(`http://localhost:8001/courses/${courseId}`);
         return true;
     } catch (error: unknown) {
         console.error("Error deleting course:", error);
@@ -131,7 +186,7 @@ export const updateCourse = async (
 ): Promise<boolean> => {
     try {
         await axios.put(
-            `http://localhost:8000/courses/${courseId}`,
+            `http://localhost:8001/courses/${courseId}`,
             courseData,
         );
         return true;
@@ -168,7 +223,7 @@ export const getTeacherStudents = async (
         // Get enrollments for each course
         const enrollmentsPromises = courses.map((course) =>
             axios
-                .get(`http://localhost:8000/courses/${course.id}/enrollments`)
+                .get(`http://localhost:8001/courses/${course.id}/enrollments`)
                 .then((res) => res.data)
                 .catch((error) => {
                     console.error(
@@ -197,7 +252,7 @@ export const getTeacherStudents = async (
 
                 try {
                     const studentRes = await axios.get(
-                        `http://localhost:8000/users/${enrollment.user_id}`,
+                        `http://localhost:8001/users/${enrollment.user_id}`,
                     );
                     console.log("Student API response:", studentRes.data);
 
@@ -284,7 +339,7 @@ export const createCourse = async (
             rating: 0,
         };
 
-        const response = await axios.post("http://localhost:8000/courses", {
+        const response = await axios.post("http://localhost:8001/courses", {
             ...defaultValues,
             ...courseData,
         });
@@ -295,4 +350,3 @@ export const createCourse = async (
         return null;
     }
 };
-

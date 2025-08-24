@@ -17,8 +17,8 @@ const CoursesGrid = ({
 }: {
     searchQuery: string;
     setSearchQuery: (query: string) => void;
-    filters: { school_year: string; category: string };
-    setFilters: (filters: { school_year: string; category: string }) => void;
+    filters: { category: string };
+    setFilters: (filters: { category: string }) => void;
     uniqueSubjects: Set<string>;
     handleFilterChange: (filter: string, value: string) => void;
     filteredCourses: CourseType[] | undefined;
@@ -34,14 +34,6 @@ const CoursesGrid = ({
 
                 <div className="flex flex-wrap items-center gap-4">
                     <FilterSelect
-                        placeholder="School year"
-                        options={["Grade 10", "Grade 11", "Grade 12"]}
-                        value={filters?.school_year}
-                        onValueChange={(value) =>
-                            handleFilterChange("school_year", value)
-                        }
-                    />
-                    <FilterSelect
                         placeholder="Subject"
                         options={Array.from(uniqueSubjects) as string[]}
                         value={filters?.category}
@@ -54,7 +46,6 @@ const CoursesGrid = ({
                         onClick={() => {
                             setSearchQuery("");
                             setFilters({
-                                school_year: "",
                                 category: "",
                             });
                         }}

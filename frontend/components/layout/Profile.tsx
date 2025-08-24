@@ -20,7 +20,7 @@ import LanguageSwitchLink from "./LanguageSwitchLink";
 import { useLocale, useTranslations } from "next-intl";
 
 const Profile = () => {
-    const [user] = useLocalStorage("user", null);
+    const [user] = useLocalStorage("user_profile", null);
     const { theme, setTheme } = useTheme();
     const locale = useLocale();
     const t = useTranslations("NAVBAR");
@@ -66,7 +66,7 @@ const Profile = () => {
                         </li>
                     </ul>
                     <SheetFooter>
-                        <div className="flex justify-between items-center gap-2">
+                        <div className="flex items-center justify-between gap-2">
                             <div className="flex items-center gap-2">
                                 <span>
                                     {theme === "dark" ? (

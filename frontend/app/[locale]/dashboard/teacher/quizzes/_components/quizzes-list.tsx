@@ -22,7 +22,7 @@ import { useTranslations } from "next-intl";
 
 const QuizzesList = () => {
     const t = useTranslations("TEACHER_DASHBOARD.QUIZZES");
-    const [user] = useLocalStorage("user", null);
+    const [user] = useLocalStorage("user_profile", null);
     const [quizzes, setQuizzes] = useState<Quiz[]>([]);
     const [courses, setCourses] = useState<CourseType[]>([]);
     const [filteredQuizzes, setFilteredQuizzes] = useState<Quiz[]>([]);
@@ -84,13 +84,27 @@ const QuizzesList = () => {
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead className="text-start">{t("quizzes_table.head1")}</TableHead>
-                            <TableHead className="text-start">{t("quizzes_table.head2")}</TableHead>
-                            <TableHead className="text-start">{t("quizzes_table.head3")}</TableHead>
-                            <TableHead className="text-start">{t("quizzes_table.head4")}</TableHead>
-                            <TableHead className="text-start">{t("quizzes_table.head5")}</TableHead>
-                            <TableHead className="text-start">{t("quizzes_table.head6")}</TableHead>
-                            <TableHead className="text-start">{t("quizzes_table.head7")}</TableHead>
+                            <TableHead className="text-start">
+                                {t("quizzes_table.head1")}
+                            </TableHead>
+                            <TableHead className="text-start">
+                                {t("quizzes_table.head2")}
+                            </TableHead>
+                            <TableHead className="text-start">
+                                {t("quizzes_table.head3")}
+                            </TableHead>
+                            <TableHead className="text-start">
+                                {t("quizzes_table.head4")}
+                            </TableHead>
+                            <TableHead className="text-start">
+                                {t("quizzes_table.head5")}
+                            </TableHead>
+                            <TableHead className="text-start">
+                                {t("quizzes_table.head6")}
+                            </TableHead>
+                            <TableHead className="text-start">
+                                {t("quizzes_table.head7")}
+                            </TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -112,7 +126,8 @@ const QuizzesList = () => {
                                         <Link
                                             href={`/dashboard/teacher/quizzes/${quiz.id}/questions`}
                                         >
-                                            <FileText /> {t("quizzes_table.questions")}
+                                            <FileText />{" "}
+                                            {t("quizzes_table.questions")}
                                         </Link>
                                     </Button>
                                 </TableCell>

@@ -1,81 +1,63 @@
 import api from "@/lib/api";
+import { cookies } from "next/headers";
 
-export const loginUser = async ({
-    email,
-    password,
-}: {
-    email: string;
-    password: string;
-}) => {
-    try {
-        const res = await api.post("/auth/login", {
-            email,
-            password,
-        });
-        const data = await res.data;
-        console.log(data.message);
+// export const logoutUser = async () => {
+//     localStorage.removeItem("access_token");
+//     localStorage.removeItem("refresh_token");
+//     localStorage.removeItem("user_profile");
+// };
 
-        if (data) {
-            localStorage.setItem("access_token", JSON.stringify(data.access));
-            localStorage.setItem("refresh_token", JSON.stringify(data.refresh));
-        }
-        return data;
-    } catch (error) {
-        console.log(error);
-    }
-};
+// export const editUserProfile = async (data: {
+//     full_name?: string;
+//     email: string;
+//     birth_date?: string;
+//     city?: string;
+//     parent_number?: string;
+//     phone_number?: string;
+// }) => {
+//     const token = localStorage.getItem("access") || "";
+//     if (!token) return;
 
-export const getUserProfile = async () => {
-    const token = JSON.parse(localStorage.getItem("access_token") || "");
-    if (!token) return;
+//     try {
+//         const res = await api.put("/users/me", data, {
+//             headers: {
+//                 Authorization: `Bearer ${token}`,
+//             },
+//         });
+//         const resData = await res.data;
 
-    try {
-        const res = await api.get("/user/me", {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        const data = await res.data;
-        console.log(data);
+//         if (resData) {
+//             localStorage.setItem("user_profile", JSON.stringify(resData));
+//         }
 
-        if (data) {
-            localStorage.setItem("user_profile", JSON.stringify(data));
-        }
+//         return resData;
+//     } catch (error: any) {
+//         if (error.response.status === 401 || !token) {
+//             refreshUser();
+//             editUserProfile(data);
+//             return;
+//         }
+//         console.error(error);
+//     }
+// };
 
-        return data;
-    } catch (error) {
-        console.log(error);
-    }
-};
+// export const refreshUser = async () => {
+//     const cookieStore = await cookies();
+//     const refresh = cookieStore.get("refresh")?.value;
 
-export const refreshUser = async () => {
-    const token = JSON.parse(localStorage.getItem("refresh_token") || "");
-    if (!token) return;
+//     // request an access token
+//     try {
+//         const res = await api.post("/auth/refresh", {
+//             refresh
+//         });
+//         const data = await res.data;
+//         console.log(data.access);
+//     } catch (error) {
+//         console.log(error);
+//     }
+// };
 
-    try {
-        const res = await api.post("/auth/refresh", {
-            refresh: token,
-        });
-        const data = await res.data;
-        console.log(data);
-
-        if (data) {
-            localStorage.setItem("access_token", JSON.stringify(data.access));
-        }
-
-        return data;
-    } catch (error) {
-        console.log(error);
-    }
-};
-
-export const logoutUser = async () => {
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("refresh_token");
-    localStorage.removeItem("user_profile");
-};
-
-// export const activateUser = async () => {
+// export const activateUser = async (adminToken: string) => {
 //     const user = JSON.parse(localStorage.getItem("user_profile") || "");
 //     const token = JSON.parse(localStorage.getItem("access_token") || "");
 //     if (!user) return;
@@ -85,7 +67,7 @@ export const logoutUser = async () => {
 //             email: user.email,
 //         }, {
 //             headers: {
-//                 Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU1ODc1ODYyLCJpYXQiOjE3NTU4NzU1NjIsImp0aSI6IjJlNTg4ZTFiYzdkZjQyNTNiYzE5ZThjMzcxMzczMTk2IiwidXNlcl9pZCI6IjJkZmU2Y2JiLThkNTAtNDFiMi1hZTkwLWE3MmMwZGFhZmVhNyJ9.WzHfjryjILxjatnF3DoU3tzo8R8d-ETtQQxovlIbD8A`,
+//                 Authorization: `Bearer ${adminToken}`,
 //             },
 //         });
 //         const data = await res.data;

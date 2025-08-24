@@ -13,10 +13,10 @@ const CoursesView = ({
     searchQuery?: string;
 }) => {
     const [searchInput, setSearchInput] = useState(searchQuery || "");
-    const t = useTranslations("STUDENT_DASHBOARD.COURSES");
     const deferredSearchInput = useDeferredValue(searchInput);
     const locale = useLocale();
     const dir = locale === 'ar' ? 'rtl' : 'ltr'; // Set direction based on locale
+    const t = useTranslations("STUDENT_DASHBOARD.COURSES");
 
     // TODO: Search Bar Functionality
     const filteredCourses = useMemo(() => {

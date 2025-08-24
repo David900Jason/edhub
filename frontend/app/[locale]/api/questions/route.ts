@@ -6,7 +6,7 @@ export async function POST(request: Request) {
     try {
         const body = await request.json();
 
-        const response = await axios.post("http://localhost:8000/questions", {
+        const response = await axios.post("http://localhost:8001/questions", {
             ...body,
             id: generateId(4),
             reply: {

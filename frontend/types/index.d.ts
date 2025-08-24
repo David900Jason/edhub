@@ -37,21 +37,23 @@ interface ProfileButtonLinksType {
 
 // Course Types
 interface CourseType {
-    id: string;
-    title: string;
-    description: string;
-    teacher_id: string;
-    price: number;
-    school_year: string;
-    discount: number;
+    category: string;
+    created_at: string;
     currency: string;
+    description: string;
+    discount: number;
+    id: string;
     is_paid: boolean;
     is_published: boolean;
-    category: string;
+    price: number;
+    rating: number;
     thumbnail: string;
-    created_at: string;
+    title: string;
     updated_at: string;
-    rating?: number;
+    teacher?: {
+        id: string;
+        full_name: string;
+    };
 }
 
 // Signup Form Types
@@ -140,9 +142,13 @@ interface EnrollmentType {
     payment_id?: string;
 }
 
-interface InvoiceType extends EnrollmentType {
-    course_name: string;
-    teacher_name: string;
+interface InvoiceType {
+    id: string;
+    payment_id: string;
+    amount: string;
+    code: string;
+    created_at: string;
+    is_used: boolean;
 }
 
 interface Video {
@@ -259,4 +265,14 @@ declare interface UploadBookForm {
     description: string;
     position_id: string;
     pdf_file: File | null;
+}
+
+declare interface NotesType {
+    id: string;
+    title: string;
+    category: string;
+    content: string;
+    color: string;
+    created_at: string;
+    updated_at: string;
 }

@@ -3,7 +3,7 @@ import axios from "axios";
 export const getVideosById = async (courseId: string): Promise<Video[]> => {
     try {
         const response = await axios.get(
-            `http://localhost:8000/videos?course_id=${courseId}`,
+            `http://localhost:8001/videos?course_id=${courseId}`,
         );
         return response.data;
     } catch (error) {
@@ -15,7 +15,7 @@ export const getVideosById = async (courseId: string): Promise<Video[]> => {
 export const getVideoById = async (videoId: string): Promise<Video | null> => {
     try {
         const response = await axios.get(
-            `http://localhost:8000/videos/${videoId}`,
+            `http://localhost:8001/videos/${videoId}`,
         );
         return response.data;
     } catch (error) {
@@ -24,10 +24,12 @@ export const getVideoById = async (videoId: string): Promise<Video | null> => {
     }
 };
 
-export const getVideoBooks = async (videoId: string | number): Promise<Book[]> => {
+export const getVideoBooks = async (
+    videoId: string | number,
+): Promise<Book[]> => {
     try {
         const response = await axios.get(
-            `http://localhost:8000/books?video_id=${videoId}`,
+            `http://localhost:8001/books?video_id=${videoId}`,
         );
         return response.data;
     } catch (error) {
@@ -36,29 +38,33 @@ export const getVideoBooks = async (videoId: string | number): Promise<Book[]> =
     }
 };
 
-export const getVideoQuestions = async (videoId: string | number): Promise<QnA[]> => {
+export const getVideoQuestions = async (
+    videoId: string | number,
+): Promise<QnA[]> => {
     try {
         const response = await axios.get(
-            `http://localhost:8000/questions?video_id=${videoId}`,
+            `http://localhost:8001/questions?video_id=${videoId}`,
         );
         return response.data;
     } catch (error) {
         console.error(error);
         return [];
     }
-}
+};
 
-export const getVideoQuestionsByUserId = async (userId: string | number): Promise<QnA[]> => {
+export const getVideoQuestionsByUserId = async (
+    userId: string | number,
+): Promise<QnA[]> => {
     try {
         const response = await axios.get(
-            `http://localhost:8000/questions?user_id=${userId}`,
+            `http://localhost:8001/questions?user_id=${userId}`,
         );
         return response.data;
     } catch (error) {
         console.error(error);
         return [];
     }
-}
+};
 
 export const updateLikes = async (
     videoId: string | number,
@@ -66,7 +72,7 @@ export const updateLikes = async (
 ): Promise<Video | null> => {
     try {
         const response = await axios.patch(
-            `http://localhost:8000/videos/${videoId}`,
+            `http://localhost:8001/videos/${videoId}`,
             {
                 likes: likes,
             },
@@ -84,7 +90,7 @@ export const updateViews = async (
 ): Promise<Video | null> => {
     try {
         const response = await axios.patch(
-            `http://localhost:8000/videos/${videoId}`,
+            `http://localhost:8001/videos/${videoId}`,
             {
                 views: views,
             },

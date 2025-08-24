@@ -19,7 +19,7 @@ import {
 import { cities } from "@/constants";
 
 const ProfileSettingsPage = () => {
-    const [user] = useLocalStorage("user", null);
+    const [user] = useLocalStorage("user_profile", null);
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState<UpdateUserData>({
         full_name: user?.full_name || "",
@@ -91,7 +91,9 @@ const ProfileSettingsPage = () => {
                     <h2 className="mb-2 text-2xl font-extrabold max-sm:text-center">
                         {user?.full_name.split(" ")[0]}
                     </h2>
-                    <p className={`text-muted-foreground max-sm:text-center ${isEditing ? "mb-4" : ""}`}>
+                    <p
+                        className={`text-muted-foreground max-sm:text-center ${isEditing ? "mb-4" : ""}`}
+                    >
                         {user?.school_year && user?.school_year + "'s Student"}
                         {user?.role === "teacher" && "Teacher"}
                     </p>
@@ -129,7 +131,7 @@ const ProfileSettingsPage = () => {
                         Personal Information
                     </h2>
                 </header>
-                <main className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <main className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                     <div className="w-4/5">
                         <Label className="mb-2 font-semibold !text-black dark:!text-white">
                             Full Name
@@ -226,7 +228,7 @@ const ProfileSettingsPage = () => {
                         Account Information
                     </h2>
                 </header>
-                <main className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <main className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                     <div>
                         <Label className="mb-2 font-semibold !text-black dark:!text-white">
                             Birth Date
@@ -297,7 +299,7 @@ const ProfileSettingsPage = () => {
                         Status Information
                     </h2>
                 </header>
-                <main className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <main className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                     <div className="w-4/5">
                         <Label className="mb-2 font-semibold !text-black dark:!text-white">
                             Active

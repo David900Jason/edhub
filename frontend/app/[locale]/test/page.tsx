@@ -1,22 +1,5 @@
-"use client";
-
-import { useEffect } from "react";
-import {
-    loginUser,
-    logoutUser,
-    refreshUser,
-} from "./test_api";
-
-const Test = () => {
-    useEffect(() => {
-        
-    }, []);
-
-    return (
-        <div className="m-4">
-            Test
-        </div>
-    );
+const Test = async () => {
+    return <div className="m-4">Test page</div>;
 };
 
 export default Test;

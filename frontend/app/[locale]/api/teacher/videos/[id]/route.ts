@@ -8,7 +8,7 @@ export async function DELETE(
     try {
         const { id } = params;
 
-        const video = await axios.get(`http://localhost:8000/videos/${id}`);
+        const video = await axios.get(`http://localhost:8001/videos/${id}`);
 
         if (!video) {
             return NextResponse.json(
@@ -17,7 +17,7 @@ export async function DELETE(
             );
         }
 
-        await axios.delete(`http://localhost:8000/videos/${id}`);
+        await axios.delete(`http://localhost:8001/videos/${id}`);
 
         return NextResponse.json({ success: true });
     } catch (error) {
@@ -28,4 +28,3 @@ export async function DELETE(
         );
     }
 }
-

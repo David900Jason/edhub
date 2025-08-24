@@ -7,13 +7,15 @@ import { updateUserActivation } from "@/lib/api/auth";
 import { useRouter } from "@/i18n/routing";
 
 const ActivateUser = () => {
-    const [user, setUser] = useLocalStorage("user", null);
+    const [user, setUser] = useLocalStorage("user_profile", null);
     const router = useRouter();
 
     useEffect(() => {
         const activateUserLoggedIn = async () => {
             try {
-                const currentUser = await updateUserActivation(user?.id as string);
+                const currentUser = await updateUserActivation(
+                    user?.id as string,
+                );
                 setUser(currentUser);
                 router.back();
             } catch (error) {

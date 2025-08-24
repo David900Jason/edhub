@@ -5,7 +5,7 @@ export const getTeacherAssignments = async (
 ): Promise<Assignment[]> => {
     try {
         const response = await axios.get(
-            `http://localhost:8000/assignments?teacher_id=${teacherId}`,
+            `http://localhost:8001/assignments?teacher_id=${teacherId}`,
         );
         return response.data || [];
     } catch (error) {
@@ -19,7 +19,7 @@ export const getAssignmentsByTeacherId = async (
 ): Promise<Assignment[] | null> => {
     try {
         const res = await axios.get(
-            `http://localhost:8000/assignments?teacher_id=${teacherId}`,
+            `http://localhost:8001/assignments?teacher_id=${teacherId}`,
         );
         return res.data;
     } catch (error: unknown) {
@@ -33,7 +33,7 @@ export const getAssignmentsByCourseId = async (
 ): Promise<Assignment[]> => {
     try {
         const res = await axios.get(
-            `http://localhost:8000/assignments?course_id=${courseId}`,
+            `http://localhost:8001/assignments?course_id=${courseId}`,
         );
         return res.data;
     } catch (error: unknown) {
@@ -47,7 +47,7 @@ export const getAssignmentById = async (
 ): Promise<Assignment | null> => {
     try {
         const res = await axios.get(
-            `http://localhost:8000/assignments/${assignmentId}`,
+            `http://localhost:8001/assignments/${assignmentId}`,
         );
         return res.data;
     } catch (error: unknown) {
@@ -61,7 +61,7 @@ export const createAssignment = async (
 ): Promise<Assignment | null> => {
     try {
         const res = await axios.post(
-            "http://localhost:8000/assignments",
+            "http://localhost:8001/assignments",
             assignment,
         );
         return res.data;
@@ -77,7 +77,7 @@ export const updateAssignment = async (
 ): Promise<Assignment | null> => {
     try {
         const res = await axios.patch(
-            `http://localhost:8000/assignments/${id}`,
+            `http://localhost:8001/assignments/${id}`,
             data,
         );
         return res.data;
@@ -91,7 +91,7 @@ export const deleteAssignmentById = async (
     assignmentId: string,
 ): Promise<boolean> => {
     try {
-        await axios.delete(`http://localhost:8000/assignments/${assignmentId}`);
+        await axios.delete(`http://localhost:8001/assignments/${assignmentId}`);
         return true;
     } catch (error: unknown) {
         console.error(error);
@@ -114,7 +114,7 @@ export const addQuestionToAssignment = async (
         ];
 
         const res = await axios.patch(
-            `http://localhost:8000/assignments/${assignmentId}`,
+            `http://localhost:8001/assignments/${assignmentId}`,
             {
                 questions: updatedQuestions,
             },
@@ -139,7 +139,7 @@ export const updateQuestionInAssignment = async (
         const updatedQuestions = [...currentAssignment.questions];
         updatedQuestions[questionIndex] = question;
 
-        await axios.patch(`http://localhost:8000/assignments/${assignmentId}`, {
+        await axios.patch(`http://localhost:8001/assignments/${assignmentId}`, {
             questions: updatedQuestions,
         });
 
@@ -162,7 +162,7 @@ export const deleteQuestionFromAssignment = async (
             (_, index) => index !== questionIndex,
         );
 
-        await axios.patch(`http://localhost:8000/assignments/${assignmentId}`, {
+        await axios.patch(`http://localhost:8001/assignments/${assignmentId}`, {
             questions: updatedQuestions,
         });
 

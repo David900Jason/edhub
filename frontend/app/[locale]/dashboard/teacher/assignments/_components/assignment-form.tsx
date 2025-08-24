@@ -29,7 +29,7 @@ const AssignmentNewForm = () => {
         formState: { errors, isSubmitting },
     } = useForm<Assignment>();
     const [courses, setCourses] = useState<CourseType[]>([]);
-    const [user] = useLocalStorage("user", null);
+    const [user] = useLocalStorage("user_profile", null);
     const router = useRouter();
     const t = useTranslations("TEACHER_DASHBOARD.ASSIGNMENTS.NEW_ASSIGNMENT");
 

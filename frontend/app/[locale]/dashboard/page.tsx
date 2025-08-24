@@ -5,8 +5,12 @@ import { redirect } from "@/i18n/routing";
 import { useLocale } from "next-intl";
 
 const DashboardPage = () => {
-    const [user] = useLocalStorage("user", null);
+    const [user] = useLocalStorage("user_profile", null);
     const locale = useLocale();
+
+    if (!user) {
+        redirect({ href: "/auth/login", locale });
+    }
 
     if (user.role === "student") {
         redirect({ href: "/dashboard/student", locale });

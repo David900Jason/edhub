@@ -29,7 +29,7 @@ export interface EditExamFormType {
     marks: number;
     passing_score?: number;
     course_id: string;
-};
+}
 
 const EditExamPage = () => {
     const { examId }: { examId: string } = useParams();
@@ -39,7 +39,7 @@ const EditExamPage = () => {
         formState: { errors, isSubmitting },
         reset,
     } = useForm<EditExamFormType>();
-    const [user] = useLocalStorage("user", null);
+    const [user] = useLocalStorage("user_profile", null);
     const [exam, setExam] = useState<Exam | null>(null);
     const [courses, setCourses] = useState<CourseType[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -61,12 +61,12 @@ const EditExamPage = () => {
                     // Reset form with exam data after courses are loaded
                     reset({
                         title: examResponse.title,
-                        description: examResponse.description || '',
+                        description: examResponse.description || "",
                         duration: examResponse.duration,
                         marks: examResponse.marks,
                         course_id: examResponse.course_id,
                         questions: examResponse.questions || [],
-                        passing_score: examResponse.passing_score
+                        passing_score: examResponse.passing_score,
                     });
                 }
             } catch (error) {
@@ -254,4 +254,3 @@ const EditExamPage = () => {
 };
 
 export default EditExamPage;
-

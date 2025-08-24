@@ -34,15 +34,13 @@ const QuizEditForm = () => {
         formState: { isSubmitting },
     } = useForm<Quiz>();
 
-    const [user] = useLocalStorage("user", null);
+    const [user] = useLocalStorage("user_profile", null);
     const { quizId } = useParams();
     const router = useRouter();
 
     useEffect(() => {
         const fetchQuiz = async () => {
-            const res: Quiz | null = await getQuizById(
-                quizId as string,
-            );
+            const res: Quiz | null = await getQuizById(quizId as string);
             setQuiz(res || null);
             if (res) {
                 reset({

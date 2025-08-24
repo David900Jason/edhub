@@ -22,7 +22,7 @@ import { useTranslations } from "next-intl";
 
 const DashboardStudent = () => {
     // Grab user data from localStorage
-    const [user] = useLocalStorage("user", null);
+    const [user] = useLocalStorage("user_profile", null);
     const [searchInput, setSearchInput] = useState("");
     const [enrolledCourses, setEnrolledCourses] = useState(0);
     const [questionsAsked, setQuestionsAsked] = useState(0);
@@ -55,7 +55,8 @@ const DashboardStudent = () => {
             <nav className="mb-6 flex flex-col items-center justify-between gap-6 lg:flex-row lg:gap-0">
                 <header>
                     <h1 className="text-3xl font-semibold tracking-tight">
-                        {t("HOME_PAGE.welcome")}{user?.full_name.split(" ")[0]} 👋
+                        {t("HOME_PAGE.welcome")}
+                        {user?.full_name.split(" ")[0]} 👋
                     </h1>
                     <p className="p-lead max-w-[45ch]">
                         {t("HOME_PAGE.description")}
@@ -111,7 +112,9 @@ const DashboardStudent = () => {
                         </h3>
                         <span className="text-primary text-3xl font-extrabold tracking-tight">
                             {Number(card.value)}{" "}
-                            {card.title === t("HOME_PAGE.card_title3") ? "%" : ""}
+                            {card.title === t("HOME_PAGE.card_title3")
+                                ? "%"
+                                : ""}
                         </span>
                     </div>
                 ))}

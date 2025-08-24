@@ -1,13 +1,16 @@
 import axios from "axios";
+import api from ".";
+import { refreshUser } from "./auth";
+import { TeacherType } from "@/app/[locale]/dashboard/student/teachers/page";
 
 export const updateUser = async (
     id: string | number,
-    userData: UpdateUserData
+    userData: UpdateUserData,
 ): Promise<UserType | undefined> => {
     try {
         const res = await axios.patch(
-            `http://localhost:8000/users/${id}`,
-            userData
+            `http://localhost:8001/users/${id}`,
+            userData,
         );
         return res.data;
     } catch (error: unknown) {
@@ -16,26 +19,30 @@ export const updateUser = async (
     }
 };
 
-export const getTeacherById = async (
-    id: string | number | "",
-): Promise<UserType | undefined> => {
+export const getTeacherById = async (teacherId: string): Promise<TeacherType | null> => {
+    const access = localStorage.getItem("access");
+    if (!teacherId) return null;
+
     try {
-        if (id === "") {
-            return;
+        const res = await api.get(`/users/teacher/${teacherId}`, {
+            headers: {
+                Authorization: `Bearer ${access}`,
+            },
+        });
+        return res.data;
+    } catch (error: any) {
+        if (error.status === 401) {
+            refreshUser();
+            getTeacherById(teacherId);
         }
-        const res = await axios.get(
-            `http://localhost:8000/users?id=${id}&role=teacher`,
-        );
-        return res.data[0];
-    } catch (error: unknown) {
         console.error(error);
-        return;
+        return null;
     }
 };
 
 export const getAllTeachers = async (): Promise<UserType[]> => {
     try {
-        const res = await axios.get("http://localhost:8000/users?role=teacher");
+        const res = await axios.get("http://localhost:8001/users?role=teacher");
         return res.data;
     } catch (error: unknown) {
         console.error(error);
@@ -47,7 +54,7 @@ export const getUserById = async (
     id: string | number | "",
 ): Promise<UserType | undefined> => {
     try {
-        const res = await axios.get(`http://localhost:8000/users/${id}`);
+        const res = await axios.get(`http://localhost:8001/users/${id}`);
         return res.data;
     } catch (error: unknown) {
         console.error(error);
