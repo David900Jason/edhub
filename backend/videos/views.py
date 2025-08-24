@@ -46,6 +46,8 @@ class RetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         user = request.user
+        instance.views += 1
+        instance.save()
         new_view = ViewSession(video=instance, student=user)
         new_view.save()
         return super().retrieve(request)
