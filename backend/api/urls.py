@@ -24,11 +24,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # Users / Authentication
-    path('api/auth/', include('users.auth')),
-    path("api/users/", include("users.urls")),
+    path('auth/', include('users.auth')),
+    path("users/", include("users.urls")),
 
     # Courses API
-    path('api/courses/', include('courses.urls')),
+    path('courses/', include('courses.urls')),
 ]
 
 if settings.DEBUG:
