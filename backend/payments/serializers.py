@@ -10,4 +10,4 @@ class WalletSerializer(serializers.ModelSerializer):
 class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment
-        fields = ["id", "code", "amount", "is_used", "created_at"]
+        fields = ["id", "payment_id", "code", "amount", "is_used", "created_at"]

@@ -16,6 +16,9 @@ urlpatterns = [
 
     # Payments API
     path('payments/', include('payments.urls')),
+
+    # Notes API
+    path('notes/', include('notes.urls')),
 ]
 
 if settings.DEBUG:
