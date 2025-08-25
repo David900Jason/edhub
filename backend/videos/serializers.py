@@ -10,4 +10,4 @@ class ListCreateVideoSerializer(serializers.ModelSerializer):
 class RetrieveUpdateDestroySerializer(serializers.ModelSerializer):
     class Meta:
         model = Video
-        fields = ["title", "description", "video_url", "thumbnail_url", "course"]
+        fields = ["id", "title", "description", "video_url", "thumbnail_url", "likes", "views", "created_at"]

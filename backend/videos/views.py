@@ -6,8 +6,7 @@ from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
 from .serializers import ListCreateVideoSerializer, RetrieveUpdateDestroySerializer
 from .models import Video, ViewSession, LikeReaction
-from courses.models import Course
-
+from books.models import Book
 
 class ListCreateVideoView(ListCreateAPIView):
     filter_backends = [DjangoFilterBackend]
@@ -51,7 +50,22 @@ class RetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
         instance.save()
         new_view = ViewSession(video=instance, student=user)
         new_view.save()
-        return super().retrieve(request)
+        
+        # Get related videos with only title and id
+        related_videos = Video.objects.filter(course=instance.course).values('id', 'title')
+        
+        # Get the main video data
+        serializer = self.get_serializer(instance, context={"request": request})
+        response_data = serializer.data
+        
+        # Add related videos to the response
+        response_data['related_videos'] = list(related_videos)
+
+        # Get related books with only title and id
+        books = Book.objects.filter(video=instance).values('id', 'title')
+        response_data['books'] = list(books)
+        
+        return Response(response_data)
 
     def get_queryset(self):
         if self.request.user.is_superuser:
@@ -72,20 +86,25 @@ class RetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
 class LikeView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def post(self, request, video_id):
-        video = Video.objects.get(id=video_id)
+    def post(self, request, pk):
+        video = Video.objects.get(id=pk)
         like, created = LikeReaction.objects.get_or_create(student=request.user, video=video)
+        
         if created:
+            video.likes += 1
+            video.save()
             return Response({"message": "Video liked"}, status=status.HTTP_201_CREATED)
         return Response({"message": "Already liked"}, status=status.HTTP_200_OK)
 
-    def delete(self, request, video_id):
+    def delete(self, request, pk):
         """Unlike a video"""
         try:
-            like = LikeReaction.objects.get(student=request.user, video_id=video_id)
+            like = LikeReaction.objects.get(student=request.user, video_id=pk)
             like.delete()
+            video.likes -= 1
+            video.save()
             return Response({"message": "Like removed"}, status=status.HTTP_204_NO_CONTENT)
-        except Like.DoesNotExist:
+        except LikeReaction.DoesNotExist:
             return Response({"message": "You have not liked this video"}, status=status.HTTP_400_BAD_REQUEST)
 
 

@@ -14,7 +14,7 @@ class PublicBookSerializer(serializers.ModelSerializer):
 class PublicVideoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Video
-        fields = ["id", "title"]
+        fields = ["id", "title", "likes", "views"]
 
 
 class ListRetrieveCoursesSerializer(serializers.ModelSerializer):

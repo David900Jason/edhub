@@ -15,6 +15,27 @@ class TeacherBriefSerializer(serializers.ModelSerializer):
         fields = ["id", "full_name"]
 
 
+class StudentBriefSerializer(serializers.ModelSerializer):
+    enrolled_courses = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = ["full_name", "email", "phone_number", "parent_number", "city", "profile_img", "birth_date", "role", "created_at", "enrolled_courses"]
+
+    def get_enrolled_courses(self, obj):
+        request = self.context.get("request")
+        user = request.user
+
+        # If teacher: only return courses taught by them
+        if user.role == "teacher":
+            return list(
+                obj.enrollments.filter(course__teacher=user)
+                .values_list("course__title", flat=True)
+            )
+        # Otherwise (admin), return all enrolled courses
+        return list(obj.enrollments.values_list("course__title", flat=True))
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

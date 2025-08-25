@@ -6,25 +6,28 @@ import uuid
 
 class Video(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    title = models.CharField(max_length=25, null=False, unique=True)
+    title = models.CharField(max_length=25, null=False)
     description = models.TextField(null=True, blank=True)
 
+    # Media and URLs
     video_url = models.URLField(default="")
     thumbnail_url = models.URLField(default="")
+
+    # Relations
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="videos")
 
+    # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
 
+    # Reactions
     views = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
-
 
 class ViewSession(models.Model):
     video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name="view_sessions")
     student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="viewed_videos")
     timestamp = models.DateTimeField(auto_now_add=True)
-
 
 class LikeReaction(models.Model):
     video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name="like_reaction")

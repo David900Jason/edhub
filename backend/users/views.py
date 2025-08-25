@@ -7,9 +7,8 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAdminUser
 from django.utils import timezone
-
 from users.permissions import IsAdminOrTeacher
-from .serializers import LoginSerializer, UserSerializer, UserCreateSerializer, TeacherPublicSerializer, ForgotPasswordSerializer
+from .serializers import LoginSerializer, StudentBriefSerializer, UserSerializer, UserCreateSerializer, TeacherPublicSerializer, ForgotPasswordSerializer
 from .models import User
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
@@ -24,10 +23,11 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
             queryset = queryset.filter(role=role)
         return queryset
 
+
+
 class UserListView(generics.ListAPIView):
-    queryset = User.objects.all()
-    permission_classes = [permissions.IsAuthenticated]  # only authenticated users
-    serializer_class = UserSerializer  # create/import your serializer
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = StudentBriefSerializer
 
     def get_queryset(self):
         user = self.request.user
@@ -36,26 +36,29 @@ class UserListView(generics.ListAPIView):
         if not role and not user.is_superuser:
             raise PermissionDenied("You must specify ?role=student or ?role=teacher")
 
-        # Teacher can only see students
+        # Teacher: only see students enrolled in their own courses
         if user.role == "teacher":
             if role != "student":
                 raise PermissionDenied("Teachers can only view students.")
-            return User.objects.filter(role="student")
+            return User.objects.filter(
+                enrollments__course__teacher=user
+            ).distinct()
 
-        # Student can only see teachers
+        # Student: only see teachers
         elif user.role == "student":
             if role != "teacher":
                 raise PermissionDenied("Students can only view teachers.")
-            return User.objects.filter(role="teacher")
+            return User.objects.filter(role="teacher").distinct()
 
-        # Admins can see anyone (optional)
+        # Admin: can see anyone
         elif user.role == "admin":
             if role:
-                return User.objects.filter(role=role)
+                return User.objects.filter(role=role).distinct()
             return User.objects.all()
 
         else:
             raise PermissionDenied("Your role is not allowed to view users.")
+
 
 class UserDetailView(generics.RetrieveAPIView):
     queryset = User.objects.all()

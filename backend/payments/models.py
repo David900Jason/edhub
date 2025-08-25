@@ -31,7 +31,7 @@ class Payment(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     code = models.CharField(max_length=12, default=generate_payment_code)
     payment_id = models.CharField(max_length=6, default=generate_fake_id)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    amount = models.FloatField(default=0)
     wallet = models.ForeignKey(
         "Wallet",
         on_delete=models.CASCADE,

@@ -17,8 +17,9 @@ urlpatterns = [
     # Payments API
     path('payments/', include('payments.urls')),
 
-    # Notes API
+    # Productivity API
     path('notes/', include('notes.urls')),
+    path('todos/', include('todo.urls')),
 
     # Enrollments API
     path("enrollments/", include("enrollments.urls")),
