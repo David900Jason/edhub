@@ -4,10 +4,10 @@ from courses.serializers import ListRetrieveCoursesSerializer
 
 
 class EnrollmentSerializer(serializers.ModelSerializer):
-    course = ListRetrieveCoursesSerializer(many=True, read_only=True)
+    course = ListRetrieveCoursesSerializer(read_only=True)
 
     class Meta:
         model = Enrollment
-        fields = ["course", "rating", "timestamp"]
+        fields = ["id", "course", "rating", "timestamp"]
 
 
