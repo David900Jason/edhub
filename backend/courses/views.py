@@ -100,6 +100,9 @@ class Enroll(APIView):
         if cash < course.price:
             return Response({"error": "insufficient funds"}, status=400)
 
+        user.wallet.balance -= course.price
+        user.wallet.save()
+
         new_en = Enrollment(user=user, course=course)
         new_en.save()
         return Response({"message": "student enrolled succesfully"}, status=201)
