@@ -80,7 +80,7 @@ INSTALLED_APPS = [
     "enrollments",
     "payments",
     "notes",
-    "todo"
+    "todo",
     "books",
 ]
 

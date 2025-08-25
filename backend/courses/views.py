@@ -8,6 +8,7 @@ from .models import Course
 from .serializers import ListRetrieveCoursesSerializer, CreateCourseSerializer
 from users.models import User
 from users.serializers import UserSerializer
+from enrollments.models import Enrollment
 
 
 class ListCreateCoursesView(ListCreateAPIView):
@@ -79,5 +80,28 @@ class RetrieveUpdateDestroyCoursesView(RetrieveUpdateDestroyAPIView):
             instance.delete()
         else:
             raise PermissionDenied("You do not have permission to delete this course.")
+
+
+class Enroll(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, pk, *args, **kwargs):
+        user = request.user
+        if user.is_staff:
+            return Response({"error": "only students can enroll"}, status=400)
+
+        course = Course.objects.filter(id=pk).first()
+
+        if len(Enrollment.objects.filter(user=user, course=course)) != 0:
+            return Response({"error": "already enrolled"}, status=400)
+
+        cash = user.wallet.balance
+
+        if cash < course.price:
+            return Response({"error": "insufficient funds"}, status=400)
+
+        new_en = Enrollment(user=user, course=course)
+        new_en.save()
+        return Response({"message": "student enrolled succesfully"}, status=201)
 
 
