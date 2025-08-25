@@ -3,6 +3,6 @@ from .views import ListEnrollmentView, RetrieveDestroyView
 
 
 urlpatterns = [
-    path("enrollments/", ListEnrollmentView.as_view()),
-    path("enrollments/<int:id>/", RetrieveDestroyView.as_view()),
+    path("", ListEnrollmentView.as_view()),
+    path("<int:pk>/", RetrieveDestroyView.as_view()),
 ]

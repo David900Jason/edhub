@@ -19,6 +19,9 @@ urlpatterns = [
 
     # Notes API
     path('notes/', include('notes.urls')),
+
+    # Enrollments API
+    path("enrollments/", include("enrollments.urls")),
 ]
 
 if settings.DEBUG:

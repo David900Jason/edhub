@@ -6,7 +6,9 @@ from .models import Enrollment
 
 class ListEnrollmentView(ListAPIView):
     def get_queryset(self):
-        if self.request.user.is_staff:
+        if self.request.user.is_superuser:
+            return Enrollment.objects.all()
+        elif self.request.user.is_staff:
             return Enrollment.objects.none()
         return Enrollment.objects.filter(user=self.request.user)
 
@@ -16,7 +18,11 @@ class ListEnrollmentView(ListAPIView):
 
 class RetrieveDestroyView(RetrieveDestroyAPIView):
     def get_queryset(self):
+        if self.request.user.is_superuser:
+            return Enrollment.objects.all()
+        elif self.request.user.is_staff:
+            return Enrollment.objects.none()
         return Enrollment.objects.filter(user=self.request.user)
-    
+
     permission_classes = [IsAuthenticated]
-    serializer_class = Serializer
+    serializer_class = EnrollmentSerializer
