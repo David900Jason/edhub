@@ -1,6 +1,7 @@
 from rest_framework.generics import ListAPIView, RetrieveDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
-from .serializers import EnrollmentSerializer
+from rest_framework.response import Response
+from .serializers import EnrollmentSerializer, PrivateEnrollmentSerializer
 from .models import Enrollment
 
 
@@ -17,6 +18,19 @@ class ListEnrollmentView(ListAPIView):
 
 
 class RetrieveDestroyView(RetrieveDestroyAPIView):
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        user = request.user
+        wallet = user.wallet
+
+        wallet.balance += instance.course.price
+        wallet.save()
+        self.perform_destroy(instance)
+        return Response(
+            {"detail": "Enrollment removed successfully."},
+            status=204,
+        )
+
     def get_queryset(self):
         if self.request.user.is_superuser:
             return Enrollment.objects.all()
@@ -25,4 +39,4 @@ class RetrieveDestroyView(RetrieveDestroyAPIView):
         return Enrollment.objects.filter(user=self.request.user)
 
     permission_classes = [IsAuthenticated]
-    serializer_class = EnrollmentSerializer
+    serializer_class = PrivateEnrollmentSerializer

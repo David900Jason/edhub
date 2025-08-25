@@ -19,7 +19,7 @@ class Wallet(models.Model):
         related_name="wallet",
         limit_choices_to={"role": "student"},
     )
-    balance = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    balance = models.FloatField(default=0)
     currency = models.CharField(max_length=4, default="EGP")
     created_at = models.DateTimeField(auto_now_add=True)
 
