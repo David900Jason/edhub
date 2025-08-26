@@ -2,6 +2,7 @@ from rest_framework import serializers
 from courses.serializers import ListRetrieveCoursesSerializer
 from .models import Book
 from courses.models import Course
+from videos.models import Video
 
 
 class PublicBookSerializer(serializers.ModelSerializer):
@@ -24,14 +25,18 @@ class PublicCreateBookSerializer(serializers.ModelSerializer):
 
 class PrivateBookSerializer(serializers.ModelSerializer):
     course = ListRetrieveCoursesSerializer()
+    related_videos = serializers.SerializerMethodField()
 
     def create(self, validated_data):
-        print(validated_data)  # see if "course" is coming through
+        print(validated_data)
         return super().create(validated_data)
+
+    def get_related_videos(self, obj):
+        return list(Video.objects.filter(course=obj.course).values_list("id", flat=True))
 
 
     class Meta:
         model = Book
-        fields = ["id", "title", "description", "thumbnail_url", "book_url", "created_at", "updated_at", "course"]
+        fields = ["id", "title", "description", "thumbnail_url", "book_url", "created_at", "updated_at", "course", "related_videos"]
 
 
