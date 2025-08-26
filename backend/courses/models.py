@@ -1,8 +1,6 @@
 import uuid
-from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from users.models import User
-
 
 class Course(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -23,9 +21,6 @@ class Course(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
 
-    # Rating
-    rating = models.FloatField(default=0, validators=[MinValueValidator(0), MaxValueValidator(5)])
-
     # Relations
     teacher = models.ForeignKey(
         User,
@@ -35,5 +30,6 @@ class Course(models.Model):
     )
 
     thumbnail = models.URLField(default="")
+
 
 

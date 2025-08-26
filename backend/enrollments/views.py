@@ -23,7 +23,7 @@ class RetrieveDestroyView(RetrieveDestroyAPIView):
         user = request.user
         wallet = user.wallet
 
-        wallet.balance += instance.course.price
+        wallet.balance += (instance.course.price - instance.course.discount)
         wallet.save()
         self.perform_destroy(instance)
         return Response(

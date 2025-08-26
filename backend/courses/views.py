@@ -26,15 +26,18 @@ class ListCreateCoursesView(ListCreateAPIView):
 
 
     def create(self, request, *args, **kwargs):
-        if not request.data.get("teacher").is_staff:
-            return Response({"error": "teacher field is a student"}, 400)
+        # Check User role
+        if not request.user.is_staff:
+            return Response({"error": "only teachers can create courses"}, status=400)
+
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        course = serializer.save()
+
+        # assign the logged-in user as the teacher
+        course = serializer.save(teacher=request.user)
 
         retrieve_serializer = ListRetrieveCoursesSerializer(course, context={"request": request})
         return Response(retrieve_serializer.data, status=201)
-
 
     def get_queryset(self):
         user = self.request.user

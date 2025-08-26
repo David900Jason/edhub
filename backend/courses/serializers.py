@@ -3,7 +3,8 @@ from users.serializers import TeacherBriefSerializer
 from .models import Course
 from books.models import Book
 from videos.models import Video
-
+from enrollments.models import Enrollment
+from django.db.models import Avg
 
 class PublicBookSerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,6 +20,10 @@ class PublicVideoSerializer(serializers.ModelSerializer):
 
 class ListRetrieveCoursesSerializer(serializers.ModelSerializer):
     teacher = TeacherBriefSerializer(read_only=True)
+    rating = serializers.SerializerMethodField()
+
+    def get_rating(self, obj):
+        return Enrollment.objects.filter(course=obj).aggregate(Avg('rating'))['rating__avg']
 
     class Meta:
         model = Course
@@ -34,6 +39,12 @@ class CreateCourseSerializer(serializers.ModelSerializer):
 class PrivateCourse(serializers.ModelSerializer):
     books = PublicBookSerializer(many=True, read_only=True)
     videos = PublicVideoSerializer(many=True, read_only=True)
+
+    # Calculate average rating from Enrollment Model having same course
+    rating = serializers.SerializerMethodField()
+
+    def get_rating(self, obj):
+        return Enrollment.objects.filter(course=obj).aggregate(Avg('rating'))['rating__avg']
 
     class Meta:
         model = Course
