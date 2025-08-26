@@ -15,7 +15,20 @@ class PublicBookSerializer(serializers.ModelSerializer):
 
 
 class PublicCreateBookSerializer(serializers.ModelSerializer):
-    course = serializers.PrimaryKeyRelatedField(queryset=Course.objects.all())
+    def validate_course(self, value):
+        request = self.context.get("request")
+        if not request or not request.user:
+            raise serializers.ValidationError("Request context required.")
+
+        if request.user.is_superuser:
+            return value
+
+        if not request.user.is_staff:
+            raise serializers.ValidationError("You're not a teach bruh")
+
+        if value.teacher != request.user:
+            raise serializers.ValidationError("You do not own this course.")
+        return value
 
 
     class Meta:
