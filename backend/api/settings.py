@@ -11,28 +11,32 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 import os
-from dotenv import load_dotenv
+
 from pathlib import Path
+
 from django.conf.global_settings import AUTHENTICATION_BACKENDS, MEDIA_ROOT, MEDIA_URL
-
-load_dotenv()
-
-SECRET_KEY = os.getenv("SECURITY_KEY")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '145.223.81.248']
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = 'django-insecure-=vio*hhpb*znqd@+4hzgg@&bf7d)9$3^xc!p758o$a9r4x=efb'
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
+
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 # CORS settings
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    "http://145.223.81.248:3000"
+]
 CORS_ALLOW_METHODS = [
     'DELETE',
     'GET',
@@ -97,7 +101,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'api.middleware.RequestLogMiddleware',
 ]
 
 ROOT_URLCONF = 'api.urls'
@@ -157,25 +160,6 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
-
-# Logging SETTINGS
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "handlers": {
-        "console": {
-            "class": "logging.StreamHandler",
-        },
-        "file": {
-            "class": "logging.FileHandler",
-            "filename": "django_requests.log",
-        },
-    },
-    "root": {
-        "handlers": ["console", "file"],
-        "level": "INFO",
-    },
-}
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/

@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
         return [
             {
                 source: "/media/:path*",
-                destination: "https://145.223.81.248:8000/media/:path*",
+                destination: "http://127.0.0.1:8000/media/:path*",
             },
         ];
     },
@@ -17,11 +17,6 @@ const nextConfig: NextConfig = {
             {
                 protocol: "https",
                 hostname: "dummyimage.com",
-            },
-            {
-                protocol: "https",
-                hostname: "145.223.81.248",
-                port: "8000",
             },
             {
                 protocol: "http",
