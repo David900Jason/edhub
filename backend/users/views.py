@@ -5,10 +5,10 @@ from rest_framework.response import Response
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from django.utils import timezone
 from users.permissions import IsAdminOrTeacher
-from .serializers import LoginSerializer, StudentBriefSerializer, UserSerializer, UserCreateSerializer, TeacherPublicSerializer, ForgotPasswordSerializer
+from .serializers import LoginSerializer, StudentBriefSerializer, UserDashboardSerializer, UserSerializer, UserCreateSerializer, TeacherPublicSerializer
 from .models import User
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
@@ -23,7 +23,14 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
             queryset = queryset.filter(role=role)
         return queryset
 
+class UserMeView(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    lookup_field = "pk"
 
+    def get_object(self):
+        return self.request.user
 
 class UserListView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -74,6 +81,15 @@ class UserDetailView(generics.RetrieveAPIView):
         if user.role == "teacher" or user.role == "admin":
             return super().get_queryset()
         return User.objects.none()  # deny access for non-teachers and non-admins
+
+
+class UserDashboardView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        serializer = UserDashboardSerializer(request.user, context={"request": request})
+        return Response(serializer.data)
+
 
 class TeacherDetailView(generics.RetrieveAPIView):
     queryset = User.objects.filter(role="teacher")
@@ -187,20 +203,3 @@ class UserDeactivateView(APIView):
             {"detail": f"✅ User {user.email} has been successfully deactivated."},
             status=status.HTTP_200_OK
         )
-
-class ForgotPasswordView(generics.GenericAPIView):
-    serializer_class = ForgotPasswordSerializer
-    permission_classes = []  # allow anyone
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response({"detail": "Password has been reset successfully"}, status=status.HTTP_200_OK)
-
-class UserMeView(generics.RetrieveUpdateAPIView):
-    serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_object(self):
-        return self.request.user

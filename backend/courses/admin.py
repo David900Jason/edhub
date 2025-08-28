@@ -8,7 +8,7 @@ from .models import Course
 # -----------------------------
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ("id", "title", "price", "category", "is_paid", "is_published", "created_at")
+    list_display = ("id", "title", "price", "category", "is_paid", "discount", "is_published", "created_at")
     list_filter = ("is_paid",)
     search_fields = ("title", "description")
     readonly_fields = ("created_at",)

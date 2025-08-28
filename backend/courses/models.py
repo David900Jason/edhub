@@ -14,7 +14,7 @@ class Course(models.Model):
     currency = models.CharField(max_length=3, default="EGP")
 
     # Booleans
-    is_paid = models.BooleanField(default=False)
+    is_paid = models.BooleanField(default=True)
     is_published = models.BooleanField(default=False)
 
     # Timestamps

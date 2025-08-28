@@ -1,10 +1,15 @@
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework import permissions
+from rest_framework import parsers
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, generics
+from rest_framework.parsers import MultiPartParser, FormParser
 from django_filters.rest_framework import DjangoFilterBackend
-from .serializers import ListCreateVideoSerializer, RetrieveUpdateDestroySerializer
+
+from books.serializers import RelatedBooksSerializer
+from .serializers import ListCreateVideoSerializer, RetrieveUpdateDestroySerializer, VideoReplaceSerializer, VideoUploadSerializer
 from .models import Video, ViewSession, LikeReaction
 from books.models import Book
 
@@ -35,6 +40,7 @@ class ListCreateVideoView(ListCreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         video = serializer.save()
+        parser_classes = [parsers.MultiPartParser, parsers.FormParser]
 
         retrieve_serializer = ListCreateVideoSerializer(video, context={"request": request})
         return Response(retrieve_serializer.data, status=201)
@@ -46,24 +52,28 @@ class RetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         user = request.user
-        instance.views += 1
-        instance.save()
-        new_view = ViewSession(video=instance, student=user)
-        new_view.save()
-
-        # Get related videos with only title and id
-        related_videos = Video.objects.filter(course=instance.course).values('id', 'title')
 
         # Get the main video data
         serializer = self.get_serializer(instance, context={"request": request})
         response_data = serializer.data
 
-        # Add related videos to the response
-        response_data['related_videos'] = list(related_videos)
+        if not user.is_staff:
+            instance.views += 1
+            instance.save()
+            new_view = ViewSession(video=instance, student=user)
+            new_view.save()
 
-        # Get related books with only title and id
-        books = Book.objects.filter(video=instance).values('id', 'title')
-        response_data['books'] = list(books)
+            # Related videos
+            related_videos = Video.objects.filter(course=instance.course).values("id", "title")
+            response_data["related_videos"] = list(related_videos)
+
+            # Related books in video id
+            related_books = Book.objects.filter(video=instance)
+            response_data["books"] = RelatedBooksSerializer(
+                related_books, many=True, context={"request": request}
+            ).data
+
+            return Response(response_data)
 
         return Response(response_data)
 
@@ -108,3 +118,20 @@ class LikeView(APIView):
             return Response({"message": "You have not liked this video"}, status=status.HTTP_400_BAD_REQUEST)
 
 
+class VideoUploadView(generics.CreateAPIView):
+    queryset = Video.objects.all()
+    serializer_class = VideoUploadSerializer
+    parser_classes = [parsers.MultiPartParser, parsers.FormParser]
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class VideoReplaceView(generics.UpdateAPIView):
+    queryset = Video.objects.all()
+    serializer_class = VideoUploadSerializer
+    parser_classes = [MultiPartParser, FormParser]  # ✅ needed for file uploads
+    http_method_names = ["patch"]  # ✅ only allow partial update (PATCH)
+
+    def get_serializer(self, *args, **kwargs):
+        # ✅ ensure partial updates don’t require all fields
+        kwargs["partial"] = True
+        return super().get_serializer(*args, **kwargs)

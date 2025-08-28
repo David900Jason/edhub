@@ -14,6 +14,9 @@ urlpatterns = [
     # Courses API
     path('courses/', include('courses.urls')),
 
+    # Q&A API
+    path('qna/', include('qna.urls')),
+
     # Payments API
     path('payments/', include('payments.urls')),
 

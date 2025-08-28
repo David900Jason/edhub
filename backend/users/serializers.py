@@ -1,6 +1,13 @@
 # users/serializers.py
+from django.db.models import Sum
 from rest_framework import serializers
 from django.contrib.auth import authenticate
+
+from courses.models import Course
+from enrollments.models import Enrollment
+from payments.models import Wallet
+from qna.models import Question
+from videos.models import Video
 from .models import User
 
 class TeacherPublicSerializer(serializers.ModelSerializer):
@@ -39,9 +46,41 @@ class StudentBriefSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id", "email", "full_name", "phone_number", "parent_number", "city", "birth_date", "role", "is_active", "is_verified", "last_login", "created_at", "updated_at"]
+        fields = ["id", "email", "full_name", "profile_img", "phone_number", "parent_number", "city", "birth_date", "role", "is_active", "is_verified", "last_login", "created_at", "updated_at"]
         read_only_fields = ["is_staff", "is_superuser", "groups", "user_permissions"]
 
+class UserDashboardSerializer(serializers.Serializer):
+    dashboard_details = serializers.SerializerMethodField()
+
+    def get_dashboard_details(self, obj: User):
+        """Role-based dashboard stats"""
+        role = obj.role
+        data = {}
+
+        if role == "student":
+            data = {
+                "enrolled_courses": Enrollment.objects.filter(user=obj).count(),
+                "questions_asked": Question.objects.filter(student=obj).count(),
+                "wallet_balance": Wallet.objects.filter(user=obj).first().balance,
+                "wallet_currency": Wallet.objects.filter(user=obj).first().currency,
+                "average_score": 0,
+            }
+
+        if role == "teacher":
+            total_revenue = (
+                Enrollment.objects.filter(course__teacher=obj)
+                .aggregate(total=Sum("amount_paid"))["total"] or 0
+            )
+
+            data = {
+                "enrolled_students": Enrollment.objects.filter(course__teacher=obj).count(),
+                "total_revenue": total_revenue,
+                "videos_uploaded": Video.objects.filter(course__teacher=obj).count(),
+                "currency": Course.objects.filter(teacher=obj).first().currency,
+                "average_score": 0,
+            }
+
+        return data
 
 class UserCreateSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
@@ -102,28 +141,3 @@ class LoginSerializer(serializers.Serializer):
 
         data["user"] = user
         return data
-
-class ForgotPasswordSerializer(serializers.Serializer):
-    identifier = serializers.CharField()  # email or phone number
-    new_password = serializers.CharField(write_only=True)
-
-    def validate(self, data):
-        identifier = data.get("identifier")
-        try:
-            # Try email first
-            user = User.objects.get(email=identifier)
-        except User.DoesNotExist:
-            try:
-                # Then try phone_number
-                user = User.objects.get(phone_number=identifier)
-            except User.DoesNotExist:
-                raise serializers.ValidationError("User not found with this email or phone number")
-        data["user"] = user
-        return data
-
-    def save(self, **kwargs):
-        user = self.validated_data["user"]
-        new_password = self.validated_data["new_password"]
-        user.set_password(new_password)
-        user.save()
-        return user

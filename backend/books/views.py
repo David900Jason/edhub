@@ -1,11 +1,11 @@
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, generics
 from django_filters.rest_framework import DjangoFilterBackend
-from .serializers import PublicBookSerializer, PrivateBookSerializer, PublicCreateBookSerializer
+from rest_framework.views import APIView
+from .serializers import BookUploadSerializer, PublicBookSerializer, PrivateBookSerializer, PublicCreateBookSerializer
 from .models import Book
-from courses.models import Course
 
 
 class ListCreateBookView(ListCreateAPIView):
@@ -16,7 +16,6 @@ class ListCreateBookView(ListCreateAPIView):
         if self.request.method.lower() == "post":
             return PublicCreateBookSerializer
         return PublicBookSerializer
-
 
     def get_permissions(self):
         if self.request.method.lower() == "post":
@@ -43,7 +42,6 @@ class ListCreateBookView(ListCreateAPIView):
 class RetrieveUpdateDestroyBookView(RetrieveUpdateDestroyAPIView):
     serializer_class = PrivateBookSerializer
 
-
     def get_queryset(self):
         if self.request.user.is_superuser:
             print("Admin detected")
@@ -59,5 +57,37 @@ class RetrieveUpdateDestroyBookView(RetrieveUpdateDestroyAPIView):
             return [IsAdminUser()]
         return [IsAuthenticated()]
 
+    def perform_update(self, serializer):
+        user = self.request.user
+        book = self.get_object()
+
+        # Teachers can only update books of their own courses
+        if user.is_staff and book.course not in user.courses.all():
+            raise PermissionDenied("You do not have permission to edit this book.")
+
+        serializer.save()
 
 
+# Upload new Book
+class BookUploadView(generics.CreateAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookUploadSerializer
+
+
+# Replace an existing Book
+class BookReplaceView(APIView):
+    queryset = Book.objects.all()
+    serializer_class = BookUploadSerializer
+
+    def patch(self, request, pk):
+        try:
+            book = Book.objects.get(pk=pk)
+        except Book.DoesNotExist:
+            return Response({"error": "Book not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = BookUploadSerializer(book, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

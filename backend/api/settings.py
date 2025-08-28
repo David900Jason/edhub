@@ -79,6 +79,7 @@ INSTALLED_APPS = [
     'courses',
     "videos",
     "enrollments",
+    "qna",
     "payments",
     "notes",
     "todo",

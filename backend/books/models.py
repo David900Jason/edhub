@@ -7,8 +7,8 @@ class Book(models.Model):
     description = models.TextField(default="")
 
     # Media and URLs
-    book_url = models.URLField(default="")
-    thumbnail_url = models.URLField(default="")
+    book_url = models.FileField(upload_to="books/")
+    thumbnail_url = models.FileField(upload_to="book_covers/")
 
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
@@ -16,6 +16,6 @@ class Book(models.Model):
 
     # Relations
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="books")
-    # video = models.ForeignKey(Video, default=None, on_delete=models.CASCADE, related_name="books")
+    video = models.ForeignKey(Video, null=True, on_delete=models.CASCADE, related_name="books")
 
 

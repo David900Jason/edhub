@@ -3,15 +3,14 @@ from courses.models import Course
 from users.models import User
 import uuid
 
-
 class Video(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=25, null=False)
-    description = models.TextField(null=True, blank=True)
+    description = models.TextField(default="", null=True, blank=True)
 
     # Media and URLs
-    video_url = models.URLField(default="")
-    thumbnail_url = models.URLField(default="")
+    video_url = models.FileField(upload_to="videos/" )
+    thumbnail_url = models.FileField(upload_to="video_thumbnails/")
 
     # Relations
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="videos")

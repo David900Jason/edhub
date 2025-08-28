@@ -25,6 +25,7 @@ class RetrieveDestroyView(RetrieveDestroyAPIView):
 
         wallet.balance += (instance.course.price - instance.course.discount)
         wallet.save()
+        
         self.perform_destroy(instance)
         return Response(
             {"detail": "Enrollment removed successfully."},

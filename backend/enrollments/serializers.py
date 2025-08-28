@@ -10,7 +10,7 @@ class EnrollmentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Enrollment
-        fields = ["id", "course", "rating", "timestamp"]
+        fields = ["id", "course", "rating", "timestamp", "amount_paid"]
 
 
 class PrivateEnrollmentSerializer(serializers.ModelSerializer):
@@ -20,8 +20,7 @@ class PrivateEnrollmentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Enrollment
-        fields = ["id", "course", "rating", "timestamp", "books", "videos"]
-
+        fields = ["id", "course", "rating", "timestamp", "books", "videos", "amount_paid"]
 
     def get_books(self, obj):
         qs = Book.objects.filter(course=obj.course)
