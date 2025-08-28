@@ -1,26 +1,41 @@
 import api from ".";
-import { refreshUser } from "./auth";
 
 export const getAllNotes = async (): Promise<NotesType[]> => {
-    const access = localStorage.getItem("access");
-    if (!access) return [];
-
     try {
-        const response = await api.get("/notes/", {
-            headers: {
-                Authorization: `Bearer ${access}`,
-            },
-        });
-        console.log(response.data);
+        const response = await api.get("/notes/");
         return response.data;
-    } catch (error: any) {
-        // Unauthorized Access 401
-        if (error.status === 401) {
-            refreshUser();
-            getAllNotes();
-            return [];
-        }
+    } catch (error) {
         console.error(error);
         return [];
     }
 };
+
+export const createNote = async (note: NotesType): Promise<NotesType[]> => {
+    try {
+        const response = await api.post("/notes/", note);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+}
+
+export const editNote = async (note: NotesType): Promise<NotesType[]> => {
+    try {
+        const response = await api.put(`/notes/${note.id}/`, note);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+}
+
+export const deleteNote = async (id: string): Promise<NotesType[]> => {
+    try {
+        const response = await api.delete(`/notes/${id}/`);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+}

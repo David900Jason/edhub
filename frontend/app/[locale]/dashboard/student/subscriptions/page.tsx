@@ -1,27 +1,16 @@
 "use client";
 
-import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
-import Tag from "@/components/ui/Tag";
 import { Card } from "@/components/ui/card";
 import { useEffect } from "react";
 import { useState } from "react";
-import { format } from "timeago.js";
 import {
     getUserTransactions,
     getUserWallet,
     updateWallet,
-} from "@/lib/api/course";
-import { useTranslations, useLocale } from "next-intl";
+} from "@/lib/api/payments";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import { Bolt, CircleCheck, Clipboard, X } from "lucide-react";
+import { Bolt, CircleCheck, X } from "lucide-react";
 import {
     Dialog,
     DialogContent,
@@ -34,6 +23,10 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import { getStudentEnrollments } from "@/lib/api/course";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import SubscriptionsList from "./_components/SubscriptionsList";
+import BillingHistory from "./_components/BillingHistory";
 
 type WalletType = {
     id: string;
@@ -43,32 +36,31 @@ type WalletType = {
 };
 
 const Subscriptions = () => {
-    const [invoices, setInvoices] = useState<InvoiceType[]>([]);
-    const [userWallet, setUserWallet] = useState<WalletType | null>(null);
+    const [data, setData] = useState<{ invoices: InvoiceType[]; wallet: WalletType | null; courses: EnrollmentType[] }>({
+        invoices: [],
+        wallet: null,
+        courses: [],
+    })
     const [code, setCode] = useState<string>("");
 
     useEffect(() => {
-        const fetchInvoices = async () => {
-            const payments = await getUserTransactions();
-            setInvoices((prev) => [...prev, ...payments]);
+        const fetch = async () => {
+            const [wallet, payments, courses] = await Promise.all([
+                getUserWallet(),
+                getUserTransactions(),
+                getStudentEnrollments(),
+            ]);
+            setData({ wallet, invoices: payments, courses });
         };
-
-        const fetchUserWallet = async () => {
-            const wallet = await getUserWallet();
-            setUserWallet(() => {
-                return wallet;
-            });
-        };
-        fetchUserWallet();
-        fetchInvoices();
-    }, []);
+        fetch();
+    }, [setData]);
 
     const handleTopUpWallet = async () => {
         try {
             const response = await updateWallet(code);
 
             if (response) {
-                toast("Code added to wallet successfully", {
+                toast.success("Code added to wallet successfully", {
                     duration: 2000,
                     icon: <CircleCheck />,
                     position: "top-center",
@@ -77,7 +69,7 @@ const Subscriptions = () => {
             }
         } catch (error) {
             console.log(error);
-            toast("Failed to add code to wallet", {
+            toast.error("Failed to add code to wallet", {
                 duration: 2000,
                 icon: <X />,
                 position: "top-center",
@@ -86,17 +78,16 @@ const Subscriptions = () => {
     };
 
     const t = useTranslations("STUDENT_DASHBOARD");
-    const locale = useLocale();
 
     const averageCost = Number(
-        invoices.reduce(
+        data.invoices.reduce(
             (total, invoice) => total + (Number(invoice.amount) || 0),
             0,
-        ) / invoices.length,
+        ) / data.invoices.length,
     ).toFixed(1);
 
     const totalCost = Number(
-        invoices.reduce(
+        data.invoices.reduce(
             (total, invoice) => total + (Number(invoice.amount) || 0),
             0,
         ),
@@ -150,7 +141,7 @@ const Subscriptions = () => {
                     <Card className="flex flex-col gap-2 rounded-xl border p-6 py-12">
                         <span>
                             <span className="font-mono text-5xl font-semibold tracking-tighter">
-                                {Number(userWallet?.balance).toFixed(1)}
+                                {Number(data.wallet?.balance).toFixed(1)}
                             </span>{" "}
                             <span className="text-muted-foreground text-sm font-semibold tracking-normal">
                                 {t("SUBSCRIPTIONS.currency")}
@@ -161,7 +152,7 @@ const Subscriptions = () => {
                     <Card className="flex flex-col gap-2 rounded-xl border p-6 py-12">
                         <span>
                             <span className="font-mono text-5xl font-semibold tracking-tighter">
-                                0
+                                {data.courses.length ?? 0}
                             </span>
                         </span>
                         <p className="p-lead">{t("SUBSCRIPTIONS.card2")}</p>
@@ -189,119 +180,20 @@ const Subscriptions = () => {
                         <p className="p-lead">{t("SUBSCRIPTIONS.card4")}</p>
                     </Card>
                 </aside>
-                <main className="mt-6 overflow-hidden rounded-xl border p-6">
-                    <h2 className="text-xl font-semibold">
-                        {t("SUBSCRIPTIONS.card5.title")}
-                    </h2>
-                    <p className="p-lead">
-                        {t("SUBSCRIPTIONS.card5.description")}
-                    </p>
-                    <div>
-                        <Table className="mt-6">
-                            <TableCaption className="text-muted-foreground text-sm">
-                                {t("SUBSCRIPTIONS.card5.table.caption")}
-                            </TableCaption>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead
-                                        className={
-                                            locale === "ar"
-                                                ? "text-right"
-                                                : "text-left"
-                                        }
-                                    >
-                                        ID
-                                    </TableHead>
-                                    <TableHead
-                                        className={
-                                            locale === "ar"
-                                                ? "text-right"
-                                                : "text-left"
-                                        }
-                                    >
-                                        {t("SUBSCRIPTIONS.card5.table.head1")}
-                                    </TableHead>
-                                    <TableHead
-                                        className={
-                                            locale === "ar"
-                                                ? "text-right"
-                                                : "text-left"
-                                        }
-                                    >
-                                        {t("SUBSCRIPTIONS.card5.table.head5")}
-                                    </TableHead>
-                                    <TableHead
-                                        className={
-                                            locale === "ar"
-                                                ? "text-right"
-                                                : "text-left"
-                                        }
-                                    >
-                                        {t("SUBSCRIPTIONS.card5.table.head6")}
-                                    </TableHead>
-                                    <TableHead>Code</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {invoices.map((invoice) => (
-                                    <TableRow key={invoice.id}>
-                                        <TableCell>
-                                            {invoice.payment_id}
-                                        </TableCell>
-                                        <TableCell className="py-4">
-                                            {format(invoice.created_at)}
-                                        </TableCell>
-                                        <TableCell className="font-semibold">
-                                            {Number(invoice?.amount)?.toFixed(
-                                                2,
-                                            )}{" "}
-                                            {t("SUBSCRIPTIONS.currency")}
-                                        </TableCell>
-                                        <TableCell>
-                                            <Tag
-                                                color={
-                                                    invoice?.is_used
-                                                        ? "green"
-                                                        : "red"
-                                                }
-                                            >
-                                                {invoice?.is_used
-                                                    ? "Active"
-                                                    : "Inactive"}
-                                            </Tag>
-                                        </TableCell>
-                                        <TableCell className="flex items-center gap-6">
-                                            {invoice?.code}
-                                            <Button
-                                                title="Copy to clipboard"
-                                                variant="outline"
-                                                size="icon"
-                                                onClick={() => {
-                                                    navigator.clipboard.writeText(
-                                                        invoice?.code,
-                                                    );
-                                                    toast(
-                                                        "Copied to clipboard",
-                                                        {
-                                                            duration: 2000,
-                                                            icon: (
-                                                                <CircleCheck />
-                                                            ),
-                                                            position:
-                                                                "top-center",
-                                                        },
-                                                    );
-                                                }}
-                                            >
-                                                <Clipboard />
-                                            </Button>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </div>
-                </main>
+                <section className="mt-6">
+                    <Tabs defaultValue="subscriptions">
+                        <TabsList className="w-full">
+                            <TabsTrigger value="subscriptions">Subscriptions</TabsTrigger>
+                            <TabsTrigger value="billing-history">Billing history</TabsTrigger>
+                        </TabsList>
+                        <TabsContent value="subscriptions">
+                            <SubscriptionsList courses={data.courses} />
+                        </TabsContent>
+                        <TabsContent value="billing-history">
+                            <BillingHistory invoices={data.invoices} />
+                        </TabsContent>
+                    </Tabs>
+                </section>
             </section>
         </>
     );

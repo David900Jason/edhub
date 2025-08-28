@@ -19,7 +19,7 @@ function DatePicker({ date, setDate }: { date: Date | null; setDate: (date: Date
 
     useEffect(() => {
         setIsClient(true);
-    }, []);
+    }, [setIsClient]);
 
     // Format date on the client side only
     const formatDate = (date: Date | null) => {

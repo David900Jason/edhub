@@ -1,7 +1,3 @@
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
-import { Link } from "@/i18n/routing";
-import AssignmentsList from "./_components/assignment-list";
 import { useTranslations } from "next-intl";
 
 const TeachersAssignmentPage = () => {
@@ -14,16 +10,13 @@ const TeachersAssignmentPage = () => {
                     <h1 className="text-3xl font-semibold">{t("title")}</h1>
                     <p className="p-lead">{t("description")}</p>
                 </div>
-                <Button asChild className="btn-primary">
-                    <Link href="/dashboard/teacher/assignments/new">
+                {/* <Button disabled className="btn-primary">
                         <Plus className="h-4 w-4" />
                         {t("cta1")}
-                    </Link>
-                </Button>
+                </Button> */}
             </header>
-            <main>
-                {/* Your main content here */}
-                <AssignmentsList />
+            <main className="flex min-h-[40vh] items-center justify-center rounded-2xl border p-6">
+                <p className="text-center">Assignments coming soon ...</p>
             </main>
         </section>
     );

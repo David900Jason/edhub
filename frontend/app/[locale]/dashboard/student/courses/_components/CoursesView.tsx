@@ -9,11 +9,12 @@ const CoursesView = ({
     courses = [],
     searchQuery = "",
 }: {
-    courses?: CourseType[];
+    courses?: EnrollmentType[];
     searchQuery?: string;
 }) => {
     const [searchInput, setSearchInput] = useState(searchQuery || "");
     const deferredSearchInput = useDeferredValue(searchInput);
+
     const locale = useLocale();
     const dir = locale === 'ar' ? 'rtl' : 'ltr'; // Set direction based on locale
     const t = useTranslations("STUDENT_DASHBOARD.COURSES");
@@ -22,7 +23,7 @@ const CoursesView = ({
     const filteredCourses = useMemo(() => {
         if (!courses) return [];
         return courses?.filter((course) => {
-            return course.title
+            return course.course.title
                 .toLowerCase()
                 .includes(deferredSearchInput.toLowerCase());
         });
@@ -42,7 +43,7 @@ const CoursesView = ({
 
                 {filteredCourses && filteredCourses.length > 0 ? (
                     <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-3">
-                        {filteredCourses.map((course: CourseType) => (
+                        {filteredCourses.map((course) => (
                             <CourseCard key={course?.id} course={course} />
                         ))}
                     </div>

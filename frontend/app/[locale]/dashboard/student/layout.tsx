@@ -15,7 +15,7 @@ const StudentDashLayout = ({ children }: { children: React.ReactNode }) => {
         if (user.role !== "student") {
             redirect({ href: "/dashboard", locale });
         }
-    }, []);
+    }, [user, locale]);
 
     return (
         <main className="relative flex min-h-screen">

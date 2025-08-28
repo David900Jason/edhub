@@ -21,35 +21,11 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { columns } from "./courses-data-table";
 import { useTranslations, useLocale } from "next-intl";
 
-// Using the same CourseType as in CoursesView for consistency
-type CourseType = {
-    id: string;
-    title: string;
-    description: string;
-    teacher_id: string;
-    price: number;
-    school_year: string;
-    discount: number;
-    currency: string;
-    is_paid: boolean;
-    is_published: boolean;
-    category: string;
-    thumbnail: string;
-    created_at: string;
-    updated_at: string;
-    rating?: number;
-};
-
-interface CoursesDataTableProps {
-    data: CourseType[];
-}
-
-export function CoursesDataTable({ data }: CoursesDataTableProps) {
+export function CoursesDataTable({ data }: { data: CourseType[] }) {
     const [sorting, setSorting] = useState<SortingState>([]);
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(

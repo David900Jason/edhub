@@ -1,63 +1,45 @@
-import axios from "axios";
 import api from ".";
-import { refreshUser } from "./auth";
-import { TeacherType } from "@/app/[locale]/dashboard/student/teachers/page";
+import { StudentData } from "@/app/[locale]/dashboard/teacher/students/page";
 
-export const updateUser = async (
-    id: string | number,
-    userData: UpdateUserData,
-): Promise<UserType | undefined> => {
+export const getUserProfile = async () => {
     try {
-        const res = await axios.patch(
-            `http://localhost:8001/users/${id}`,
-            userData,
-        );
+        const res = await api.get("/users/me");
         return res.data;
-    } catch (error: unknown) {
-        console.error("Error updating user:", error);
-        throw error; // Re-throw to handle in the component
+    } catch (error) {
+        console.log(error);
     }
 };
 
-export const getTeacherById = async (teacherId: string): Promise<TeacherType | null> => {
-    const access = localStorage.getItem("access");
-    if (!teacherId) return null;
-
+export const updateUser = async (
+    data: UpdateUserData,
+): Promise<UserType | undefined> => {
     try {
-        const res = await api.get(`/users/teacher/${teacherId}`, {
-            headers: {
-                Authorization: `Bearer ${access}`,
-            },
-        });
+        const res = await api.put("/users/me", data);
+        const user_profile = await getUserProfile();
+        localStorage.setItem("user_profile", JSON.stringify(user_profile));
         return res.data;
-    } catch (error: any) {
-        if (error.status === 401) {
-            refreshUser();
-            getTeacherById(teacherId);
-        }
+    } catch (error) {
+        console.error(error);
+        return;
+    }
+};
+
+export const getMyStudents = async (): Promise<StudentData[] | null> => {
+    try {
+        const res = await api.get("/users?role=student");
+        return res.data;
+    } catch (error) {
         console.error(error);
         return null;
     }
 };
 
-export const getAllTeachers = async (): Promise<UserType[]> => {
+export const getDashboardDetails = async () => {
     try {
-        const res = await axios.get("http://localhost:8001/users?role=teacher");
-        return res.data;
-    } catch (error: unknown) {
-        console.error(error);
-        return [];
-    }
-};
-
-export const getUserById = async (
-    id: string | number | "",
-): Promise<UserType | undefined> => {
-    try {
-        const res = await axios.get(`http://localhost:8001/users/${id}`);
-        return res.data;
-    } catch (error: unknown) {
+        const res = await api.get("/users/me/dashboard/");
+        return res.data.dashboard_details;
+    } catch (error) {
         console.error(error);
         return;
     }
-};
+}

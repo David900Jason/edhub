@@ -1,35 +1,33 @@
 "use client";
 
 import { useRef } from "react";
-import { useRouter } from "@/i18n/routing";
 import { ThumbsUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { updateLikes } from "@/lib/api/video";
 import { cn } from "@/lib/utils";
+import { likeVideo } from "@/lib/api/video";
 
-const LikeButton = ({ id, likes }: { id: string | number; likes: number }) => {
-    const router = useRouter();
+const LikeButton = ({ id, likes }: { id: string; likes: number }) => {
     const ref = useRef<boolean>(false);
 
     const handleClick = () => {
         if (ref.current) return;
-        ref.current = true;
-
+        
         if (likes == 50) return;
+        ref.current = true;
+        likeVideo(id);
 
-        updateLikes(id, likes + 1);
-        router.refresh();
+        window.location.reload();
     };
 
     return (
         <Button
             asChild
             variant="outline"
-            className="flex cursor-pointer items-center gap-2 hover:!bg-purple-950 hover:!text-white"
+            className="flex cursor-pointer items-center gap-2 hover:!bg-purple-950 hover:!text-white border-primary"
             onClick={handleClick}
         >
-            <p className="p-lead">
-                <ThumbsUp className={cn("h-4 w-4", ref.current && "text-primary")} />
+            <p className="p-lead flex items-center gap-2">
+                <ThumbsUp className={cn("h-4 w-4 text-primary")} />
                 {likes}
             </p>
         </Button>

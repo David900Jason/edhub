@@ -20,18 +20,6 @@ import {
 import { useTheme } from "next-themes";
 import Image from "next/image";
 
-const T_DASH_LINKS = [
-    "link1",
-    "link2",
-    "link3",
-    "link4",
-    "link5",
-    "link6",
-    "link7",
-    "link8",
-    "link9",
-];
-
 const TeacherSidebar = () => {
     const pathname = usePathname();
     const locale = useLocale();
@@ -64,29 +52,44 @@ const TeacherSidebar = () => {
                     style={{ scrollbarWidth: "thin" }}
                 >
                     {TeacherDashboardLinks.map(
-                        (
-                            { title, href, icon }: DashboardLinkType,
-                            index: number,
-                        ) => {
+                        ({ title, href, icon }: DashboardLinkType, index: number) => {
                             const Icon: React.ElementType = icon;
-                            const t = useTranslations("T_DASH_SIDEBAR");
                             return (
                                 <li
                                     key={index}
                                     className={cn(
                                         "text-primary mb-2 cursor-pointer rounded-lg px-2 py-3 transition-colors hover:bg-purple-800 hover:text-black",
                                         pathname === href && "bg-purple-800",
+                                        index === 6 ||
+                                            index === 7 ||
+                                            index === 8
+                                            ? "cursor-not-allowed pointer-events-none"
+                                            : "cursor-pointer",
                                     )}
                                 >
                                     <Link
-                                        className="flex items-center gap-2 text-purple-300 dark:text-purple-300"
+                                        className={cn(
+                                            "flex items-center gap-2",
+                                            index === 6 ||
+                                                index === 7 ||
+                                                index === 8
+                                                ? "text-purple-300/50"
+                                                : "text-purple-300",
+                                        )}
                                         href={href}
                                     >
                                         <Icon
                                             size={24}
-                                            className="text-purple-300"
+                                            className={cn(
+                                                "text-purple-300",
+                                                index === 6 ||
+                                                    index === 7 ||
+                                                    index === 8
+                                                    ? "text-purple-300/50 cursor-not-allowed"
+                                                    : "text-purple-300",
+                                            )}
                                         />
-                                        {t(T_DASH_LINKS[index])}
+                                        {title}
                                     </Link>
                                 </li>
                             );
@@ -162,4 +165,3 @@ const TeacherSidebar = () => {
 };
 
 export default TeacherSidebar;
-

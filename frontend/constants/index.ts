@@ -1,6 +1,4 @@
 import {
-    LogIn,
-    UserPlus,
     BookOpen,
     Group,
     User,
@@ -103,11 +101,6 @@ const dashboardLinks = [
         icon: BookOpen,
     },
     {
-        title: "Teachers",
-        href: "/dashboard/student/teachers",
-        icon: Users,
-    },
-    {
         title: "Subscriptions",
         href: "/dashboard/student/subscriptions",
         icon: DollarSign,
@@ -146,37 +139,37 @@ const TeacherDashboardLinks = [
         icon: Video,
     },
     {
+        title: "Books",
+        href: "/dashboard/teacher/books",
+        icon: Book,
+    },
+    {
         title: "Q&A",
         href: "/dashboard/teacher/qa",
         icon: MessageCircleQuestion,
     },
     {
-        title: "Assignments",
+        title: "Assignments (⏳)",
         href: "/dashboard/teacher/assignments",
         icon: Pen,
     },
     {
-        title: "Exams",
+        title: "Exams (⏳)",
         href: "/dashboard/teacher/exams",
         icon: Award,
     },
     {
-        title: "Quizzes",
+        title: "Quizzes (⏳)",
         href: "/dashboard/teacher/quizzes",
         icon: CircleQuestionMark,
-    },
-    {
-        title: "Books",
-        href: "/dashboard/teacher/books",
-        icon: Book,
     }
 ];
 
 const ProfileButtonLinks: ProfileButtonLinksType[] = [
     {
-        label: "Account",
+        label: "Dashboard",
         href: "/dashboard/",
-        icon: User,
+        icon: Home,
     },
     {
         label: "My Courses",
@@ -197,9 +190,9 @@ const ProfileButtonLinks: ProfileButtonLinksType[] = [
 
 const TeacherProfileButtonLinks: ProfileButtonLinksType[] = [
     {
-        label: "Account",
+        label: "Dashboard",
         href: "/dashboard/teacher",
-        icon: User,
+        icon: Home,
     },
     {
         label: "My Courses",

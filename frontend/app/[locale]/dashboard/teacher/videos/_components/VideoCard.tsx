@@ -1,8 +1,11 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { format } from "date-fns";
-import { Edit, Trash2, Video } from "lucide-react";
+import { format } from "timeago.js";
+import { Edit, Eye, ThumbsUp, Trash2, Video } from "lucide-react";
+import Image from "next/image";
+import Tag from "@/components/ui/Tag";
+import Link from "next/link";
 
 const VideoCard = ({
     video,
@@ -13,38 +16,53 @@ const VideoCard = ({
     onDelete: (id: string) => void;
     onEdit: (video: Video) => void;
 }) => (
-    <div className="bg-card text-card-foreground overflow-hidden rounded-lg border shadow-sm transition-all hover:shadow-md">
-        <div className="bg-muted relative flex aspect-video items-center justify-center">
-            <Video className="text-muted-foreground h-12 w-12" />
+    <div className="flex flex-col relative overflow-hidden rounded-2xl border">
+        {/* Image */}
+        <div>
+            {video.thumbnail_url == null ? (
+                <Video className="text-muted-foreground h-12 w-12" />
+            ) : (
+                <Image
+                    src={video.thumbnail_url}
+                    alt={video.title}
+                    width={600}
+                    height={400}
+                    className="h-48 w-full object-cover"
+                />
+            )}
         </div>
-        <div className="p-4">
-            <div className="flex items-start justify-between">
-                <h3 className="line-clamp-2 text-lg font-medium">{video.title}</h3>
-            </div>
+        {/* Course */}
+        <div className="flex absolute top-4 left-4 items-center justify-between gap-2">
+            <Tag color="blue">{video.course?.title}</Tag>
+        </div>
+        {/* Content */}
+        <div className="flex-1 px-4 py-4">
+            <h3 className="line-clamp-2 text-lg font-medium">
+                <Link href={`${video.video_url}`}>{video.title}</Link>
+            </h3>
             <p className="p-lead mt-1 line-clamp-2 text-sm">
-                {video.description}
+                {video.description === "" ? "No description" : video.description}
             </p>
-            <div className="text-muted-foreground mt-3 mb-3 flex items-center justify-between text-xs">
-                <span>{video.views} views</span>
-                <span>{format(new Date(video.created_at), "MMM d, yyyy")}</span>
+        </div>
+        {/* Tags */}
+        <div className="flex items-center justify-between gap-2 pb-4 px-4 text-sm">
+            <div className="flex items-center gap-3">
+                <span className="flex items-center gap-1">{video.likes} <ThumbsUp className="h-4 w-4" /></span>
+                <span className="flex items-center gap-1">{video.views} <Eye className="h-4 w-4" /></span>
             </div>
-            <hr />
-            <div className="mt-4 flex justify-end space-x-2">
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => onEdit(video)}
-                >
-                    <Edit className="h-4 w-4" />
-                </Button>
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => onDelete(video.id as string)}
-                >
-                    <Trash2 className="text-red-500 h-4 w-4" />
-                </Button>
-            </div>
+            <span>{format(video.created_at)}</span>
+        </div>
+        {/* Actions */}
+        <div className="flex items-center justify-end gap-2 px-4 pb-4">
+            <Button variant="outline" onClick={() => onEdit(video)}>
+                <Edit />
+            </Button>
+            <Button
+                variant="destructive"
+                onClick={() => onDelete(video.id as string)}
+            >
+                <Trash2 />
+            </Button>
         </div>
     </div>
 );

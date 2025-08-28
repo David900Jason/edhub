@@ -17,6 +17,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { cities } from "@/constants";
+import { updateUser } from "@/lib/api/user";
 
 const ProfileSettingsPage = () => {
     const [user] = useLocalStorage("user_profile", null);
@@ -27,25 +28,13 @@ const ProfileSettingsPage = () => {
         phone_number: user?.phone_number || "",
         parent_number: user?.parent_number || "",
         birth_date: user?.birth_date || "",
-        school_year: user?.school_year || "",
         city: user?.city,
     });
 
     const handleSubmitUserData = async () => {
-        const res = await fetch("/api/user/edit", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                id: user?.id,
-                ...formData,
-            }),
-        });
-        const newUser = await res.json();
-        localStorage.setItem("user", JSON.stringify(newUser.user));
-        location.reload();
+        updateUser(formData);
         setIsEditing(false);
+        window.location.reload();
     };
 
     const handleCancel = () => {
@@ -80,7 +69,11 @@ const ProfileSettingsPage = () => {
             <main className="mb-6 flex flex-col items-center gap-6 rounded-2xl border p-6 sm:flex-row">
                 <div>
                     <Image
-                        src="/profile.jpg"
+                        src={
+                            user.profile_img == null
+                                ? "/avatar.jpg"
+                                : user.profile_img
+                        }
                         alt="Profile Image"
                         width={150}
                         height={150}
@@ -264,14 +257,6 @@ const ProfileSettingsPage = () => {
                         </Label>
                         <p className="text-muted-foreground capitalize">
                             {user?.role}
-                        </p>
-                    </div>
-                    <div className="w-4/5">
-                        <Label className="mb-2 font-semibold !text-black dark:!text-white">
-                            Wallet Balance
-                        </Label>
-                        <p className="text-muted-foreground">
-                            {user?.wallet_balance} EGP
                         </p>
                     </div>
                 </main>

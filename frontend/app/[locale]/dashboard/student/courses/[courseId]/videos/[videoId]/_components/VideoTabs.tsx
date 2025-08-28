@@ -1,62 +1,22 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
-import {
-    Book,
-    BookTemplate,
-    CircleQuestionMark,
-    Download,
-    LogIn,
-} from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Suspense, useState } from "react";
+import { Book, BookTemplate, CircleQuestionMark, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getVideoBooks, getVideoQuestions } from "@/lib/api/video";
-import { getQuizByVideoId } from "@/lib/api/quiz";
 import { cn } from "@/lib/utils";
-import Question from "../(qna)/Question";
-import CreateQuestion from "../(qna)/CreateQuestion";
-import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
+import CreateQuestion from "../(qna)/CreateQuestion";
+import Question from "../(qna)/Question";
+import { Link } from "@/i18n/routing";
 
-export default function VideoTabs({
-    video,
-    currentUser,
-}: {
-    video: Video | null;
-    currentUser: UserType | null;
-}) {
-    const t =  useTranslations("STUDENT_DASHBOARD.COURSES.content");
+export default function VideoTabs({ video }: { video: Video | null }) {
+    const t = useTranslations("STUDENT_DASHBOARD.COURSES.content");
     const [tab, setTab] = useState("description");
-    const [resources, setResources] = useState<Book[]>([]);
-    const [questions, setQuestions] = useState<QnA[]>([]);
-    const [quizzes, setQuizzes] = useState<Quiz[]>();
-
-    useEffect(() => {
-        const getVideoResources = async () => {
-            const resources: Book[] = await getVideoBooks(video?.id || "");
-            setResources(resources);
-        };
-
-        const getVideoQnA = async () => {
-            const questions: QnA[] = await getVideoQuestions(video?.id || "");
-            setQuestions(questions);
-        };
-
-        const getVideoQuiz = async () => {
-            const quizzes: Quiz[] = await getQuizByVideoId(video?.id || "");
-            setQuizzes(quizzes);
-            console.log(quizzes);
-        };
-
-        if (tab === "resources") getVideoResources();
-        if (tab === "qa") getVideoQnA();
-        if (tab === "quiz") getVideoQuiz();
-    }, [tab]);
 
     return (
         <>
             {/* Tabs List */}
-            <ul className="mb-2 flex items-center gap-4 rounded-2xl border bg-white p-4 shadow-lg dark:bg-black/50">
+            <ul className="mb-6 flex items-center gap-4 bg-white dark:bg-black/50">
                 <li
                     className={cn(
                         "flex cursor-pointer items-center gap-2 rounded-2xl border p-4 py-3",
@@ -73,7 +33,8 @@ export default function VideoTabs({
                     )}
                     onClick={() => setTab("qa")}
                 >
-                    <CircleQuestionMark /> {t("videos_tabs.qa")}
+                    <CircleQuestionMark /> {t("videos_tabs.qa")} (
+                    {video?.questions?.length ?? 0})
                 </li>
                 <li
                     className={cn(
@@ -82,7 +43,8 @@ export default function VideoTabs({
                     )}
                     onClick={() => setTab("resources")}
                 >
-                    <Book /> {t("videos_tabs.resources")}
+                    <Book /> {t("videos_tabs.resources")} (
+                    {video?.books?.length ?? 0})
                 </li>
                 <li
                     className={cn(
@@ -101,21 +63,13 @@ export default function VideoTabs({
                 )}
                 {tab === "qa" && (
                     <div className="flex flex-col gap-4">
-                        <CreateQuestion
-                            videoId={video?.id || ""}
-                            currentUser={currentUser}
-                        />
-                        <Suspense
-                            fallback={
-                                <p>{t("videos_tabs.loading_resources")}</p>
-                            }
-                        >
-                            {questions?.length > 0 ? (
-                                questions?.map((question: QnA) => (
+                        <CreateQuestion videoId={video?.id as string} />
+                        <Suspense fallback={<p>Loading questions...</p>}>
+                            {(video?.questions?.length ?? 0 > 0) ? (
+                                video?.questions?.map((question: QnA) => (
                                     <Question
                                         key={question.id}
                                         question={question}
-                                        currentUser={currentUser}
                                     />
                                 ))
                             ) : (
@@ -133,25 +87,36 @@ export default function VideoTabs({
                                 <p>{t("videos_tabs.loading_resources")}</p>
                             }
                         >
-                            {resources?.length > 0 ? (
-                                resources?.map(({ id, title }: Book) => (
-                                    <Card
-                                        className="flex flex-row items-center justify-between"
-                                        key={id}
-                                    >
-                                        <CardHeader className="flex-1">
-                                            <CardTitle>{title}</CardTitle>
-                                        </CardHeader>
-                                        <CardContent>
+                            {(video?.books?.length ?? 0 > 0) ? (
+                                video?.books?.map(
+                                    ({
+                                        id,
+                                        title,
+                                        book_url,
+                                    }: {
+                                        id: string;
+                                        title: string;
+                                        book_url?: string;
+                                    }) => (
+                                        <div
+                                            key={id}
+                                            className="flex flex-row items-center justify-between rounded-lg border p-4"
+                                        >
+                                            <h3>{title}</h3>
                                             <Button
                                                 className="mt-2"
                                                 variant="outline"
                                             >
-                                                <Download />
+                                                <Link
+                                                    target="_blank"
+                                                    href={book_url as string || ""}
+                                                >
+                                                    <Download />
+                                                </Link>
                                             </Button>
-                                        </CardContent>
-                                    </Card>
-                                ))
+                                        </div>
+                                    ),
+                                )
                             ) : (
                                 <p className="p-lead">{t("no_books")}</p>
                             )}
@@ -160,7 +125,7 @@ export default function VideoTabs({
                 )}
                 {tab === "quiz" && (
                     <div className="flex flex-col gap-4">
-                        <Suspense
+                        {/* <Suspense
                             fallback={<p>{t("videos_tabs.loading_quizzes")}</p>}
                         >
                             {(quizzes?.length ?? 0 > 0) ? (
@@ -193,15 +158,11 @@ export default function VideoTabs({
                                     {t("videos_tabs.no_quizzes")}
                                 </p>
                             )}
-                        </Suspense>
+                        </Suspense> */}
+                        <p className="p-lead">{t("videos_tabs.no_quizzes")}</p>
                     </div>
                 )}
             </div>
         </>
     );
 }
-
-
-
-
-

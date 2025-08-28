@@ -5,6 +5,7 @@ import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { redirect } from "@/i18n/routing";
 import { useLocale } from "next-intl";
 import { logoutUser } from "@/lib/api/auth";
+import { toast } from "sonner";
 
 const Logout = () => {
     const locale = useLocale();
@@ -13,11 +14,13 @@ const Logout = () => {
     // No user, redirect to login
     if (!user) {
         redirect({ href: "/auth/login", locale });
+        toast.error("You're not signed in to proceed");
     }
 
     // User found, logout
     if (user) {
         logoutUser();
+        toast.success("You've been logged out successfully");
         redirect({ href: "/auth/login", locale });
     }
 

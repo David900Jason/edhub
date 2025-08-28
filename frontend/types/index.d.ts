@@ -37,7 +37,7 @@ interface ProfileButtonLinksType {
 
 // Course Types
 interface CourseType {
-    category: string;
+    category?: string;
     created_at: string;
     currency: string;
     description: string;
@@ -47,7 +47,7 @@ interface CourseType {
     is_published: boolean;
     price: number;
     rating: number;
-    thumbnail: string;
+    thumbnail?: string;
     title: string;
     updated_at: string;
     teacher?: {
@@ -73,10 +73,9 @@ interface SignupFormType {
     password: string;
     confirm_password?: string;
     phone_number: string;
-    role: string;
-    school_year: string;
     parent_number: string;
-    birth_date: string | null;
+    role: string;
+    birth_date: string;
     city: string;
 }
 
@@ -87,7 +86,6 @@ interface UpdateUserData {
     phone_number?: string;
     parent_number?: string;
     birth_date?: string;
-    school_year?: string;
     city?: string;
     // Add other user fields that can be updated
 }
@@ -124,22 +122,18 @@ interface UserType {
     created_at?: string;
     updated_at?: string;
     city?: string;
-    image?: string;
+    profile_img?: string;
     gender?: "male" | "female";
 }
 
 interface EnrollmentType {
     id: string;
-    course_id: string;
-    user_id: string;
-    review: number;
-    teacher_id: string;
-    enrolled_at: string;
-    created_at: string;
-    is_paid: boolean;
-    price?: number;
-    status?: string;
-    payment_id?: string;
+    course: CourseType;
+    timestamp: string;
+    amount_paid?: string;
+    rating?: number;
+    videos?: { id: string; title: string; likes: number; views: number }[];
+    books?: { id: string; title: string; book_url: string }[];
 }
 
 interface InvoiceType {
@@ -155,32 +149,47 @@ interface Video {
     id: number | string;
     title: string;
     description: string;
-    duration: string;
-    url: string;
-    thumbnail: string;
-    course_id: string | undefined;
+    video_url: string;
+    thumbnail_url: string;
     likes: number;
     views: number;
     created_at: string;
+    course_id?: string;
+    books?: { id: string; title: string; book_url?: string }[];
+    course?: { id: string; title: string };
+    questions?: QnA[];
+    related_videos?: { id: string; title: string }[];
 }
 
 interface Book {
     id: number;
     title: string;
-    src: string;
-    course_id: string | undefined;
-    video_id: string;
+    description: string;
+    book_url: File | undefined | string;
+    thumbnail_url: File | undefined | string;
+    course_id?: string;
+    course?: CourseType;
+    video_id?: string;
+    video?: string | { id: string; title: string };
+    created_at: string;
+    updated_at: string;
 }
 
 interface QnA {
     id: string;
-    user_id: string;
-    video_id: string;
-    question_text: string;
-    reply: {
-        answer_text: string;
-        teacher_id: string;
+    content: string;
+    video: { id: string; title: string };
+    student: { id: string; full_name: string; profile_img: string };
+    reply?: {
+        content: string;
         created_at: string;
+        id: string;
+        question: string;
+        teacher: {
+            id: string;
+            full_name: string;
+            profile_img: string;
+        };
     };
     created_at: string;
 }
@@ -268,11 +277,18 @@ declare interface UploadBookForm {
 }
 
 declare interface NotesType {
-    id: string;
+    id?: string;
     title: string;
     category: string;
     content: string;
     color: string;
     created_at: string;
-    updated_at: string;
+    updated_at?: string;
+}
+
+declare interface Task {
+    id: string;
+    task: string;
+    status: string;
+    created_at: string;
 }

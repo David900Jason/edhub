@@ -1,44 +1,82 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { getAllNotes } from "@/lib/api/notes";
+import { createNote, deleteNote, editNote, getAllNotes } from "@/lib/api/notes";
 import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import NoteCard from "./_components/NoteCard";
+import EditNoteForm from "./_components/EditNoteForm";
 
 const NotesPage = () => {
     const [notes, setNotes] = useState<NotesType[]>([]);
+    const [note, setNote] = useState<NotesType | null>(null);
+    const [toggleVisibility, setToggleVisibility] = useState(false);
 
     // Handle List All Notess
     useEffect(() => {
         getAllNotes().then((data) => {
             setNotes(data);
         });
-    }, [getAllNotes]);
+    }, [setNotes]);
 
     // Handle Create Note
+    const handleCreateNote = (note: NotesType) => {
+        // API CREATE METHOD NOTE
+        createNote(note as NotesType);
+        // Refresh page
+        window.location.reload();
 
-    // Handle Edit Save Note
+        setToggleVisibility(false);
+    };
 
-    // Handle Editing Note
+    const handleCreateNoteClick = () => {
+        setNote(null);
+        setToggleVisibility(true);
+    };
+
+    // Handle Edit Note
+    const handleEditNote = (note: NotesType) => {
+        setNote(null);
+        editNote(note as NotesType);
+        window.location.reload();
+
+        setToggleVisibility(true);
+    };
+
+    // Handle Edit Note Click
+    const handleEditNoteClick = (note: NotesType) => {
+        setNote(note as NotesType);
+        setToggleVisibility(true);
+    };
 
     // Handle Delete Note
+    const handleDeleteNote = (id: string) => {
+        deleteNote(id);
+        window.location.reload();
+    };
 
     return (
-        <section>
-            <header className="mb-8 flex items-center justify-between">
+        <section className="flex flex-col gap-6">
+            <header className="flex items-center justify-between">
                 <h1 className="text-3xl font-semibold">Notes</h1>
-                <Button
-                    className="flex items-center gap-2 text-white"
-                    onClick={() => {}}
-                >
-                    <Plus /> Create Note
-                </Button>
+                {!toggleVisibility && (
+                    <Button
+                        onClick={handleCreateNoteClick}
+                        className="flex items-center gap-2 text-white"
+                    >
+                        <Plus /> Create Note
+                    </Button>
+                )}
             </header>
             {notes.length > 0 ? (
                 <main className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                     {notes.map((note: NotesType) => (
-                        <NoteCard key={note.id} note={note} />
+                        <NoteCard
+                            key={note.id}
+                            note={note}
+                            handleEditNoteClick={handleEditNoteClick}
+                            handleDeleteNote={handleDeleteNote}
+                        />
                     ))}
                 </main>
             ) : (
@@ -46,101 +84,15 @@ const NotesPage = () => {
                     <p className="text-lg text-gray-500">No Notes</p>
                 </div>
             )}
-
-            {/* Create Note */}
-
-            {/* Edit Note */}
-
-            {/* {toggleVisibility && (
-                <footer className="mt-12 flex flex-col gap-6 rounded-2xl border p-6">
-                    <div className="flex flex-1 items-center justify-between">
-                        <h2 className="text-xl font-semibold">
-                            {editingNote ? t("edit_note") : t("write_new_note")}
-                        </h2>
-                        <X className="cursor-pointer" onClick={handleCancel} />
-                    </div>
-                    <div className="input-group">
-                        <Label className="mb-2">{t("new_note_title")}</Label>
-                        <Input
-                            value={newNote.title}
-                            onChange={(e) => {
-                                setNewNote({
-                                    ...newNote,
-                                    title: e.target.value,
-                                });
-                            }}
-                        />
-                    </div>
-                    <div className="input-group">
-                        <Label className="mb-2">{t("new_note_category")}</Label>
-                        <Select
-                            value={newNote.category}
-                            onValueChange={(value) => {
-                                setNewNote({ ...newNote, category: value });
-                            }}
-                        >
-                            <SelectTrigger className="w-full">
-                                <SelectValue
-                                    placeholder={t("new_note_category")}
-                                />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {categories.map((category) => (
-                                    <SelectItem key={category} value={category}>
-                                        {category}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </div>
-                    <div className="input-group">
-                        <Label className="mb-2">{t("new_note_color")}</Label>
-                        <div className="flex gap-2">
-                            {Object.keys(colorMap).map((color) => (
-                                <button
-                                    key={color}
-                                    type="button"
-                                    className={cn(
-                                        `h-8 w-8 rounded-full border-2`,
-                                        `bg-${color}-200`,
-                                        newNote.color === color
-                                            ? "border-blue-500"
-                                            : "border-transparent",
-                                    )}
-                                    onClick={() =>
-                                        setNewNote({ ...newNote, color })
-                                    }
-                                />
-                            ))}
-                        </div>
-                    </div>
-                    <div className="input-group">
-                        <Label className="mb-2">{t("new_note_content")}</Label>
-                        <Editor
-                            dir="ltr"
-                            value={newNote.content}
-                            onTextChange={(e) => {
-                                setNewNote({
-                                    ...newNote,
-                                    content: e.htmlValue || "",
-                                });
-                            }}
-                            style={{ height: "250px" }}
-                        />
-                    </div>
-                    <Button
-                        className={
-                            locale === "ar"
-                                ? "mr-auto text-white"
-                                : "ml-auto text-white"
-                        }
-                        onClick={handleSaveNote}
-                    >
-                        <Check />{" "}
-                        {editingNote ? t("edit_note") : t("new_note_cta")}
-                    </Button>
-                </footer>
-            )} */}
+            <hr />
+            {toggleVisibility && (
+                <EditNoteForm
+                    note={note as NotesType}
+                    handleCreateNote={handleCreateNote}
+                    handleEditNote={handleEditNote}
+                    setToggleVisibility={setToggleVisibility}
+                />
+            )}
         </section>
     );
 };

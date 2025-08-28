@@ -12,7 +12,7 @@ const Statistics = ({
 
     return (
         <div className="mx-auto grid grid-cols-1 gap-4 px-14 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {stats.map(({ icon, title, value }: StatsType, index: number) => {
+            {stats.map(({ icon, value }: { icon: React.ElementType; value: number }, index: number) => {
                 const Icon: React.ElementType = icon;
                 return (
                     <div

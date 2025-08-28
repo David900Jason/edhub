@@ -12,8 +12,9 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { useRouter } from "@/i18n/routing";
 import { useLocale, useTranslations } from "next-intl";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { getUserProfile, loginUser } from "@/lib/api/auth";
+import { loginUser } from "@/lib/api/auth";
+import { getUserProfile } from "@/lib/api/user";
+import { toast } from "sonner";
 
 interface LoginFormData {
     email: string;
@@ -37,14 +38,24 @@ const Login = () => {
 
         try {
             const res = await loginUser(data);
-            const user_profile = await getUserProfile(res.access);
-
-            localStorage.setItem("access", res.access);
-            localStorage.setItem("refresh", res.refresh);
-            localStorage.setItem("user_profile", JSON.stringify(user_profile));
-
-            router.push("/dashboard");
+            if (res.status !== 400) {
+                localStorage.setItem("access", res.access);
+                localStorage.setItem("refresh", res.refresh);
+                const user_profile = await getUserProfile();
+                if (user_profile) {
+                    localStorage.setItem(
+                        "user_profile",
+                        JSON.stringify(user_profile),
+                    );
+                    toast.success(`User found: Welcome ${user_profile.full_name.split(" ")[0]}`, {
+                        position: "top-center",
+                    });
+                }
+                toast.success("Login successful");
+                router.push("/dashboard");
+            }
         } catch (error) {
+            toast.error("Login failed");
             console.log(error);
         }
     };
@@ -111,15 +122,6 @@ const Login = () => {
                     >
                         {showPassword ? <Eye /> : <EyeOff />}
                     </Button>
-                </div>
-                {/* Remember me */}
-                <div className="flex items-center justify-start">
-                    <Link
-                        href="/auth/forgot-password"
-                        className="text-primary text-sm"
-                    >
-                        {t("LOG_IN.forgot_password")}
-                    </Link>
                 </div>
                 {/* Submit Button */}
                 <Button

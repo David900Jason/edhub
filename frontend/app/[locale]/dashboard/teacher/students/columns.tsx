@@ -4,7 +4,7 @@ import { ColumnDef, FilterFn } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Tag from "@/components/ui/Tag";
-import { useTranslations } from "next-intl";
+import Image from "next/image";
 
 export type StudentData = {
     id: string;
@@ -14,6 +14,7 @@ export type StudentData = {
     questions: number;
     average_score: number;
     courses: string[];
+    profile_img: string | null;
     videos: number;
     exams: number;
     joined_at: string;
@@ -31,8 +32,6 @@ const courseFilterFn: FilterFn<StudentData> = (row, columnId, filterValue) => {
 };
 
 export const getColumns = (): ColumnDef<StudentData>[] => {
-    const t = useTranslations("TEACHER_DASHBOARD.STUDENTS.students_table");
-
     return [
         {
             accessorKey: "full_name",
@@ -45,7 +44,7 @@ export const getColumns = (): ColumnDef<StudentData>[] => {
                         }
                         className="p-0 text-white hover:bg-transparent"
                     >
-                        {t("head1")}
+                        Name
                         <ArrowUpDown className="h-4 w-4" />
                     </Button>
                 );
@@ -53,81 +52,76 @@ export const getColumns = (): ColumnDef<StudentData>[] => {
             cell: ({ row }) => {
                 const student = row.original;
                 return (
-                    <div className="font-medium">
-                        {student.full_name}
-                        <div className="text-muted-foreground text-xs">
-                            {student.phone_number}
+                    <div className="flex items-center gap-2">
+                        <div>
+                            {student.profile_img == null ? (
+                                <Image
+                                    src={"/avatar.jpg"}
+                                    width={32}
+                                    height={32}
+                                    alt={student.full_name}
+                                    className="rounded-full min-w-8 min-h-8"
+                                />
+                            ) : (
+                                <Image
+                                    src={student.profile_img}
+                                    width={32}
+                                    height={32}
+                                    alt={student.full_name}
+                                    className="rounded-full min-w-8 min-h-8"
+                                />
+                            )}
                         </div>
+                        {student.full_name}
                     </div>
                 );
             },
             filterFn: "includesString",
         },
         {
-            accessorKey: "paid_amount",
-            header: ({ column }) => {
-                return (
-                    <Button
-                        variant="ghost"
-                        onClick={() =>
-                            column.toggleSorting(column.getIsSorted() === "asc")
-                        }
-                        className="p-0 text-white hover:bg-transparent"
-                    >
-                        {t("head2")}
-                        <ArrowUpDown className="h-4 w-4" />
-                    </Button>
-                );
-            },
+            accessorKey: "birth_date",
+            header: "Birth Date",
             cell: ({ row }) => {
-                const amount = parseFloat(row.getValue("paid_amount"));
-                const formatted = new Intl.NumberFormat("ar-EG", {
-                    style: "currency",
-                    currency: "EGP",
-                }).format(amount);
-                return (
-                    <div className="text-center font-bold">{formatted}</div>
-                );
-            },
-        },
-        {
-            accessorKey: "average_score",
-            header: ({ column }) => {
-                return (
-                    <Button
-                        variant="ghost"
-                        onClick={() =>
-                            column.toggleSorting(column.getIsSorted() === "asc")
-                        }
-                        className="p-0 text-white hover:bg-transparent"
-                    >
-                        {t("head4")}
-                        <ArrowUpDown className="h-4 w-4" />
-                    </Button>
-                );
-            },
-            cell: ({ row }) => {
-                const score = parseFloat(row.getValue("average_score"));
                 return (
                     <div className="text-center">
-                        <Tag color={score >= 70 ? "green" : "red"}>
-                            {score}%
-                        </Tag>
+                        {row.getValue("birth_date")}
                     </div>
                 );
             },
         },
         {
-            accessorKey: "courses",
-            header: ({ column }) => {
+            accessorKey: "email",
+            header: "Email",
+            cell: ({ row }) => {
+                return (
+                    <div className="text-center">
+                        {row.getValue("email")}
+                    </div>
+                );
+            },
+        },
+        {
+            accessorKey: "city",
+            header: "City",
+            cell: ({ row }) => {
+                return (
+                    <div className="text-center">
+                        {row.getValue("city")}
+                    </div>
+                );
+            },
+        },
+        {
+            accessorKey: "enrolled_courses",
+            header: () => {
                 return (
                     <div className="p-0 text-start text-white hover:bg-transparent">
-                        {t("head5")}
+                        Courses
                     </div>
                 );
             },
             cell: ({ row }) => {
-                const courses = row.getValue("courses") as string[];
+                const courses = row.getValue("enrolled_courses") as string[];
                 return (
                     <div className="flex max-w-[200px] flex-wrap gap-1">
                         {courses.map((course, i) => (
@@ -141,7 +135,7 @@ export const getColumns = (): ColumnDef<StudentData>[] => {
             filterFn: courseFilterFn,
         },
         {
-            accessorKey: "videos",
+            accessorKey: "created_at",
             header: ({ column }) => {
                 return (
                     <Button
@@ -151,103 +145,38 @@ export const getColumns = (): ColumnDef<StudentData>[] => {
                         }
                         className="p-0 text-white hover:bg-transparent"
                     >
-                        {t("head6")}
+                        Created
                         <ArrowUpDown className="h-4 w-4" />
                     </Button>
                 );
             },
             cell: ({ row }) => {
-                const videos = row.getValue("videos");
-                return (
-                    <div className="text-center font-medium">
-                        {videos as number}
-                    </div>
-                );
-            },
-        },
-
-        {
-            accessorKey: "questions",
-            header: ({ column }) => {
-                return (
-                    <Button
-                        variant="ghost"
-                        onClick={() =>
-                            column.toggleSorting(column.getIsSorted() === "asc")
-                        }
-                        className="p-0 text-white hover:bg-transparent"
-                    >
-                        {t("head3")}
-                        <ArrowUpDown className="h-4 w-4" />
-                    </Button>
-                );
-            },
-            cell: ({ row }) => {
-                const questions = row.getValue("questions");
-                return (
-                    <div className="text-center font-medium">
-                        {questions as number}
-                    </div>
-                );
-            },
-        },
-        {
-            accessorKey: "exams",
-            header: ({ column }) => {
-                return (
-                    <Button
-                        variant="ghost"
-                        onClick={() =>
-                            column.toggleSorting(column.getIsSorted() === "asc")
-                        }
-                        className="p-0 text-white hover:bg-transparent"
-                    >
-                        {t("head7")}
-                        <ArrowUpDown className="h-4 w-4" />
-                    </Button>
-                );
-            },
-            cell: ({ row }) => {
-                const exams = row.getValue("exams");
-                return (
-                    <div className="text-center font-medium">
-                        {exams as number}
-                    </div>
-                );
-            },
-        },
-        {
-            accessorKey: "joined_at",
-            header: ({ column }) => {
-                return (
-                    <Button
-                        variant="ghost"
-                        onClick={() =>
-                            column.toggleSorting(column.getIsSorted() === "asc")
-                        }
-                        className="p-0 text-white hover:bg-transparent"
-                    >
-                        {t("head8")}
-                        <ArrowUpDown className="h-4 w-4" />
-                    </Button>
-                );
-            },
-            cell: ({ row }) => {
-                const date = new Date(row.getValue("joined_at"));
+                const date = new Date(row.getValue("created_at"));
                 return (
                     <div className="text-center">
                         {date.toLocaleDateString("en-US", {
                             year: "numeric",
                             month: "long",
-                            day: "numeric"
+                            day: "numeric",
                         })}
                     </div>
                 );
             },
         },
         {
+            accessorKey: "phone_number",
+            header: "Phone Number",
+            cell: ({ row }) => {
+                return (
+                    <div className="text-center">
+                        {row.getValue("phone_number")}
+                    </div>
+                );
+            },
+        },
+        {
             accessorKey: "parent_number",
-            header: t("head9"),
+            header: "Parent Number",
             cell: ({ row }) => {
                 return (
                     <div className="text-center">
@@ -258,7 +187,3 @@ export const getColumns = (): ColumnDef<StudentData>[] => {
         },
     ];
 };
-
-
-
-

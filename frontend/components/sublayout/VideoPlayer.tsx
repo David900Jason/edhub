@@ -41,7 +41,7 @@ export default function VideoPlayer({
         };
         video.addEventListener("timeupdate", handleTimeUpdate);
         return () => video.removeEventListener("timeupdate", handleTimeUpdate);
-    }, []);
+    }, [videoRef, setProgress]);
 
     const togglePlayPause = () => {
         const video = videoRef.current;

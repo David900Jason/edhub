@@ -1,5 +1,5 @@
 // React Icons
-import { ShoppingCart } from "lucide-react";
+import { Book, ShoppingCart } from "lucide-react";
 
 // UI Components
 import { Card } from "@/components/ui/card";
@@ -8,7 +8,6 @@ import Tag from "@/components/ui/Tag";
 import PaymentDialog from "../sublayout/PaymentDialog";
 
 // Next.js Components
-import Image from "next/image";
 import { Link } from "@/i18n/routing";
 
 const CourseCard = ({ course }: { course: CourseType }) => {
@@ -23,14 +22,9 @@ const CourseCard = ({ course }: { course: CourseType }) => {
 
     return (
         <Card className="group gap-0 overflow-hidden py-0 hover:cursor-pointer">
-            <Image
-                src={"https://dummyimage.com/600x400"}
-                blurDataURL={"https://dummyimage.com/600x400"}
-                width={600}
-                height={400}
-                alt=""
-                priority={true}
-            />
+            <div className="aspect-[6/4] bg-gray-300 dark:bg-black flex justify-center items-center">
+                <Book size={64} className="opacity-50" />
+            </div>
             <div className="flex flex-col px-4 py-5">
                 <ul className="mb-4 flex items-center gap-2">
                     <li>

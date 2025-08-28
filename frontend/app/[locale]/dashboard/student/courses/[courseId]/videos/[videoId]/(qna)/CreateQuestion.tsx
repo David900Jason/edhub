@@ -1,30 +1,17 @@
 "use client";
 
-import axios from "axios";
 import { useState } from "react";
-import { useRouter } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { createQuestion } from "@/lib/api/questions";
 
-const CreateQuestion = ({
-    videoId,
-    currentUser,
-}: {
-    videoId: string | number;
-    currentUser: UserType | null;
-}) => {
+const CreateQuestion = ({ videoId }: { videoId: string }) => {
     const [question, setQuestion] = useState<string>("");
     const t = useTranslations("STUDENT_DASHBOARD.COURSES.content.videos_tabs");
-    const router = useRouter();
 
     const handleSubmit = async () => {
-        await axios.post("/api/questions", {
-            question_text: question,
-            video_id: videoId,
-            user_id: currentUser?.id,
-        });
-        setQuestion("");
+        createQuestion(question, videoId);
         window.location.reload();
     };
 

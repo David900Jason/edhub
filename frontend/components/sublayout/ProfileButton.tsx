@@ -11,11 +11,12 @@ import {
     DropdownMenuSubTrigger,
     DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { Check, Globe, LogOut, MoonStar, User } from "lucide-react";
+import { Check, Globe, LogOut, MoonStar } from "lucide-react";
 import { ProfileButtonLinks, TeacherProfileButtonLinks } from "@/constants";
 import { useTheme } from "next-themes";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter, usePathname } from "@/i18n/routing";
+import Image from "next/image";
 
 const ProfileButton = ({ user }: { user: UserType }) => {
     const { theme, setTheme } = useTheme();
@@ -32,9 +33,16 @@ const ProfileButton = ({ user }: { user: UserType }) => {
         <DropdownMenu>
             <DropdownMenuTrigger className="focus:outline-none">
                 <div className="flex cursor-pointer items-center gap-4 rounded-full border bg-white p-2 shadow-md transition-colors hover:bg-white dark:bg-black">
-                    <User
-                        size={32}
-                        className="order-2 rounded-full border object-cover shadow"
+                    <Image
+                        src={
+                            user.profile_img == null
+                                ? "/avatar.jpg"
+                                : user.profile_img
+                        }
+                        width={32}
+                        height={32}
+                        alt="Profile Image"
+                        className="rounded-full"
                     />
                     <span className="order-1 text-sm font-bold">
                         {t("NAVBAR.PROFILE_STUDENT.welcome")}{" "}
@@ -44,11 +52,8 @@ const ProfileButton = ({ user }: { user: UserType }) => {
             </DropdownMenuTrigger>
             <DropdownMenuContent className="flex w-48 flex-col gap-1">
                 {user.role === "student"
-                    ? ProfileButtonLinks.map(({ href, icon }, index) => {
+                    ? ProfileButtonLinks.map(({ href, icon, label }, index) => {
                           const Icon: React.ElementType = icon;
-                          const t = useTranslations(
-                              "NAVBAR.PROFILE_STUDENT.DROPDOWN",
-                          );
                           return (
                               <DropdownMenuItem key={index}>
                                   <Link
@@ -57,16 +62,13 @@ const ProfileButton = ({ user }: { user: UserType }) => {
                                       dir={locale === "ar" ? "rtl" : "ltr"}
                                   >
                                       <Icon size={20} />
-                                      {t(`link${index + 1}`)}
+                                      {label}
                                   </Link>
                               </DropdownMenuItem>
                           );
                       })
-                    : TeacherProfileButtonLinks.map(({ href, icon }, index) => {
+                    : TeacherProfileButtonLinks.map(({ href, icon, label }, index) => {
                           const Icon: React.ElementType = icon;
-                          const t = useTranslations(
-                              "NAVBAR.PROFILE_TEACHER.DROPDOWN",
-                          );
                           return (
                               <DropdownMenuItem key={index}>
                                   <Link
@@ -75,7 +77,7 @@ const ProfileButton = ({ user }: { user: UserType }) => {
                                       dir={locale === "ar" ? "rtl" : "ltr"}
                                   >
                                       <Icon size={20} />
-                                      {t(`link${index + 1}`)}
+                                      {label}
                                   </Link>
                               </DropdownMenuItem>
                           );

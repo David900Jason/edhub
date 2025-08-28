@@ -1,32 +1,24 @@
+"use client";
+
 import { Link } from "@/i18n/routing";
-import { cookies } from "next/headers";
-import { getVideoById, getVideosById, updateViews } from "@/lib/api/video";
-import { Play } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { format } from "timeago.js";
-import { getTranslations } from "next-intl/server";
-
-import VideoTabs from "./_components/VideoTabs";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { getVideo } from "@/lib/api/video";
 import LikeButton from "./_components/LikeButton";
+import VideoTabs from "./_components/VideoTabs";
 
-export default async function VideoPage({
-    params,
-}: {
-    params: Promise<{ courseId: string; videoId: string }>;
-}) {
-    const { courseId, videoId } = await params;
-    const cookiesStore = await cookies();
-    const user = JSON.parse(cookiesStore.get("user")?.value || "");
-    const video: Video | null = await getVideoById(videoId);
-    const videos: Video[] = await getVideosById(courseId);
+export default function VideoPage() {
+    const { courseId, videoId } = useParams();
+    const [video, setVideo] = useState<Video | null>(null);
 
-    const t = await getTranslations("STUDENT_DASHBOARD.COURSES");
-
-    if (!video) return <p>{t("content.no_videos")}</p>;
-
-    // Increment Video Views
-    const views = video.views + 1;
-    await updateViews(videoId, views);
+    useEffect(() => {
+        const fetchVideo = async () => {
+            const video = await getVideo(videoId as string);
+            setVideo(video);
+        };
+        fetchVideo();
+    }, [videoId]);
 
     return (
         <>
@@ -41,18 +33,18 @@ export default async function VideoPage({
                 </header>
                 <section className="mb-2 flex max-h-[600px] w-full gap-4">
                     {/* Video Container */}
-                    <div className="aspect-video w-full flex-3 rounded-2xl border bg-white p-4 shadow-lg dark:bg-black/50">
+                    <div className="aspect-video w-full flex-3 rounded-2xl border bg-white p-6 dark:bg-black/50">
                         <video
-                            className="w-full rounded-2xl"
-                            src={video?.url || ""}
-                            controls
+                            className="h-full w-full rounded-2xl"
                             controlsList="nodownload"
+                            src={video?.video_url}
+                            controls
                         ></video>
                         {/* Feedback */}
                         <div className="mt-4 flex items-center justify-between gap-2 px-2">
                             <div className="flex items-center gap-2">
                                 <p className="p-lead">
-                                    {video?.views || 0} {t("content.views")}
+                                    {video?.views || 0} views
                                 </p>
                                 <span className="text-gray-400 dark:text-gray-500">
                                     |
@@ -62,39 +54,32 @@ export default async function VideoPage({
                                 </p>
                             </div>
                             <LikeButton
-                                id={video?.id || ""}
-                                likes={video?.likes || 0}
+                                id={video?.id as string}
+                                likes={video?.likes as number}
                             />
                         </div>
                     </div>
-                    <aside className="flex-1 overflow-y-auto rounded-2xl border bg-white p-4 shadow-lg dark:bg-black/50">
-                        <ul className="max-h-full space-y-3">
-                            {videos.map(({ id, title }) => (
+                    <aside className="flex-1 overflow-y-auto rounded-2xl border bg-white p-6 dark:bg-black/50">
+                        <ul className="flex flex-col gap-6">
+                            {video?.related_videos?.map((video) => (
                                 <li
-                                    key={id}
-                                    className="flex items-center justify-between rounded-2xl border bg-white p-3 dark:bg-black/50"
+                                    className="rounded-lg border hover:bg-gray-100 dark:hover:bg-gray-800"
+                                    key={video.id}
                                 >
                                     <Link
-                                        href={`/dashboard/student/courses/${courseId}/videos/${id}`}
+                                        className="block p-4"
+                                        href={`/dashboard/student/courses/${courseId}/videos/${video.id}`}
                                     >
-                                        {title}
+                                        {video.title}
                                     </Link>
-                                    {/* Video player icon */}
-                                    <Button asChild variant="outline">
-                                        <Link
-                                            href={`/dashboard/student/courses/${courseId}/videos/${id}`}
-                                        >
-                                            <Play />
-                                        </Link>
-                                    </Button>
                                 </li>
                             ))}
                         </ul>
                     </aside>
                 </section>
                 {/* Video Tabs */}
-                <section className="mb-2 bg-white p-4 shadow-lg dark:bg-black/50">
-                    <VideoTabs video={video || null} currentUser={user} />
+                <section className="my-4 rounded-2xl border bg-white p-6 dark:bg-black/50">
+                    <VideoTabs video={video} />
                 </section>
             </section>
         </>

@@ -1,7 +1,7 @@
 "use client";
 
 // Hooks
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useRouter } from "@/i18n/routing";
 
@@ -14,41 +14,71 @@ import {
     Video,
     Book,
     CircleQuestionMark,
+    Loader2,
 } from "lucide-react";
 
-import { getEnrollmentsByUserId } from "@/lib/api/course";
-import { getVideoQuestionsByUserId } from "@/lib/api/video";
 import { useTranslations } from "next-intl";
+import { getDashboardDetails } from "@/lib/api/user";
+import CountUp from "react-countup";
 
 const DashboardStudent = () => {
     // Grab user data from localStorage
     const [user] = useLocalStorage("user_profile", null);
+    const [dashboardDetails, setDashboardDetails] = useState({
+        average_score: 0,
+        enrolled_courses: 0,
+        questions_asked: 0,
+        wallet_balance: 0,
+        wallet_currency: "EGP",
+    });
     const [searchInput, setSearchInput] = useState("");
-    const [enrolledCourses, setEnrolledCourses] = useState(0);
-    const [questionsAsked, setQuestionsAsked] = useState(0);
 
     const router = useRouter();
     const t = useTranslations("STUDENT_DASHBOARD");
+
+    useEffect(() => {
+        getDashboardDetails().then((res) => {
+            setDashboardDetails({
+                average_score: res.average_score,
+                enrolled_courses: res.enrolled_courses,
+                questions_asked: res.questions_asked,
+                wallet_balance: res.wallet_balance,
+                wallet_currency: res.wallet_currency,
+            });
+        });
+    }, [user]);
 
     // handle search courses
     const handleSearchCourses = () => {
         router.push("/dashboard/student/courses?search=" + searchInput);
     };
 
-    useEffect(() => {
-        const fetchAllEnrolledCourses = async () => {
-            const data = await getEnrollmentsByUserId(user?.id);
-            setEnrolledCourses(data?.length ?? 0);
-        };
-
-        const fetchAllQuestionsAsked = async () => {
-            const data = await getVideoQuestionsByUserId(user?.id);
-            setQuestionsAsked(data?.length ?? 0);
-        };
-
-        fetchAllEnrolledCourses();
-        fetchAllQuestionsAsked();
-    }, []);
+    const DashboardCards = [
+        {
+            id: 1,
+            title: t("HOME_PAGE.card_title1"),
+            value: dashboardDetails?.enrolled_courses,
+            icon: <BookCopy />,
+        },
+        {
+            id: 2,
+            title: t("HOME_PAGE.card_title2"),
+            value: dashboardDetails?.questions_asked,
+            icon: <CircleQuestionMark />,
+        },
+        {
+            id: 3,
+            title: t("HOME_PAGE.card_title3"),
+            value: dashboardDetails?.average_score,
+            icon: <Book />,
+        },
+        {
+            id: 4,
+            title: t("HOME_PAGE.card_title4"),
+            value: dashboardDetails?.wallet_balance,
+            icon: <Video />,
+        },
+    ];
 
     return (
         <>
@@ -78,28 +108,7 @@ const DashboardStudent = () => {
                 </div>
             </nav>
             <div className="mb-6 grid grid-cols-2 gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-                {[
-                    {
-                        title: t("HOME_PAGE.card_title1"),
-                        value: enrolledCourses,
-                        icon: <BookCopy />,
-                    },
-                    {
-                        title: t("HOME_PAGE.card_title2"),
-                        value: questionsAsked,
-                        icon: <CircleQuestionMark />,
-                    },
-                    {
-                        title: t("HOME_PAGE.card_title3"),
-                        value: 0,
-                        icon: <Book />,
-                    },
-                    {
-                        title: t("HOME_PAGE.card_title4"),
-                        value: 0,
-                        icon: <Video />,
-                    },
-                ].map((card, index) => (
+                {DashboardCards.map((card, index) => (
                     <div
                         key={index}
                         className="flex flex-col rounded-xl border border-slate-200 bg-purple-100 p-6"
@@ -111,10 +120,20 @@ const DashboardStudent = () => {
                             {card.title}
                         </h3>
                         <span className="text-primary text-3xl font-extrabold tracking-tight">
-                            {Number(card.value)}{" "}
-                            {card.title === t("HOME_PAGE.card_title3")
-                                ? "%"
-                                : ""}
+                            <CountUp 
+                                end={card.value}
+                                duration={2}
+                            />
+                            {card.id === 3 && (
+                                <span className="text-lg font-bold text-gray-500">
+                                    {" "}%
+                                </span>
+                            )}
+                            <span className="text-sm font-bold text-gray-500">
+                                {card.id === 4
+                                    ? " " + dashboardDetails?.wallet_currency
+                                    : ""}
+                            </span>
                         </span>
                     </div>
                 ))}
@@ -127,7 +146,8 @@ const DashboardStudent = () => {
                     <p className="p-lead mb-6">
                         {t("HOME_PAGE.section_1.description")}
                     </p>
-                    <div className="grid min-h-[50vh] place-content-center rounded-xl bg-slate-100">
+                    <div className="flex min-h-[50vh] place-content-center items-center gap-2 rounded-xl bg-slate-100 text-gray-500 dark:text-black">
+                        <Loader2 className="animate-spin" />{" "}
                         {t("HOME_PAGE.coming_soon")} ...
                     </div>
                 </div>
@@ -138,46 +158,8 @@ const DashboardStudent = () => {
                     <p className="p-lead mb-6">
                         {t("HOME_PAGE.section_2.description")}
                     </p>
-                    {/* <ul className="flex flex-col gap-2">
-                        <li className="flex items-center justify-between rounded-lg bg-slate-100 p-4">
-                            <div className="text-primary bg-primary/10 aspect-square w-fit rounded-full p-2 font-bold">
-                                #1
-                            </div>
-                            <div className="dark:text-black">John Doe</div>
-                            <div className="font-bold text-green-600">100%</div>
-                        </li>
-                        <li className="flex items-center justify-between rounded-lg bg-slate-100 p-4">
-                            <div className="text-primary bg-primary/10 aspect-square w-fit rounded-full p-2 font-bold">
-                                #2
-                            </div>
-                            <div className="dark:text-black">Jane Doe</div>
-                            <div className="font-bold text-green-600">95%</div>
-                        </li>
-                        <li className="flex items-center justify-between rounded-lg bg-green-200 p-4">
-                            <div className="text-primary bg-primary/10 aspect-square w-fit rounded-full p-2 font-bold">
-                                #3
-                            </div>
-                            <div className="dark:text-black">Ahmed Wael</div>
-                            <div className="font-bold text-green-600">90%</div>
-                        </li>
-                        <li className="flex items-center justify-between rounded-lg bg-slate-100 p-4">
-                            <div className="text-primary bg-primary/10 aspect-square w-fit rounded-full p-2 font-bold">
-                                #4
-                            </div>
-                            <div className="dark:text-black">John Doe</div>
-                            <div className="font-bold text-green-600">85%</div>
-                        </li>
-                        <li className="flex items-center justify-between rounded-lg bg-slate-100 p-4">
-                            <div className="text-primary bg-primary/10 aspect-square w-fit rounded-full p-2 font-bold">
-                                #5
-                            </div>
-                            <div className="dark:text-black">
-                                Sarah Elsharawy
-                            </div>
-                            <div className="font-bold text-green-600">80%</div>
-                        </li>
-                    </ul> */}
-                    <div className="grid min-h-[50vh] place-content-center rounded-xl bg-slate-100">
+                    <div className="flex min-h-[50vh] place-content-center items-center gap-2 rounded-xl bg-slate-100 text-gray-500 dark:text-black">
+                        <Loader2 className="animate-spin" />{" "}
                         {t("HOME_PAGE.coming_soon")} ...
                     </div>
                 </div>
@@ -189,54 +171,8 @@ const DashboardStudent = () => {
                 <p className="p-lead mb-6">
                     {t("HOME_PAGE.section_3.description")}
                 </p>
-                {/* <Table>
-                    <TableCaption>A list of top 5 courses</TableCaption>
-                    <TableHeader>
-                        <TableRow className="flex">
-                            <TableHead className="flex flex-1 items-center gap-2">
-                                Course Name
-                            </TableHead>
-                            <TableHead className="flex flex-1 items-center gap-2">
-                                Joined at
-                            </TableHead>
-                            <TableHead className="flex flex-1 items-center gap-2">
-                                Rating
-                            </TableHead>
-                            <TableHead className="flex flex-1 items-center gap-2">
-                                Teacher
-                            </TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody className="flex flex-col">
-                        <TableRow className="flex">
-                            <TableCell className="flex flex-1 items-center gap-2 py-4">
-                                <Link href="/dashboard/student/courses/1">
-                                    <Book size={16} className="inline" /> Course
-                                    1
-                                </Link>
-                            </TableCell>
-                            <TableCell className="flex flex-1 items-center gap-2 py-4">
-                                <Tag color="primary">
-                                    {format(user?.created_at)}
-                                </Tag>
-                            </TableCell>
-                            <TableCell className="flex flex-1 items-center gap-1 py-4">
-                                <Star className="text-yellow-500" size={16} />{" "}
-                                4.5
-                            </TableCell>
-                            <TableCell className="flex flex-1 items-center gap-2 py-4">
-                                <div className="flex w-fit items-center justify-center rounded-full bg-slate-100 p-2">
-                                    <User
-                                        size={16}
-                                        className="inline dark:text-black"
-                                    />
-                                </div>
-                                Mr. Smith
-                            </TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table> */}
-                <div className="grid min-h-[50vh] place-content-center rounded-xl bg-slate-100">
+                <div className="flex min-h-[50vh] place-content-center items-center gap-2 rounded-xl bg-slate-100 text-gray-500 dark:text-black">
+                    <Loader2 className="animate-spin" />{" "}
                     {t("HOME_PAGE.coming_soon")} ...
                 </div>
             </div>

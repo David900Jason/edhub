@@ -295,7 +295,7 @@
     }
 
     .checkbox {
-        @apply flex h-6 w-6 items-center justify-center rounded-full border border-black bg-white;
+        @apply flex min-h-6 min-w-6 items-center justify-center rounded-full border border-black bg-white;
     }
 
     /* .checkbox :only-child {

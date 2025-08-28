@@ -1,15 +1,13 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Sans, Noto_Kufi_Arabic } from "next/font/google";
+import { IBM_Plex_Sans } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/sonner";
-import QueryProvider from "@/lib/query-client";
-
-import "./globals.css";
 import { cookies } from "next/headers";
 import { NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import getRequestConfig from "@/i18n/request";
+import "./globals.css";
 
 const ibmPlexSans = IBM_Plex_Sans({
     variable: "--font-ibm-plex-sans",
@@ -27,25 +25,35 @@ export const metadata: Metadata = {
     },
 };
 
+type Props = {
+    children: React.ReactNode;
+    params: Promise<{ locale: string }>;
+};
+
 export default async function RootLayout({
     children,
-    params: { locale: localeParam }
-}: {
-    children: React.ReactNode;
-    params: { locale: string | Promise<string> };
-}) {
-    // Handle both Locale and Promise<Locale> for locale
-    const locale = typeof localeParam === 'string' ? localeParam : await localeParam;
+    params,
+}: Props) {
+    // Ensure the locale is valid
+    const { locale: localeParam } = await params;
+    const locale = (localeParam as string) as "en" | "ar";
     
-    if (!routing.locales.includes(locale as any)) {
+    if (!routing.locales.includes(locale)) {
         notFound();
     }
 
     const theme = (await cookies()).get("theme")?.value || "light";
-    const { messages } = await getRequestConfig({ requestLocale: Promise.resolve(locale) });
+    const { messages } = await getRequestConfig({
+        requestLocale: Promise.resolve(locale),
+    });
 
     return (
-        <html lang={locale} className={theme} style={{ colorScheme: theme }} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+        <html
+            lang={locale}
+            className={theme}
+            style={{ colorScheme: theme }}
+            dir={locale === "ar" ? "rtl" : "ltr"}
+        >
             <body className={`${ibmPlexSans.variable} font-sans`}>
                 <NextIntlClientProvider locale={locale} messages={messages}>
                     <ThemeProvider
@@ -54,15 +62,11 @@ export default async function RootLayout({
                         enableSystem
                         disableTransitionOnChange
                     >
-                        <QueryProvider>
-                            {children}
-                            <Toaster />
-                        </QueryProvider>
+                        {children}
+                        <Toaster richColors />
                     </ThemeProvider>
                 </NextIntlClientProvider>
             </body>
         </html>
     );
 }
-
-

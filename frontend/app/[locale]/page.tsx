@@ -11,7 +11,6 @@ import { Button } from "@/components/ui/button";
 import { stats } from "@/constants";
 import { useInView } from "react-intersection-observer";
 import { useTranslations } from "next-intl";
-import { useEffect } from "react";
 
 const Home = () => {
     const t = useTranslations("HOME");

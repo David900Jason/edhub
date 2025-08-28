@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { useRouter } from "@/i18n/routing";
 import VideoCard from "./_components/VideoCard";
 import { useTranslations } from "next-intl";
+import { deleteVideo, getTeacherVideos } from "@/lib/api/video";
 
 export default function TeacherVideosPage() {
     const [videos, setVideos] = useState<Video[]>([]);
@@ -18,14 +19,13 @@ export default function TeacherVideosPage() {
 
     useEffect(() => {
         fetchVideos();
-    }, []);
+    }, [setVideos]);
 
     const fetchVideos = async () => {
         try {
             // Replace with your actual API endpoint
-            const response = await fetch("/api/teacher/videos");
-            const data = await response.json();
-            setVideos(data);
+            const response = await getTeacherVideos();
+            setVideos(response as Video[]);
         } catch (error) {
             console.error("Error fetching videos:", error);
             toast.error("Failed to load videos");
@@ -35,23 +35,34 @@ export default function TeacherVideosPage() {
     };
 
     const handleDelete = async (id: string) => {
-        if (!confirm("Are you sure you want to delete this video?")) return;
-
-        try {
-            const response = await fetch(`/api/teacher/videos/${id}`, {
-                method: "DELETE",
-            });
-
-            if (response.ok) {
-                setVideos(videos.filter((video) => video.id !== id));
-                toast.success("Video deleted successfully");
-            } else {
-                throw new Error("Failed to delete video");
-            }
-        } catch (error) {
-            console.error("Error deleting video:", error);
-            toast.error("Failed to delete video");
-        }
+        // Confirm deletion
+        toast("Are you sure you want to delete this video?", {
+            position: "top-center",
+            action: (
+                <>
+                    <Button
+                        variant="destructive"
+                        onClick={async () => {
+                            try {
+                                await deleteVideo(id);
+                                setVideos(
+                                    videos.filter((video) => video.id !== id),
+                                );
+                                toast.success("Video deleted successfully");
+                            } catch (error) {
+                                console.error("Error deleting video:", error);
+                                toast.error("Failed to delete video");
+                            }
+                        }}
+                    >
+                        Yes
+                    </Button>
+                    <Button variant="outline" onClick={() => toast.dismiss()}>
+                        No
+                    </Button>
+                </>
+            ),
+        });
     };
 
     const filteredVideos = videos.filter(
@@ -73,9 +84,7 @@ export default function TeacherVideosPage() {
             <header className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div>
                     <h1 className="text-3xl font-semibold">{t("title")}</h1>
-                    <p className="text-muted-foreground">
-                        {t("description")}
-                    </p>
+                    <p className="text-muted-foreground">{t("description")}</p>
                 </div>
                 <Button
                     onClick={() =>
@@ -105,7 +114,7 @@ export default function TeacherVideosPage() {
                         </h3>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                         {filteredVideos.map((video) => (
                             <VideoCard
                                 key={video.id}

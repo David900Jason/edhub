@@ -13,7 +13,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         if (!user) {
             redirect({ href: "/auth/login", locale });
         }
-    }, []);
+    }, [user, locale]);
 
     return <>{children}</>;
 };

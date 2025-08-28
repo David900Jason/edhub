@@ -2,56 +2,23 @@
 
 import { useState, useEffect } from "react";
 import { Link } from "@/i18n/routing";
-import { getAllTeachersCourses } from "@/lib/api/course";
 import { Button } from "@/components/ui/button";
 import { Plus, Users } from "lucide-react";
 import { CoursesView } from "@/app/[locale]/dashboard/teacher/courses/_components/CoursesView";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useTranslations } from "next-intl";
+import { getCourses } from "@/lib/api/course";
 
 export default function TeacherCourses() {
     const [courses, setCourses] = useState<CourseType[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [teacherId, setTeacherId] = useState<string | null>(null);
-
     const t = useTranslations("TEACHER_DASHBOARD.COURSES");
 
     useEffect(() => {
-        // Get teacher ID from cookies on the client side
-        const userData = localStorage.getItem("user");
-        if (userData) {
-            const user = JSON.parse(userData);
-            setTeacherId(user.id);
-        }
-    }, []);
-
-    useEffect(() => {
-        const fetchCourses = async () => {
-            if (!teacherId) return;
-
-            try {
-                setIsLoading(true);
-                const data = await getAllTeachersCourses(teacherId);
-                setCourses(data);
-            } catch (error) {
-                console.error("Error fetching courses:", error);
-            } finally {
-                setIsLoading(false);
-            }
+        const fetchTeacherCourses = async () => {
+            const res = await getCourses();
+            setCourses(res);
         };
-
-        fetchCourses();
-    }, [teacherId]);
-
-    if (isLoading || !teacherId) {
-        return (
-            <div className="space-y-6">
-                <Skeleton className="h-12 w-64" />
-                <Skeleton className="h-12 w-full" />
-                <Skeleton className="h-[400px] w-full" />
-            </div>
-        );
-    }
+        fetchTeacherCourses();
+    }, [setCourses]);
 
     return (
         <section>
@@ -87,7 +54,7 @@ export default function TeacherCourses() {
             </header>
 
             <div className="bg-card rounded-lg border p-6 shadow-sm">
-                <CoursesView data={courses || []} />
+                <CoursesView courses={courses || []} />
             </div>
         </section>
     );

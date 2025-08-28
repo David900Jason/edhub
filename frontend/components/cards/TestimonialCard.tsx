@@ -7,12 +7,10 @@ import { useTranslations } from "next-intl";
 
 interface TestimonialCardProps {
     studentKey: string;
-    index: number;
 }
 
-const TestimonialCard = ({ studentKey, index }: TestimonialCardProps) => {
+const TestimonialCard = ({ studentKey }: TestimonialCardProps) => {
     const t = useTranslations("HOME.TESTIMONIALS");
-    
     // Get the translation for the current student
     const name = t(`${studentKey}.name`);
     const description = t(`${studentKey}.description`);

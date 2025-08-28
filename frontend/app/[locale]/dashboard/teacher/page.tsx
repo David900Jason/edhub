@@ -1,45 +1,64 @@
 "use client";
 
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { Award, DollarSign, Users, Video } from "lucide-react";
-import CountUp from "react-countup";
-import AverageRevenue from "./_components/AverageRevenue";
-import StudentsLineChart from "./_components/StudentsLineChart";
+import { getDashboardDetails } from "@/lib/api/user";
+import { Award, DollarSign, Loader2, Users, Video } from "lucide-react";
 import { useTranslations } from "next-intl";
-
-const DashboardInfoCards = [
-    {
-        title: "Enrolled Students",
-        value: 0,
-        icon: <Users />,
-    },
-    {
-        title: "Total Revenue",
-        value: 0,
-        icon: <DollarSign />,
-    },
-    {
-        title: "Videos Uploaded",
-        value: 0,
-        icon: <Video />,
-    },
-    {
-        title: "Average Students score",
-        value: 0,
-        icon: <Award />,
-    },
-];
+import { useEffect, useState } from "react";
 
 const TeacherDash = () => {
     const [user] = useLocalStorage("user_profile", null);
+    const [dashboard_details, setDashboardDetails] = useState({
+        enrolled_students: 0,
+        total_revenue: 0,
+        videos_uploaded: 0,
+        average_score: 0,
+        currency: "",
+    });
     const t = useTranslations("TEACHER_DASHBOARD.HOME");
+
+    useEffect(() => {
+        const fetchDashboardDetails = async () => {
+            const details = await getDashboardDetails();
+            setDashboardDetails(details);
+        };
+        fetchDashboardDetails();
+    }, []);
+
+    const DashboardInfoCards = [
+        {
+            id: 1,
+            title: "Enrolled Students",
+            value: dashboard_details.enrolled_students,
+            icon: <Users />,
+        },
+        {
+            id: 2,
+            title: "Total Revenue",
+            value: dashboard_details.total_revenue,
+            icon: <DollarSign />,
+        },
+        {
+            id: 3,
+            title: "Videos Uploaded",
+            value: dashboard_details.videos_uploaded,
+            icon: <Video />,
+        },
+        {
+            id: 4,
+            title: "Average Students score",
+            value: dashboard_details.average_score,
+            icon: <Award />,
+        },
+    ];
 
     return (
         <main>
             <nav className="mb-6">
                 <header>
                     <h1 className="text-3xl font-semibold tracking-tight">
-                        {t("welcome")}, {user?.full_name} 👋
+                        {t("welcome")}
+                        {user?.full_name} 👋
                     </h1>
                     <p className="p-lead max-w-[45ch]">{t("description")}</p>
                 </header>
@@ -59,19 +78,20 @@ const TeacherDash = () => {
                             <h3 className="text-lg font-semibold dark:text-black">
                                 {card_title}
                             </h3>
-                            <CountUp
-                                className="text-primary text-3xl font-extrabold tracking-tight"
-                                duration={2}
-                                end={Number(card.value.toFixed(2))}
-                                decimal=","
-                                decimalPlaces={2}
-                                suffix={
-                                    card_title === "Average Students score" ||
-                                    card_title === "متوسط نقاط الطلاب"
-                                        ? "%"
-                                        : ""
-                                }
-                            />
+                            <span className="text-primary text-3xl font-extrabold tracking-tight">
+                                {card.value}
+                                {card.id === 4 && (
+                                    <span className="text-lg font-bold text-gray-500">
+                                        {" "}
+                                        %
+                                    </span>
+                                )}
+                                <span className="text-sm font-bold text-gray-500">
+                                    {card.id === 2
+                                        ? " " + dashboard_details.currency
+                                        : ""}
+                                </span>
+                            </span>
                         </div>
                     );
                 })}
@@ -82,9 +102,10 @@ const TeacherDash = () => {
                     <h2 className="text-2xl font-semibold">
                         {t("section_1.title")}
                     </h2>
-                    <p className="p-lead">{t("section_1.description")}</p>
-                    <div className="mt-6 grid min-h-[50vh] place-content-center rounded-xl bg-slate-100 dark:bg-slate-800">
-                        <p>{t("coming_soon")}</p>
+                    <p className="p-lead mb-6">{t("section_1.description")}</p>
+                    <div className="flex min-h-[50vh] place-content-center items-center gap-2 rounded-xl bg-slate-100 text-gray-500 dark:text-black">
+                        <Loader2 className="animate-spin" /> {t("coming_soon")}{" "}
+                        ...
                     </div>
                 </div>
                 <div className="rounded-xl border p-6">
@@ -92,47 +113,9 @@ const TeacherDash = () => {
                         {t("section_2.title")}
                     </h2>
                     <p className="p-lead mb-6">{t("section_2.description")}</p>
-                    {/* <ul className="flex flex-col gap-2">
-                        <li className="flex items-center justify-between rounded-lg bg-slate-100 p-4">
-                            <div className="text-primary bg-primary/10 aspect-square w-fit rounded-full p-2 font-bold">
-                                #1
-                            </div>
-                            <div className="dark:text-black">John Doe</div>
-                            <div className="font-bold text-green-600">100%</div>
-                        </li>
-                        <li className="flex items-center justify-between rounded-lg bg-slate-100 p-4">
-                            <div className="text-primary bg-primary/10 aspect-square w-fit rounded-full p-2 font-bold">
-                                #2
-                            </div>
-                            <div className="dark:text-black">Jane Doe</div>
-                            <div className="font-bold text-green-600">95%</div>
-                        </li>
-                        <li className="flex items-center justify-between rounded-lg bg-slate-100 p-4">
-                            <div className="text-primary bg-primary/10 aspect-square w-fit rounded-full p-2 font-bold">
-                                #3
-                            </div>
-                            <div className="dark:text-black">Ahmed Wael</div>
-                            <div className="font-bold text-green-600">90%</div>
-                        </li>
-                        <li className="flex items-center justify-between rounded-lg bg-slate-100 p-4">
-                            <div className="text-primary bg-primary/10 aspect-square w-fit rounded-full p-2 font-bold">
-                                #4
-                            </div>
-                            <div className="dark:text-black">John Doe</div>
-                            <div className="font-bold text-green-600">85%</div>
-                        </li>
-                        <li className="flex items-center justify-between rounded-lg bg-slate-100 p-4">
-                            <div className="text-primary bg-primary/10 aspect-square w-fit rounded-full p-2 font-bold">
-                                #5
-                            </div>
-                            <div className="dark:text-black">
-                                Sarah Elsharawy
-                            </div>
-                            <div className="font-bold text-green-600">80%</div>
-                        </li>
-                    </ul> */}
-                    <div className="mt-6 grid min-h-[50vh] place-content-center rounded-xl bg-slate-100 dark:bg-slate-800">
-                        <p>{t("coming_soon")}</p>
+                    <div className="flex min-h-[50vh] place-content-center items-center gap-2 rounded-xl bg-slate-100 text-gray-500 dark:text-black">
+                        <Loader2 className="animate-spin" /> {t("coming_soon")}{" "}
+                        ...
                     </div>
                 </div>
             </div>
@@ -141,10 +124,9 @@ const TeacherDash = () => {
                 <h2 className="text-2xl font-semibold">
                     {t("section_3.title")}
                 </h2>
-                <p className="p-lead">{t("section_3.description")}</p>
-                {/* <StudentsLineChart /> */}
-                <div className="mt-6 grid min-h-[50vh] place-content-center rounded-xl bg-slate-100 dark:bg-slate-800">
-                    <p>{t("coming_soon")}</p>
+                <p className="p-lead mb-6">{t("section_3.description")}</p>
+                <div className="flex min-h-[50vh] place-content-center items-center gap-2 rounded-xl bg-slate-100 text-gray-500 dark:text-black">
+                    <Loader2 className="animate-spin" /> {t("coming_soon")} ...
                 </div>
             </div>
         </main>

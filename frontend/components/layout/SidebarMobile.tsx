@@ -38,15 +38,6 @@ import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
-const DASH_SIDEBAR_LINKS = [
-    "link1",
-    "link2",
-    "link3",
-    "link4",
-    "link5",
-    "link6",
-];
-
 const SidebarMobile = () => {
     const [isSideBarOpen, setIsSideBarOpen] = useState(false);
     const { theme, setTheme } = useTheme();
@@ -94,12 +85,8 @@ const SidebarMobile = () => {
                         style={{ scrollbarWidth: "thin" }}
                     >
                         {dashboardLinks.map(
-                            (
-                                { title, href, icon }: DashboardLinkType,
-                                index: number,
-                            ) => {
+                            ({ title, href, icon }: DashboardLinkType, index: number) => {
                                 const Icon: React.ElementType = icon;
-                                const t = useTranslations("S_DASH_SIDEBAR");
                                 return (
                                     <li
                                         key={index}
@@ -117,7 +104,7 @@ const SidebarMobile = () => {
                                                 size={24}
                                                 className="text-purple-300"
                                             />
-                                            {t(DASH_SIDEBAR_LINKS[index])}
+                                            {title}
                                         </Link>
                                     </li>
                                 );
@@ -152,7 +139,9 @@ const SidebarMobile = () => {
                                 >
                                     <MoonStar size={20} /> {t("theme")}
                                     <DropdownMenuShortcut>
-                                        {theme === "dark" ? t("mode2") : t("mode1")}
+                                        {theme === "dark"
+                                            ? t("mode2")
+                                            : t("mode1")}
                                     </DropdownMenuShortcut>
                                 </DropdownMenuItem>
                                 <DropdownMenuSub>

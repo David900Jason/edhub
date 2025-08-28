@@ -1,51 +1,29 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "@/i18n/routing";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { ArrowLeft, Loader2, Save } from "lucide-react";
+import { ArrowLeft, Save } from "lucide-react";
 import { createCourse } from "@/lib/api/course";
-
-type CourseFormData = {
-    title: string;
-    description: string;
-    category: string;
-    school_year: string;
-    price: number;
-};
 
 export default function NewCoursePage() {
     const router = useRouter();
-    const [user, setUser] = useState<any>(null);
-    const [isSaving, setIsSaving] = useState(false);
-    const [course, setCourse] = useState<CourseFormData>({
+    const [course, setCourse] = useState<
+        Omit<CourseType, "id" | "created_at" | "updated_at" | "rating">
+    >({
         title: "",
         description: "",
-        category: "Math",
-        school_year: "Grade 10",
+        category: "",
         price: 0,
+        discount: 0,
+        currency: "",
+        is_published: false,
+        is_paid: false,
     });
-
-    useEffect(() => {
-        // Get user from localStorage on component mount
-        const storedUser = localStorage.getItem("user");
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
-        } else {
-            router.push("/auth/login");
-        }
-    }, [router]);
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -60,43 +38,34 @@ export default function NewCoursePage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!user) {
-            toast.error("You must be logged in to create a course");
-            return;
-        }
-
         try {
-            setIsSaving(true);
-            const newCourse = await createCourse({
-                ...course,
-                teacher_id: user.id,
-            });
+            const newCourse = await createCourse(course);
 
             if (newCourse) {
                 toast.success("Course created successfully");
                 router.push("/dashboard/teacher/courses");
-                router.refresh();
             } else {
                 throw new Error("Failed to create course");
             }
         } catch (error) {
             console.error("Error creating course:", error);
             toast.error("Failed to create course");
-        } finally {
-            setIsSaving(false);
         }
     };
 
     return (
-        <div className="container mx-auto max-w-4xl px-4 py-8">
+        <div className="container mx-auto max-w-4xl">
             <div className="mb-8">
                 <Button
                     variant="ghost"
                     onClick={() => router.back()}
                     className="mb-6 px-0 hover:bg-transparent"
+                    asChild
                 >
-                    <ArrowLeft className="mr-2 h-5 w-5" />
-                    <span className="text-base">Back to courses</span>
+                    <span className="text-base">
+                        <ArrowLeft className="mr-2 h-5 w-5" />
+                        Back to courses
+                    </span>
                 </Button>
 
                 <div className="space-y-2">
@@ -148,78 +117,15 @@ export default function NewCoursePage() {
                                     Category{" "}
                                     <span className="text-destructive">*</span>
                                 </Label>
-                                <Select
+                                <Input
+                                    id="category"
                                     name="category"
                                     value={course.category}
-                                    onValueChange={(value) => {
-                                        setCourse((prev) => ({
-                                            ...prev,
-                                            category: value,
-                                        }));
-                                    }}
+                                    onChange={handleChange}
+                                    placeholder="e.g. Mathematics"
+                                    className="h-11"
                                     required
-                                >
-                                    <SelectTrigger className="h-11">
-                                        <SelectValue placeholder="Select a category" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="Math">
-                                            Mathematics
-                                        </SelectItem>
-                                        <SelectItem value="Science">
-                                            Science
-                                        </SelectItem>
-                                        <SelectItem value="English">
-                                            English
-                                        </SelectItem>
-                                        <SelectItem value="History">
-                                            History
-                                        </SelectItem>
-                                        <SelectItem value="Computer Science">
-                                            Computer Science
-                                        </SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div>
-
-                            {/* Grade Level */}
-                            <div className="space-y-2">
-                                <Label
-                                    htmlFor="school_year"
-                                    className="text-sm font-medium"
-                                >
-                                    Grade Level{" "}
-                                    <span className="text-destructive">*</span>
-                                </Label>
-                                <Select
-                                    name="school_year"
-                                    value={course.school_year}
-                                    onValueChange={(value) => {
-                                        setCourse((prev) => ({
-                                            ...prev,
-                                            school_year: value,
-                                        }));
-                                    }}
-                                    required
-                                >
-                                    <SelectTrigger className="h-11">
-                                        <SelectValue placeholder="Select grade level" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="Grade 10">
-                                            Grade 10
-                                        </SelectItem>
-                                        <SelectItem value="Grade 11">
-                                            Grade 11
-                                        </SelectItem>
-                                        <SelectItem value="Grade 12">
-                                            Grade 12
-                                        </SelectItem>
-                                        <SelectItem value="University">
-                                            University
-                                        </SelectItem>
-                                    </SelectContent>
-                                </Select>
+                                />
                             </div>
 
                             {/* Price */}
@@ -250,6 +156,52 @@ export default function NewCoursePage() {
                                 <p className="text-muted-foreground text-xs">
                                     Set 0 for free courses
                                 </p>
+                            </div>
+
+                            {/* Discount */}
+                            <div className="space-y-2">
+                                <Label
+                                    htmlFor="discount"
+                                    className="text-sm font-medium"
+                                >
+                                    Discount{" "}
+                                    <span className="text-destructive">*</span>
+                                </Label>
+                                <Input
+                                    id="discount"
+                                    name="discount"
+                                    type="number"
+                                    min="0"
+                                    max="100"
+                                    value={course.discount}
+                                    onChange={handleChange}
+                                    className="h-11"
+                                    required
+                                />
+                                <p className="text-muted-foreground text-xs">
+                                    Enter a number to be subtracted from the
+                                    price. Must be Smaller than Price Value
+                                </p>
+                            </div>
+
+                            {/* Currency */}
+                            <div className="space-y-2">
+                                <Label
+                                    htmlFor="currency"
+                                    className="text-sm font-medium"
+                                >
+                                    Currency{" "}
+                                    <span className="text-destructive">*</span>
+                                </Label>
+                                <Input
+                                    id="currency"
+                                    name="currency"
+                                    value={course.currency}
+                                    onChange={handleChange}
+                                    placeholder="e.g. EGP"
+                                    className="h-11"
+                                    required
+                                />
                             </div>
                         </div>
 
@@ -289,27 +241,13 @@ export default function NewCoursePage() {
                             onClick={() =>
                                 router.push("/dashboard/teacher/courses")
                             }
-                            disabled={isSaving}
                             className="h-10"
                         >
                             Cancel
                         </Button>
-                        <Button
-                            type="submit"
-                            disabled={isSaving}
-                            className="h-10 min-w-32 btn-primary"
-                        >
-                            {isSaving ? (
-                                <>
-                                    <Loader2 className="h-4 w-4 animate-spin" />
-                                    Creating...
-                                </>
-                            ) : (
-                                <>
-                                    <Save className="h-4 w-4" />
-                                    Create Course
-                                </>
-                            )}
+                        <Button className="btn-primary" type="submit">
+                            <Save className="h-4 w-4" />
+                            Create Course
                         </Button>
                     </div>
                 </form>
@@ -317,4 +255,3 @@ export default function NewCoursePage() {
         </div>
     );
 }
-

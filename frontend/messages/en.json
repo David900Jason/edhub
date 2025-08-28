@@ -53,7 +53,7 @@
             "card_title1": "Enrolled Courses",
             "card_title2": "Questions asked",
             "card_title3": "Average Score",
-            "card_title4": "Completed Videos",
+            "card_title4": "Wallet Balance",
             "section_1": {
                 "title": "Recent Activities",
                 "description": "Check your recent activities"
@@ -607,10 +607,9 @@
     "S_DASH_SIDEBAR": {
         "link1": "Home",
         "link2": "My Courses",
-        "link3": "Teachers",
-        "link4": "Subscriptions",
-        "link5": "Todo List",
-        "link6": "Notes"
+        "link3": "Subscriptions",
+        "link4": "Todo List",
+        "link5": "Notes"
     },
     "T_DASH_SIDEBAR": {
         "link1": "Home",
@@ -618,10 +617,10 @@
         "link3": "Students",
         "link4": "Videos",
         "link5": "Q&A",
-        "link6": "Assignments",
-        "link7": "Exams",
-        "link8": "Quizzes",
-        "link9": "Books"
+        "link6": "Books",
+        "link7": "Assignments ⏳",
+        "link8": "Exams ⏳",
+        "link9": "Quizzes ⏳"
     },
     "HOME": {
         "HERO_SECTION": {

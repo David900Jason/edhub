@@ -3,7 +3,7 @@
 import { Suspense, useEffect, useState } from "react";
 import { School } from "lucide-react";
 import Banner from "@/components/containers/Banner";
-import CoursesFilter from "@/app/[locale]/courses/CoursesFilter";
+import CoursesFilter from "@/app/[locale]/courses/_components/CoursesFilter";
 import { getCourses } from "@/lib/api/course";
 
 export default function Courses() {
@@ -15,7 +15,7 @@ export default function Courses() {
             setCourses(res);
         };
         fetchCourses();
-    }, []);
+    }, [setCourses]);
 
     return (
         <>

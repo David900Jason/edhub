@@ -18,9 +18,16 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { createUser } from "@/lib/api/auth";
-import api from "@/lib/api";
+import { signUpUser } from "@/lib/api/auth";
 import { useLocale, useTranslations } from "next-intl";
+
+const convertDate = (date: Date) => {
+    const year = date.getFullYear();
+    const mon = date.getMonth();
+    const day = date.getDay();
+
+    return `${year}-${mon < 10 ? `0${mon}` : mon}-${day < 10 ? `0${day}` : day}`;
+};
 
 const Signup = () => {
     const router = useRouter();
@@ -41,17 +48,22 @@ const Signup = () => {
     const onSubmit: SubmitHandler<SignupFormType> = async (data) => {
         await new Promise((resolve) => setTimeout(resolve, 2000));
 
-        if (!isValid) {
-            return;
-        }
-
-        // Alert with success
-        alert("Signup Successfully");
+        if (!isValid) return;
 
         // TODO: Add API call to create user (Submit form)
+        await signUpUser({
+            full_name: data.full_name,
+            email: data.email,
+            password: data.password,
+            city: data.city,
+            phone_number: data.phone_number,
+            parent_number: data.parent_number,
+            role: data.role,
+            birth_date: convertDate(new Date(date as string)),
+        });
 
         // Push router to verify page
-        router.push("/auth/verify?email=" + data.email);
+        router.push("/auth/login");
     };
 
     return (
@@ -290,44 +302,6 @@ const Signup = () => {
                         </SelectContent>
                     </Select>
                 </div>
-                {/* Select School year */}
-                <div className="input-group">
-                    <Label className="mb-2" htmlFor="school_year">
-                        {t("SIGN_UP.SCHOOL_YEAR.label")}
-                    </Label>
-                    <Select
-                        onValueChange={(value) => {
-                            register("school_year").onChange({
-                                target: {
-                                    name: "school_year",
-                                    value: value,
-                                },
-                            });
-                        }}
-                        {...register("school_year")}
-                    >
-                        <SelectTrigger className="w-full">
-                            <SelectValue
-                                placeholder={t(
-                                    "SIGN_UP.SCHOOL_YEAR.placeholder",
-                                )}
-                            />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                <SelectItem value="1">
-                                    {t("SIGN_UP.SCHOOL_YEAR.option1")}
-                                </SelectItem>
-                                <SelectItem value="2">
-                                    {t("SIGN_UP.SCHOOL_YEAR.option2")}
-                                </SelectItem>
-                                <SelectItem value="3">
-                                    {t("SIGN_UP.SCHOOL_YEAR.option3")}
-                                </SelectItem>
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
-                </div>
                 {/* Select City */}
                 <div className="input-group">
                     <Label className="mb-2" htmlFor="city">
@@ -353,7 +327,7 @@ const Signup = () => {
                             <SelectGroup>
                                 {cities.map((city, index) => {
                                     return (
-                                        <SelectItem key={city} value={city}>
+                                        <SelectItem key={index} value={city}>
                                             {city}
                                         </SelectItem>
                                     );

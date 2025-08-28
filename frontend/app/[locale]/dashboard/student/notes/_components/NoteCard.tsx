@@ -11,12 +11,19 @@ const colorMap: { [key: string]: string } = {
     purple: "bg-purple-200",
 };
 
-const NoteCard = ({ note }: { note: NotesType }) => {
+const NoteCard = ({
+    note,
+    handleEditNoteClick,
+    handleDeleteNote,
+}: {
+    note: NotesType;
+    handleEditNoteClick: (note: NotesType) => void;
+    handleDeleteNote: (id: string) => void;
+}) => {
     const { id, title, category, content, color, created_at } = note;
 
     return (
         <div
-            key={id}
             className={cn(
                 "flex flex-col rounded-2xl border p-6 dark:text-black",
                 colorMap[color],
@@ -27,16 +34,24 @@ const NoteCard = ({ note }: { note: NotesType }) => {
                 {category} | Created {format(created_at)}
             </p>
             <div
-                className="prose mt-4 flex-grow"
+                className="prose mt-4 line-clamp-2 flex-grow"
                 dangerouslySetInnerHTML={{
                     __html: content,
                 }}
             />
             <div className="mt-4 flex items-center justify-end gap-2 border-t pt-4">
-                <Button variant="ghost" size="icon">
+                <Button
+                    onClick={() => handleEditNoteClick(note)}
+                    variant="ghost"
+                    size="icon"
+                >
                     <Edit className="h-5 w-5" />
                 </Button>
-                <Button variant="ghost" size="icon" onClick={() => {}}>
+                <Button
+                    onClick={() => handleDeleteNote(id as string)}
+                    variant="ghost"
+                    size="icon"
+                >
                     <Trash className="h-5 w-5 text-red-500" />
                 </Button>
             </div>

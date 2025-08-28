@@ -2,12 +2,11 @@
 
 import { redirect } from "@/i18n/routing";
 import { useLocale } from "next-intl";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
 import TeacherSidebar from "@/components/layout/TeacherSidebar";
 import TeacherSidebarMobile from "@/components/layout/TeacherSidebarMobile";
 
 const TeacherDashLayout = ({ children }: { children: React.ReactNode }) => {
-    const [user] = useLocalStorage("user_profile", null);
+    const user = JSON.parse(localStorage.getItem("user_profile") || "{}");
     const locale = useLocale();
 
     if (user.role !== "teacher") {

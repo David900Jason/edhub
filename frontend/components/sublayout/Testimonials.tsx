@@ -25,7 +25,7 @@ const Testimonials = () => {
             setCurrentIndex((prev) => (prev + 1) % TESTIMONIAL_KEYS.length);
         }, 3000);
         return () => clearInterval(intervalId);
-    }, []);
+    }, [setCurrentIndex]);
 
     const currentStudent = TESTIMONIAL_KEYS[currentIndex];
 
@@ -37,7 +37,6 @@ const Testimonials = () => {
                     <div className="flex flex-2/3 items-center justify-center">
                         <TestimonialCard 
                             studentKey={currentStudent} 
-                            index={currentIndex} 
                         />
                     </div>
                     <div className="bullets flex items-center justify-center gap-2">

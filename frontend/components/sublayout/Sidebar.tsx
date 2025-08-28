@@ -20,15 +20,6 @@ import {
 import { useTheme } from "next-themes";
 import Image from "next/image";
 
-const DASH_SIDEBAR_LINKS = [
-    "link1",
-    "link2",
-    "link3",
-    "link4",
-    "link5",
-    "link6",
-];
-
 const Sidebar = () => {
     const pathname = usePathname();
     const locale = useLocale();
@@ -42,7 +33,7 @@ const Sidebar = () => {
     };
 
     return (
-        <div className="bg-primary flex-shrink-0 sticky top-0 z-50 hidden h-screen flex-1/5 flex-col justify-between sm:flex dark:bg-purple-950">
+        <div className="bg-primary sticky top-0 z-50 hidden h-screen flex-1/5 flex-shrink-0 flex-col justify-between sm:flex dark:bg-purple-950">
             <header>
                 <div className="flex items-center justify-between gap-3 p-4">
                     <div className="flex items-center gap-2">
@@ -59,12 +50,8 @@ const Sidebar = () => {
                 </div>
                 <ul className="px-2 py-4">
                     {dashboardLinks.map(
-                        (
-                            { title, href, icon }: DashboardLinkType,
-                            index: number,
-                        ) => {
+                        ({ title, href, icon }: DashboardLinkType, index: number) => {
                             const Icon: React.ElementType = icon;
-                            const t = useTranslations("S_DASH_SIDEBAR");
                             return (
                                 <li
                                     key={index}
@@ -81,7 +68,7 @@ const Sidebar = () => {
                                             size={24}
                                             className="text-purple-300"
                                         />
-                                        {t(DASH_SIDEBAR_LINKS[index])}
+                                        {title}
                                     </Link>
                                 </li>
                             );

@@ -2,11 +2,10 @@
 
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/routing";
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 
 const HeroSection = () => {
     const t = useTranslations("HOME.HERO_SECTION");
-    const locale = useLocale();
 
     return (
         <>
