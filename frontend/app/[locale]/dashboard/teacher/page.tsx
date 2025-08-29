@@ -29,25 +29,25 @@ const TeacherDash = () => {
         {
             id: 1,
             title: "Enrolled Students",
-            value: dashboard_details.enrolled_students,
+            value: dashboard_details?.enrolled_students ?? 0,
             icon: <Users />,
         },
         {
             id: 2,
             title: "Total Revenue",
-            value: dashboard_details.total_revenue,
+            value: dashboard_details?.total_revenue ?? 0,
             icon: <DollarSign />,
         },
         {
             id: 3,
             title: "Videos Uploaded",
-            value: dashboard_details.videos_uploaded,
+            value: dashboard_details?.videos_uploaded ?? 0,
             icon: <Video />,
         },
         {
             id: 4,
             title: "Average Students score",
-            value: dashboard_details.average_score,
+            value: dashboard_details?.average_score ?? 0,
             icon: <Award />,
         },
     ];
@@ -79,7 +79,7 @@ const TeacherDash = () => {
                                 {card_title}
                             </h3>
                             <span className="text-primary text-3xl font-extrabold tracking-tight">
-                                {card.value}
+                                {card?.value || 0}
                                 {card.id === 4 && (
                                     <span className="text-lg font-bold text-gray-500">
                                         {" "}
@@ -88,7 +88,7 @@ const TeacherDash = () => {
                                 )}
                                 <span className="text-sm font-bold text-gray-500">
                                     {card.id === 2
-                                        ? " " + dashboard_details.currency
+                                        ? " " + (dashboard_details?.currency ?? "EGP")
                                         : ""}
                                 </span>
                             </span>
