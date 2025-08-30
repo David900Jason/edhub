@@ -51,9 +51,9 @@ const ProfileSettingsPage = () => {
     }, [setWallet]);
 
     const handleSubmitUserData = async () => {
-        updateUser(formData);
+	await updateUser(formData);
         setIsEditing(false);
-        window.location.reload();
+	window.location.reload();
     };
 
     const handleCancel = () => {

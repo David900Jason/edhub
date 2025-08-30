@@ -43,7 +43,7 @@ const TodoList = () => {
         };
         await createTodo(newTodo);
         setTodos((prevTodos) => [newTodo, ...prevTodos]);
-        taskRef.current = null;
+        window.location.reload();
         return;
     };
 
