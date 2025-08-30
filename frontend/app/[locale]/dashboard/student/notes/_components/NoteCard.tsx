@@ -29,7 +29,7 @@ const NoteCard = ({
                 colorMap[color],
             )}
         >
-            <h2 className="text-xl font-semibold">{title}</h2>
+            <h2 className="text-xl font-semibold">{title || "Untitled"}</h2>
             <p className="text-sm text-gray-500">
                 {category} | Created {format(created_at)}
             </p>

@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { stats } from "@/constants";
 import { useInView } from "react-intersection-observer";
 import { useTranslations } from "next-intl";
+import Features from "@/components/sublayout/Features";
 
 const Home = () => {
     const t = useTranslations("HOME");
@@ -27,7 +28,7 @@ const Home = () => {
             <main className="dark:bg-gradient-dark mx-auto grid min-h-screen place-content-center text-center">
                 <HeroSection />
             </main>
-            <section className="py-[5vh]" id="stats" ref={ref}>
+            <section className="dark:bg-black/50 bg-slate-200 py-[10vh]" id="stats" ref={ref}>
                 <Statistics inView={inView} stats={stats} />
             </section>
             <section className="py-[15vh]" id="about-us">
@@ -66,7 +67,13 @@ const Home = () => {
                     </div>
                 </div>
             </section>
-
+            <section className="bg-gradient-colourful py-[20vh]" id="pricing">
+                <SectionHeading title={"🌟 Why choose us?"} />
+                <Features />
+            </section>
+            <section className="py-[20vh]" id="testimonials">
+                <Testimonials />
+            </section>
             <aside
                 className="bg-gradient-colourful flex flex-col items-center justify-center gap-4 py-[15vh] text-black"
                 id="cta"
@@ -81,9 +88,6 @@ const Home = () => {
                     <Link href="/auth/signup">{t("CTA.btn")}</Link>
                 </Button>
             </aside>
-            <section className="py-[20vh]" id="testimonials">
-                <Testimonials />
-            </section>
             <Footer />
         </>
     );

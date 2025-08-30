@@ -65,7 +65,10 @@ const BillingHistory = ({ invoices }: { invoices: InvoiceType[] }) => {
                     </TableHeader>
                     <TableBody>
                         {invoices.map((invoice, index) => (
-                            <TableRow key={index}>
+                            <TableRow
+                                key={index}
+                                className={invoice.is_used ? "opacity-50" : ""}
+                            >
                                 <TableCell>{invoice.payment_id}</TableCell>
                                 <TableCell className="py-4">
                                     {format(invoice.created_at)}

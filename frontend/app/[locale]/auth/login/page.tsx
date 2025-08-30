@@ -39,23 +39,25 @@ const Login = () => {
         try {
             const res = await loginUser(data);
             if (res.status !== 400) {
-                localStorage.setItem("access", res.access);
-                localStorage.setItem("refresh", res.refresh);
+                sessionStorage.setItem("access", res.access);
+                sessionStorage.setItem("refresh", res.refresh);
                 const user_profile = await getUserProfile();
                 if (user_profile) {
-                    localStorage.setItem(
+                    sessionStorage.setItem(
                         "user_profile",
                         JSON.stringify(user_profile),
                     );
-                    toast.success(`User found: Welcome ${user_profile.full_name.split(" ")[0]}`, {
-                        position: "top-center",
-                    });
+                    toast.success(
+                        `User found: Welcome ${user_profile.full_name.split(" ")[0]}`,
+                        {
+                            position: "top-center",
+                        },
+                    );
                 }
                 toast.success("Login successful");
                 router.push("/dashboard");
             }
         } catch (error) {
-            toast.error("Login failed");
             console.log(error);
         }
     };

@@ -58,11 +58,12 @@ class UserDashboardSerializer(serializers.Serializer):
         data = {}
 
         if role == "student":
+            wallet, _ = Wallet.objects.get_or_create(user=obj)
             data = {
                 "enrolled_courses": Enrollment.objects.filter(user=obj).count(),
                 "questions_asked": Question.objects.filter(student=obj).count(),
-                "wallet_balance": Wallet.objects.filter(user=obj).first().balance,
-                "wallet_currency": Wallet.objects.filter(user=obj).first().currency,
+                "wallet_balance": wallet.balance,
+                "wallet_currency": wallet.currency,
                 "average_score": 0,
             }
 
@@ -71,15 +72,14 @@ class UserDashboardSerializer(serializers.Serializer):
                 Enrollment.objects.filter(course__teacher=obj)
                 .aggregate(total=Sum("amount_paid"))["total"] or 0
             )
-
             data = {
                 "enrolled_students": Enrollment.objects.filter(course__teacher=obj).count(),
                 "total_revenue": total_revenue,
                 "videos_uploaded": Video.objects.filter(course__teacher=obj).count(),
-                "currency": Course.objects.filter(teacher=obj).first().currency,
+                "currency": Course.objects.filter(teacher=obj).first().currency
+                if Course.objects.filter(teacher=obj).exists() else None,
                 "average_score": 0,
             }
-
         return data
 
 class UserCreateSerializer(serializers.ModelSerializer):

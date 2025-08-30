@@ -2,17 +2,17 @@
 
 import { useState, useEffect, useMemo } from "react";
 
-// Build a useLocalStorage hook that respects SSR
-export const useLocalStorage = (key: string, initialValue: any) => {
+// Build a useSessionStorage hook that respects SSR
+export const useSessionStorage = (key: string, initialValue: any) => {
     const [storedValue, setStoredValue] = useState(() => {
         if (typeof window === "undefined") {
             return initialValue;
         }
         try {
-            const item = localStorage.getItem(key);
+            const item = sessionStorage.getItem(key);
             return item ? JSON.parse(item) : initialValue;
         } catch (error) {
-            console.error("Error reading from localStorage:", error);
+            console.error("Error reading from sessionStorage:", error);
             return initialValue;
         }
     });
@@ -23,10 +23,10 @@ export const useLocalStorage = (key: string, initialValue: any) => {
         }
         return (value: any) => {
             try {
-                localStorage.setItem(key, JSON.stringify(value));
+                sessionStorage.setItem(key, JSON.stringify(value));
                 setStoredValue(value);
             } catch (error) {
-                console.error("Error writing to localStorage:", error);
+                console.error("Error writing to sessionStorage:", error);
             }
         };
     }, [key]);

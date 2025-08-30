@@ -1,9 +1,10 @@
 "use client";
 
-import { Quote } from "lucide-react";
+import { Quote, Star } from "lucide-react";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 
 interface TestimonialCardProps {
     studentKey: string;
@@ -23,10 +24,24 @@ const TestimonialCard = ({ studentKey }: TestimonialCardProps) => {
             }}
         >
             <CardHeader className="flex items-center gap-4">
-                <div className="bg-gradient-colourful h-16 w-16 rounded-full"></div>
+                <div className="bg-gradient-colourful h-16 w-16 rounded-full">
+                    <Image
+                        src={"/avatar.jpg"}
+                        alt={name}
+                        width={64}
+                        height={64}
+                        className="rounded-full"
+                    />
+                </div>
                 <div className="flex flex-col gap-1">
                     <h3 className="text-xl font-bold">{name}</h3>
-                    <p className="p-lead !text-[14px]">{t("job")}</p>
+                    <ul className="flex">
+                        <li><Star className="text-secondary" size={14} /></li>
+                        <li><Star className="text-secondary" size={14} /></li>
+                        <li><Star className="text-secondary" size={14} /></li>
+                        <li><Star className="text-secondary" size={14} /></li>
+                        <li><Star className="text-secondary" size={14} /></li>
+                    </ul>
                 </div>
             </CardHeader>
             <CardContent dir="ltr">

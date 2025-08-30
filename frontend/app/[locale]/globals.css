@@ -171,6 +171,9 @@
     * {
         @apply border-border outline-ring/50;
     }
+    html {
+        @apply scroll-smooth;
+    }
     body {
         @apply text-foreground transition-colors duration-600 ease-in-out;
     }

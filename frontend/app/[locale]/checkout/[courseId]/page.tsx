@@ -29,19 +29,11 @@ const CheckoutPage = () => {
     const handlePayment = async () => {
         const res = await enrollCourse(courseId as string);
         toast(res, {
-            duration: 3000,
+            duration: 1500,
             description: "You will be redirected to the courses page",
             onAutoClose() {
                 router.push("/dashboard/student/courses");
             },
-            action: (
-                <Button
-                    variant="outline"
-                    onClick={() => router.push("/dashboard/student/courses")}
-                >
-                    Go to Courses
-                </Button>
-            ),
         });
     };
 
@@ -99,7 +91,20 @@ const CheckoutPage = () => {
                                 Discount:
                             </h3>
                             <p className="text-primary flex-1/2 text-end text-lg font-extrabold">
-                                {course?.discount}
+                                <span>{course?.discount}</span>
+                                <span className="text-xs font-extrabold text-gray-500">
+                                    {" "}
+                                    {course?.currency}
+                                </span>
+                            </p>
+                        </div>
+                        <hr />
+                        <div className="flex items-center justify-between">
+                            <h3 className="flex-1/2 text-lg font-medium">
+                                Total:
+                            </h3>
+                            <p className="text-primary flex-1/2 text-end text-lg font-extrabold">
+                                {(course?.price || 0) - (course?.discount || 0)}
                                 <span className="text-xs font-extrabold text-gray-500">
                                     {" "}
                                     {course?.currency}
@@ -114,7 +119,6 @@ const CheckoutPage = () => {
                                 Digital Wallet
                             </p>
                         </div>
-                        <hr className="mt-6" />
                         <div className="flex items-center justify-center p-4">
                             <Button
                                 className="bg-secondary ml-2 w-56"

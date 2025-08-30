@@ -36,7 +36,7 @@ const PaymentDialog = ({
                     </DialogHeader>
                     <DialogFooter>
                         <DialogClose asChild>
-                            <Button type="submit" variant="secondary" asChild>
+                            <Button type="submit" variant="secondary" className="dark:text-black" asChild>
                                 <Link
                                     className="flex items-center gap-2"
                                     href={`/checkout/${courseId}`}

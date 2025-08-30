@@ -1,7 +1,7 @@
 "use client";
 
 import { Loader2 } from "lucide-react";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useSessionStorage } from "@/hooks/useSessionStorage";
 import { redirect } from "@/i18n/routing";
 import { useLocale } from "next-intl";
 import { logoutUser } from "@/lib/api/auth";
@@ -9,7 +9,7 @@ import { toast } from "sonner";
 
 const Logout = () => {
     const locale = useLocale();
-    const [user] = useLocalStorage("user_profile", null);
+    const [user] = useSessionStorage("user_profile", null);
 
     // No user, redirect to login
     if (!user) {

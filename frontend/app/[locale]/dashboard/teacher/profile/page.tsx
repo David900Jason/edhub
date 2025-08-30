@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import Tag from "@/components/ui/Tag";
 import { Edit, FileText, X } from "lucide-react";
 import { format } from "timeago.js";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useSessionStorage } from "@/hooks/useSessionStorage";
 import {
     Select,
     SelectTrigger,
@@ -20,7 +20,7 @@ import { cities } from "@/constants";
 import { updateUser } from "@/lib/api/user";
 
 const ProfileSettingsPage = () => {
-    const [user] = useLocalStorage("user_profile", null);
+    const [user] = useSessionStorage("user_profile", null);
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState<UpdateUserData>({
         full_name: user?.full_name || "",
@@ -100,7 +100,7 @@ const ProfileSettingsPage = () => {
                                 });
                             }}
                         >
-                            <SelectTrigger className="mx-auto">
+                            <SelectTrigger className="mx-auto my-2 sm:mx-0">
                                 <SelectValue placeholder={user?.city} />
                             </SelectTrigger>
                             <SelectContent>

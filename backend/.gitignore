@@ -14,9 +14,9 @@ build/
 # Virtualenv
 .env
 .venv
-backend/env/
-backend/venv/
-backend/ENV/
+env/
+venv/
+ENV/
 env.bak/
 venv.bak/
 

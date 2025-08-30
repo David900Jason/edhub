@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import Tag from "@/components/ui/Tag";
 import { Edit, FileText, X } from "lucide-react";
 import { format } from "timeago.js";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useSessionStorage } from "@/hooks/useSessionStorage";
 import {
     Select,
     SelectTrigger,
@@ -28,7 +28,7 @@ type WalletType = {
 };
 
 const ProfileSettingsPage = () => {
-    const [user] = useLocalStorage("user_profile", null);
+    const [user] = useSessionStorage("user_profile", null);
     const [wallet, setWallet] = useState<WalletType | null>(null);
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState<UpdateUserData>({
@@ -116,7 +116,7 @@ const ProfileSettingsPage = () => {
                                 });
                             }}
                         >
-                            <SelectTrigger className="mx-auto">
+                            <SelectTrigger className="mx-auto my-2 sm:mx-0">
                                 <SelectValue placeholder={user?.city} />
                             </SelectTrigger>
                             <SelectContent>
@@ -312,16 +312,6 @@ const ProfileSettingsPage = () => {
                         <Label className="mb-2 font-semibold !text-black dark:!text-white">
                             Active
                             {user?.is_active ? (
-                                <Tag color="green">Yes</Tag>
-                            ) : (
-                                <Tag color="red">No</Tag>
-                            )}
-                        </Label>
-                    </div>
-                    <div className="w-4/5">
-                        <Label className="mb-2 font-semibold !text-black dark:!text-white">
-                            Verified
-                            {user?.is_verified ? (
                                 <Tag color="green">Yes</Tag>
                             ) : (
                                 <Tag color="red">No</Tag>

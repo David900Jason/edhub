@@ -34,11 +34,26 @@ const SubscriptionsList = ({ courses }: { courses: EnrollmentType[] }) => {
     }, [courses]);
 
     const filteredCourses = useMemo(() => {
-        if (category === "All") {
-            return courses;
+        let result = [...courses];
+
+        if (category !== "All") {
+            result = result.filter((course) =>
+                course.course.category
+                    ?.toLowerCase()
+                    .includes(category.toLowerCase()),
+            );
         }
-        return courses.filter((course) => course.course.category === category);
-    }, [category, courses]);
+
+        if (search) {
+            result = result.filter((course) =>
+                course.course.title
+                    ?.toLowerCase()
+                    .includes(search.toLowerCase()),
+            );
+        }
+
+        return result;
+    }, [category, courses, search]);
 
     return (
         <main className="mt-4 rounded-2xl border p-6">

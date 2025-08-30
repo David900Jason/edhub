@@ -3,7 +3,7 @@
 import ProfileButton from "../sublayout/ProfileButton";
 import { Button } from "../ui/button";
 import { Switch } from "../ui/switch";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useSessionStorage } from "@/hooks/useSessionStorage";
 import { LogIn, Menu, MoonStar, Sun, User } from "lucide-react";
 import { useTheme } from "next-themes";
 import {
@@ -20,7 +20,7 @@ import LanguageSwitchLink from "./LanguageSwitchLink";
 import { useLocale, useTranslations } from "next-intl";
 
 const Profile = () => {
-    const [user] = useLocalStorage("user_profile", null);
+    const [user] = useSessionStorage("user_profile", null);
     const { theme, setTheme } = useTheme();
     const locale = useLocale();
     const t = useTranslations("NAVBAR");

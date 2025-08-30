@@ -79,6 +79,13 @@ interface SignupFormType {
     city: string;
 }
 
+interface ContactFormData {
+    name: string;
+    email: string;
+    message: string;
+    type_of_message?: string;
+}
+
 interface UpdateUserData {
     full_name?: string;
     email?: string;

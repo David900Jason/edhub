@@ -1,8 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/routing";
 
 const HeroSection = () => {
     const t = useTranslations("HOME.HERO_SECTION");
@@ -12,7 +12,7 @@ const HeroSection = () => {
             <h1 className="mx-5 max-w-[800px] text-5xl leading-[1.2] font-bold tracking-tighter sm:text-6xl">
                 {t.rich("title", {
                     color: (chunks) => (
-                        <span className="text-primary dark:bg-gradient-to-r dark:from-blue-400 dark:via-purple-400 dark:to-blue-400 dark:bg-clip-text dark:text-transparent">
+                        <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
                             {chunks}
                         </span>
                     ),

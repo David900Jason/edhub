@@ -1,7 +1,8 @@
 // API Utilities for Frontend
 import api from ".";
+import axios, { AxiosError } from "axios";
 import { toast } from "sonner";
-import { AxiosError } from "axios";
+import { redirect } from "@/i18n/routing";
 
 export const signUpUser = async (data: SignupFormType) => {
     try {
@@ -9,8 +10,14 @@ export const signUpUser = async (data: SignupFormType) => {
         return res.data;
     } catch (error) {
         if (error instanceof AxiosError) {
-            toast.error(error.response?.data?.non_field_errors[0]);
+            // Loop over errors data object of diff keys
+            Object.keys(error.response?.data).forEach((key) => {
+                error.response?.data[key].forEach((err: string) => {
+                    toast.error(err);
+                });
+            });
         }
+        console.error(error);
         return null;
     }
 };
@@ -21,7 +28,7 @@ export const loginUser = async (data: { email: string; password: string }) => {
         return res.data;
     } catch (error) {
         if (error instanceof AxiosError) {
-            error.response?.data?.non_field_error?.map((err: string) => {
+            error.response?.data?.non_field_errors?.map((err: string) => {
                 toast.error(err);
             });
         }
@@ -30,13 +37,28 @@ export const loginUser = async (data: { email: string; password: string }) => {
 };
 
 export const logoutUser = async () => {
-    localStorage.removeItem("access");
-    localStorage.removeItem("refresh");
-    localStorage.removeItem("user_profile");
+    sessionStorage.removeItem("access");
+    sessionStorage.removeItem("refresh");
+    sessionStorage.removeItem("user_profile");
+    redirect({ href: "/auth/logout", locale: "en" });
+};
+
+export const contactUser = async (data: ContactFormData) => {
+    try {
+        const res = await axios.post("http://127.0.0.1:8000/contact/", data, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        return res.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
 };
 
 export const refreshUser = async () => {
-    const refresh = localStorage.getItem("refresh");
+    const refresh = sessionStorage.getItem("refresh");
     if (!refresh) return;
 
     try {
@@ -45,10 +67,10 @@ export const refreshUser = async () => {
         });
         const data = await res.data;
         if (data?.access) {
-            localStorage.setItem("access", data.access);
+            sessionStorage.setItem("access", data.access);
         }
         return data?.access;
-    } catch (error) {
+    } catch (error: unknown) {
         console.error(error);
         return;
     }

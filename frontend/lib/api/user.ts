@@ -16,7 +16,7 @@ export const updateUser = async (
     try {
         const res = await api.put("/users/me", data);
         const user_profile = await getUserProfile();
-        localStorage.setItem("user_profile", JSON.stringify(user_profile));
+        sessionStorage.setItem("user_profile", JSON.stringify(user_profile));
         return res.data;
     } catch (error) {
         console.error(error);
@@ -42,4 +42,4 @@ export const getDashboardDetails = async () => {
         console.error(error);
         return;
     }
-}
+};

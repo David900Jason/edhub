@@ -1,11 +1,11 @@
 "use client";
 
 import { redirect, usePathname } from "@/i18n/routing";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useSessionStorage } from "@/hooks/useSessionStorage";
 import { useLocale } from "next-intl";
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
-    const [user] = useLocalStorage("user_profile", null);
+    const [user] = useSessionStorage("user_profile", null);
     const pathName = usePathname();
     const locale = useLocale();
 

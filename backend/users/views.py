@@ -23,7 +23,7 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
             queryset = queryset.filter(role=role)
         return queryset
 
-class UserMeView(generics.RetrieveAPIView):
+class UserMeView(generics.RetrieveUpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]

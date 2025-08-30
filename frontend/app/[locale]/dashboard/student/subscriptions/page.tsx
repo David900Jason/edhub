@@ -79,7 +79,7 @@ const Subscriptions = () => {
 
     const t = useTranslations("STUDENT_DASHBOARD");
 
-    const averageCost = Number(
+    const averageCost = data.invoices.length == 0 ? 0 : Number(
         data.invoices.reduce(
             (total, invoice) => total + (Number(invoice.amount) || 0),
             0,

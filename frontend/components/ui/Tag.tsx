@@ -21,7 +21,7 @@ const Tag = ({
     return (
         <span
             className={cn(
-                "rounded-full border-[1px] px-2 py-[2px] text-xs",
+                "rounded-full border px-2 py-[2px] text-xs",
                 selectedColor,
             )}
         >

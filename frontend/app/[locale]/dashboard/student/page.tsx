@@ -2,7 +2,7 @@
 
 // Hooks
 import { useEffect, useState } from "react";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useSessionStorage } from "@/hooks/useSessionStorage";
 import { useRouter } from "@/i18n/routing";
 
 // Components
@@ -22,8 +22,8 @@ import { getDashboardDetails } from "@/lib/api/user";
 import CountUp from "react-countup";
 
 const DashboardStudent = () => {
-    // Grab user data from localStorage
-    const [user] = useLocalStorage("user_profile", null);
+    // Grab user data from sessionStorage
+    const [user] = useSessionStorage("user_profile", null);
     const [dashboardDetails, setDashboardDetails] = useState({
         average_score: 0,
         enrolled_courses: 0,
@@ -120,13 +120,11 @@ const DashboardStudent = () => {
                             {card.title}
                         </h3>
                         <span className="text-primary text-3xl font-extrabold tracking-tight">
-                            <CountUp 
-                                end={card.value}
-                                duration={2}
-                            />
+                            <CountUp end={card.value} duration={2} />
                             {card.id === 3 && (
                                 <span className="text-lg font-bold text-gray-500">
-                                    {" "}%
+                                    {" "}
+                                    %
                                 </span>
                             )}
                             <span className="text-sm font-bold text-gray-500">

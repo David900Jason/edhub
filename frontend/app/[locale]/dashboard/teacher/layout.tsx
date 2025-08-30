@@ -6,7 +6,7 @@ import TeacherSidebar from "@/components/layout/TeacherSidebar";
 import TeacherSidebarMobile from "@/components/layout/TeacherSidebarMobile";
 
 const TeacherDashLayout = ({ children }: { children: React.ReactNode }) => {
-    const user = JSON.parse(localStorage.getItem("user_profile") || "{}");
+    const user = JSON.parse(sessionStorage.getItem("user_profile") || "{}");
     const locale = useLocale();
 
     if (user.role !== "teacher") {

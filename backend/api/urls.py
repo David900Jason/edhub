@@ -10,6 +10,7 @@ urlpatterns = [
     # Users / Authentication
     path('auth/', include('users.auth')),
     path("users/", include("users.urls")),
+    path("contact/", include("contact.urls")),
 
     # Courses API
     path('courses/', include('courses.urls')),

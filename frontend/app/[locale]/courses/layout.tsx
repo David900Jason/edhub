@@ -1,7 +1,7 @@
 "use client";
 
 import Navbar from "@/components/layout/Navbar";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useSessionStorage } from "@/hooks/useSessionStorage";
 import { useEffect } from "react";
 import { redirect } from "@/i18n/routing";
 import { useLocale } from "next-intl";
@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { X } from "lucide-react";
 
 const CourseLayout = ({ children }: { children: React.ReactNode }) => {
-    const [user] = useLocalStorage("user_profile", null);
+    const [user] = useSessionStorage("user_profile", null);
     const locale = useLocale();
 
     useEffect(() => {

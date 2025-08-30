@@ -1,13 +1,13 @@
 "use client";
 
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useSessionStorage } from "@/hooks/useSessionStorage";
 import { getDashboardDetails } from "@/lib/api/user";
 import { Award, DollarSign, Loader2, Users, Video } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
 const TeacherDash = () => {
-    const [user] = useLocalStorage("user_profile", null);
+    const [user] = useSessionStorage("user_profile", null);
     const [dashboard_details, setDashboardDetails] = useState({
         enrolled_students: 0,
         total_revenue: 0,
@@ -88,7 +88,8 @@ const TeacherDash = () => {
                                 )}
                                 <span className="text-sm font-bold text-gray-500">
                                     {card.id === 2
-                                        ? " " + (dashboard_details?.currency ?? "EGP")
+                                        ? " " +
+                                          (dashboard_details?.currency ?? "EGP")
                                         : ""}
                                 </span>
                             </span>

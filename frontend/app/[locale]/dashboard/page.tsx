@@ -1,11 +1,11 @@
 "use client";
 
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useSessionStorage } from "@/hooks/useSessionStorage";
 import { redirect } from "@/i18n/routing";
 import { useLocale } from "next-intl";
 
 const DashboardPage = () => {
-    const [user] = useLocalStorage("user_profile", null);
+    const [user] = useSessionStorage("user_profile", null);
     const locale = useLocale();
 
     if (!user) {

@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Edit, FileText, MessageCircle, Trash, X } from "lucide-react";
 import { editQuestion, deleteQuestion } from "@/lib/api/questions";
 import { Textarea } from "@/components/ui/textarea";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useSessionStorage } from "@/hooks/useSessionStorage";
 
 type Reply = {
     content: string;
@@ -22,7 +22,7 @@ type Reply = {
 };
 
 const Question = ({ question }: { question: QnA }) => {
-    const [user] = useLocalStorage("user_profile", null);
+    const [user] = useSessionStorage("user_profile", null);
     const [questionData, setQuestionData] = useState(question.content);
     const [showReply, setShowReply] = useState(false);
     const [editing, setEditing] = useState(false);

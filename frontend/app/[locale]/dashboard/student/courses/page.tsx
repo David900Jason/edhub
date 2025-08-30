@@ -32,7 +32,7 @@ const PrivateCoursesPage = () => {
                     <h1 className="text-3xl font-semibold">{t("title")}</h1>
                     <p className="p-lead">{t("description")}</p>
                 </div>
-                <Button variant="secondary" asChild>
+                <Button variant="secondary" className="dark:text-black" asChild>
                     <Link href="/courses">
                         <ShoppingCart /> Buy New Course
                     </Link>
