@@ -4,15 +4,8 @@ import type { NextConfig } from "next";
 const withNextIntl = createNextIntlPlugin();
 
 const nextConfig: NextConfig = {
-    async rewrites() {
-        return [
-            {
-                source: "/media/:path*",
-                destination: "http://127.0.0.1:8000/media/:path*",
-            },
-        ];
-    },
     images: {
+        unoptimized: true,
         remotePatterns: [
             {
                 protocol: "https",

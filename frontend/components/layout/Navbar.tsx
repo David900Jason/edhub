@@ -12,7 +12,6 @@ const Navbar = () => {
                     width={60}
                     height={60}
                     alt="Logo"
-                    style={{ width: "auto", height: "auto" }}
                 />
                 <Link href="/" className="text-2xl font-bold">
                     Edhub
