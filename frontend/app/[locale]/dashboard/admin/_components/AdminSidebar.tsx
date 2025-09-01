@@ -4,7 +4,7 @@ import {
     BookOpen,
     CreditCard,
     GraduationCap,
-    User,
+    Home,
     Users,
     Video,
 } from "lucide-react";
@@ -24,10 +24,10 @@ const AdminSidebar = () => {
                     <li className="rounded-xl p-2 py-3 text-purple-300 hover:bg-purple-800">
                         <Link
                             className="flex items-center gap-2 text-base"
-                            href="/dashboard/admin/profile"
+                            href="/dashboard/admin"
                         >
-                            <User />
-                            Profile
+                            <Home />
+                            Home
                         </Link>
                     </li>
                     <li className="rounded-xl p-2 py-3 text-purple-300 hover:bg-purple-800">
