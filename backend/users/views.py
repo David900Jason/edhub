@@ -1,13 +1,11 @@
 # users/views.py
-import json
 from rest_framework import generics, permissions, viewsets, status
 from rest_framework.response import Response
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
 from django.utils import timezone
-from users.permissions import IsAdminOrTeacher
 from .serializers import LoginSerializer, StudentBriefSerializer, UserDashboardSerializer, UserSerializer, UserCreateSerializer, TeacherPublicSerializer
 from .models import User
 
@@ -148,58 +146,3 @@ class LoginView(generics.GenericAPIView):
         })
 
         return response
-
-class UserActivateView(generics.UpdateAPIView):
-    queryset = User.objects.all()
-    lookup_field = "pk"  # works with UUID as well
-    permission_classes = [IsAdminUser]  # only admins can activate users
-
-    def update(self, request, *args, **kwargs):
-        try:
-            user = self.get_object()
-            if user.is_active:
-                return Response(
-                    {"message": f"User is already active"},
-                    status=status.HTTP_200_OK
-                )
-
-            user.is_active = True
-            user.save(update_fields=["is_active"])
-            return Response(
-                {"message": f"User activated successfully"},
-                status=status.HTTP_200_OK
-            )
-        except User.DoesNotExist:
-            return Response(
-                {"error": "User not found"},
-                status=status.HTTP_404_NOT_FOUND
-            )
-
-class UserDeactivateView(APIView):
-    permission_classes = [IsAdminOrTeacher]
-
-    def delete(self, request, pk):
-        """
-        Soft delete (deactivate) a student user.
-        """
-        user = generics.get_object_or_404(User, pk=pk)
-
-        if user.role != "student":
-            return Response(
-                {"detail": "❌ Only students can be deactivated."},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
-        if not user.is_active:
-            return Response(
-                {"detail": "⚠️ User is already inactive."},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
-        user.is_active = False
-        user.save()
-
-        return Response(
-            {"detail": f"✅ User {user.email} has been successfully deactivated."},
-            status=status.HTTP_200_OK
-        )

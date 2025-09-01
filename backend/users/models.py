@@ -32,7 +32,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=255)  # will store hashed password
     role = models.CharField(max_length=10, choices=ROLES_CHOICES, default="student")
-    profile_img = models.FileField(upload_to="profile_images/" ,blank=True, null=True)
+    profile_img = models.FileField(upload_to="profile_images/", blank=True, null=True, default="profile_images/avatar.jpg")
 
     # --- Contact ---
     phone_number = models.CharField(max_length=15, blank=True, null=True)
@@ -62,6 +62,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     def save(self, *args, **kwargs):
         if self.role == "teacher":
             self.is_staff = True
+        elif self.role == "admin":
+            self.is_staff = True
+            self.is_superuser = True
         else:
             self.is_staff = False
         super().save(*args, **kwargs)

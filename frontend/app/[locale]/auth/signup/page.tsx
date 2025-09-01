@@ -25,7 +25,7 @@ export default function Page() {
             <div className="grid w-full max-w-4xl grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
                 <div
                     aria-label="Student"
-                    onClick={() => handleRole("student")}
+                    onClick={() => setRole("student")}
                     className={cn(
                         "flex flex-col items-center gap-2 rounded-2xl border-2 p-6 text-center transition-all duration-300 ease-in-out hover:scale-105 hover:bg-gray-100 hover:shadow-lg",
                         role === "student" && "border-purple-500",
@@ -41,7 +41,7 @@ export default function Page() {
                 </div>
                 <div
                     aria-label="Teacher"
-                    onClick={() => handleRole("teacher")}
+                    onClick={() => setRole("teacher")}
                     className={cn(
                         "flex flex-col items-center gap-2 rounded-2xl border-2 p-6 text-center transition-all duration-300 ease-in-out hover:scale-105 hover:bg-gray-100 hover:shadow-lg",
                         role === "teacher" && "border-secondary",
@@ -57,7 +57,7 @@ export default function Page() {
                 </div>
                 <div
                     aria-label="Instructor"
-                    onClick={() => handleRole("instructor")}
+                    onClick={() => setRole("instructor")}
                     className={cn(
                         "flex flex-col items-center gap-2 rounded-2xl border-2 p-6 text-center transition-all duration-300 ease-in-out hover:scale-105 hover:bg-gray-100 hover:shadow-lg",
                         role === "instructor" && "border-sky-500",

@@ -20,6 +20,10 @@ const DashboardPage = () => {
         redirect({ href: "/dashboard/teacher", locale });
     }
 
+    if (user.role === "admin") {
+        redirect({ href: "/dashboard/admin", locale });
+    }
+
     return <div>Redirecting...</div>;
 };
 

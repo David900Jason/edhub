@@ -8,3 +8,7 @@ class IsAdminOrTeacher(BasePermission):
         return request.user.is_authenticated and (
             request.user.role in ["teacher", "admin"]
         )
+
+class IsAdminUser(BasePermission):
+    def has_permission(self, request, view):
+        return request.user.is_authenticated and (request.user.role == "admin" or request.user.is_superuser)

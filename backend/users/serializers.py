@@ -96,17 +96,6 @@ class UserCreateSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
-class UserActivateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ["id", "email", "is_active"]
-        read_only_fields = ["id", "email"]
-
-    def update(self, instance, validated_data):
-        instance.is_active = True
-        instance.save()
-        return instance
-
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(style={'input_type': 'password'}, write_only=True)

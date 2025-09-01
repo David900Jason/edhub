@@ -12,23 +12,23 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 import os
 from pathlib import Path
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 from django.conf.global_settings import AUTHENTICATION_BACKENDS, MEDIA_ROOT, MEDIA_URL
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-load_dotenv()
+# load_dotenv()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-=vio*hhpb*znqd@+4hzgg@&bf7d)9$3^xc!p758o$a9r4x=efb'
-SECRET_KEY = os.getenv("SECURITY_KEY")
+SECRET_KEY = 'django-insecure-=vio*hhpb*znqd@+4hzgg@&bf7d)9$3^xc!p758o$a9r4x=efb'
+# SECRET_KEY = os.getenv("SECURITY_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '145.223.81.248', 'api.edhubx.com', 'edhubx.com', 'www.edhubx.com']
 
@@ -90,6 +90,7 @@ INSTALLED_APPS = [
     "todo",
     "books",
     "contact",
+    "dashboard"
 ]
 
 REST_FRAMEWORK = {
