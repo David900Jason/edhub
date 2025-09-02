@@ -9,7 +9,7 @@ const page = () => {
                 </p>
             </header>
             <main>
-                <div className="flex min-h-[150px] items-center justify-center rounded-2xl border p-6">
+                <div className="flex min-h-[40vh] items-center justify-center rounded-2xl border p-6">
                     <p className="text-center">Videos coming soon ...</p>
                 </div>
             </main>

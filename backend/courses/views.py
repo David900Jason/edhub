@@ -2,8 +2,9 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework.views import APIView, status
 from django_filters.rest_framework import DjangoFilterBackend
+from users.permissions import IsAdminOrTeacher
 from .models import Course
 from .serializers import ListRetrieveCoursesSerializer, CreateCourseSerializer
 from enrollments.models import Enrollment
@@ -50,7 +51,7 @@ class ListCreateCoursesView(ListCreateAPIView):
 
 
 class RetrieveUpdateDestroyCoursesView(RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsAdminOrTeacher]
 
     def get_serializer_class(self):
         if self.request.method.lower() in ["put", "patch"]:
@@ -74,11 +75,13 @@ class RetrieveUpdateDestroyCoursesView(RetrieveUpdateDestroyAPIView):
         else:
             raise PermissionDenied("You do not have permission to edit this course.")
 
-    def perform_destroy(self, instance):
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
         user = self.request.user
 
         if user.is_superuser or (user.is_staff and instance.teacher == user):
-            instance.delete()
+            self.perform_destroy(instance)
+            return Response({"message": "Course deleted successfully."}, status=status.HTTP_200_OK)
         else:
             raise PermissionDenied("You do not have permission to delete this course.")
 
