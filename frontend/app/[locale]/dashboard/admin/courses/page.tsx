@@ -1,8 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Link } from "@/i18n/routing";
-import { getCourses, updateCourse } from "@/lib/api/course";
+import { getCourses } from "@/lib/api/course";
 import { BookOpen, Edit, Trash2 } from "lucide-react";
 import { useEffect, useMemo, useDeferredValue, useState } from "react";
 import { format } from "timeago.js";
@@ -17,9 +16,8 @@ import {
 } from "@/components/ui/select";
 import { deleteCourse } from "@/lib/api/course";
 import { toast } from "sonner";
-import { Dialog } from "@/components/ui/dialog";
 
-const page = () => {
+const CoursesPage = () => {
     const [courses, setCourses] = useState<CourseType[] | null>(null);
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedPublished, setSelectedPublished] = useState("all");
@@ -90,6 +88,7 @@ const page = () => {
             }
         } catch (error) {
             toast.error("Failed to delete course");
+            console.log(error);
         }
     };
 
@@ -240,4 +239,4 @@ const page = () => {
     );
 };
 
-export default page;
+export default CoursesPage;

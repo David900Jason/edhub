@@ -34,20 +34,14 @@ import { useState } from "react";
 import { SidebarOpen } from "lucide-react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
-import { useRouter } from "@/i18n/routing";
-import { usePathname } from "@/i18n/routing";
 import { useTheme } from "next-themes";
 
 const AdminSidebarMobile = () => {
     const [isSideBarOpen, setIsSideBarOpen] = useState(false);
     const { theme, setTheme } = useTheme();
     const locale = useLocale();
-    const router = useRouter();
-    const pathname = usePathname();
     const t = useTranslations("STUDENT_DASHBOARD.SIDEBAR");
-    const switchTo = (locale: "en" | "ar") => {
-        router.push(pathname, { locale });
-    };
+
     return (
         <div className="block sm:hidden">
             <Sheet>
