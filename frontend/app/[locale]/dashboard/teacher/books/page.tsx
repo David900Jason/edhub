@@ -76,7 +76,6 @@ export default function TeacherBooksPage() {
                         <TableHeader>
                             <TableRow>
                                 <TableHead>Title</TableHead>
-                                <TableHead>Description</TableHead>
                                 <TableHead>Course</TableHead>
                                 <TableHead>Video</TableHead>
                                 <TableHead>Actions</TableHead>
@@ -89,11 +88,6 @@ export default function TeacherBooksPage() {
                                         <Link href={`${book.book_url}`}>
                                             {book.title}
                                         </Link>
-                                    </TableCell>
-                                    <TableCell className="whitespace-normal">
-                                        {book.description === ""
-                                            ? "N/A"
-                                            : book.description}
                                     </TableCell>
                                     <TableCell>{book.course?.title}</TableCell>
                                     <TableCell>
