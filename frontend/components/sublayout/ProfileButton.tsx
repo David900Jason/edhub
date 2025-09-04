@@ -12,7 +12,11 @@ import {
     DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Check, Globe, LogOut, MoonStar } from "lucide-react";
-import { ProfileButtonLinks, TeacherProfileButtonLinks } from "@/constants";
+import {
+    AdminProfileButtonLinks,
+    ProfileButtonLinks,
+    TeacherProfileButtonLinks,
+} from "@/constants";
 import { useTheme } from "next-themes";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter, usePathname } from "@/i18n/routing";
@@ -51,37 +55,58 @@ const ProfileButton = ({ user }: { user: UserType }) => {
                 </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="flex w-48 flex-col gap-1">
-                {user.role === "student"
-                    ? ProfileButtonLinks.map(({ href, icon, label }, index) => {
-                          const Icon: React.ElementType = icon;
-                          return (
-                              <DropdownMenuItem key={index}>
-                                  <Link
-                                      className="flex flex-1 items-center justify-start gap-2 text-start"
-                                      href={href}
-                                      dir={locale === "ar" ? "rtl" : "ltr"}
-                                  >
-                                      <Icon size={20} />
-                                      {label}
-                                  </Link>
-                              </DropdownMenuItem>
-                          );
-                      })
-                    : TeacherProfileButtonLinks.map(({ href, icon, label }, index) => {
-                          const Icon: React.ElementType = icon;
-                          return (
-                              <DropdownMenuItem key={index}>
-                                  <Link
-                                      className="flex flex-1 items-center justify-start gap-2 text-start"
-                                      href={href}
-                                      dir={locale === "ar" ? "rtl" : "ltr"}
-                                  >
-                                      <Icon size={20} />
-                                      {label}
-                                  </Link>
-                              </DropdownMenuItem>
-                          );
-                      })}
+                {user.role === "student" &&
+                    ProfileButtonLinks.map(({ href, icon, label }, index) => {
+                        const Icon: React.ElementType = icon;
+                        return (
+                            <DropdownMenuItem key={index}>
+                                <Link
+                                    className="flex flex-1 items-center justify-start gap-2 text-start"
+                                    href={href}
+                                    dir={locale === "ar" ? "rtl" : "ltr"}
+                                >
+                                    <Icon size={20} />
+                                    {label}
+                                </Link>
+                            </DropdownMenuItem>
+                        );
+                    })}
+                {user.role === "teacher" &&
+                    TeacherProfileButtonLinks.map(
+                        ({ href, icon, label }, index) => {
+                            const Icon: React.ElementType = icon;
+                            return (
+                                <DropdownMenuItem key={index}>
+                                    <Link
+                                        className="flex flex-1 items-center justify-start gap-2 text-start"
+                                        href={href}
+                                        dir={locale === "ar" ? "rtl" : "ltr"}
+                                    >
+                                        <Icon size={20} />
+                                        {label}
+                                    </Link>
+                                </DropdownMenuItem>
+                            );
+                        },
+                    )}
+                {user.role === "admin" &&
+                    AdminProfileButtonLinks.map(
+                        ({ href, icon, label }, index) => {
+                            const Icon: React.ElementType = icon;
+                            return (
+                                <DropdownMenuItem key={index}>
+                                    <Link
+                                        className="flex flex-1 items-center justify-start gap-2 text-start"
+                                        href={href}
+                                        dir={locale === "ar" ? "rtl" : "ltr"}
+                                    >
+                                        <Icon size={20} />
+                                        {label}
+                                    </Link>
+                                </DropdownMenuItem>
+                            );
+                        },
+                    )}
                 <DropdownMenuSeparator />
                 <DropdownMenuSub>
                     <DropdownMenuSubTrigger>

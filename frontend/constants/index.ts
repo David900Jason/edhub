@@ -12,6 +12,7 @@ import {
     Users,
     CircleQuestionMark,
     MessageCircleQuestion,
+    GraduationCap,
 } from "lucide-react";
 
 const stats = [
@@ -211,6 +212,29 @@ const TeacherProfileButtonLinks: ProfileButtonLinksType[] = [
     },
 ];
 
+const AdminProfileButtonLinks: ProfileButtonLinksType[] = [
+    {
+        label: "Dashboard",
+        href: "/dashboard/admin",
+        icon: Home,
+    },
+    {
+        label: "Courses",
+        href: "/dashboard/admin/courses",
+        icon: BookOpen,
+    },
+    {
+        label: "Students",
+        href: "/dashboard/admin/students",
+        icon: Users,
+    },
+    {
+        label: "Teachers",
+        href: "/dashboard/admin/teachers",
+        icon: GraduationCap,
+    },
+];
+
 const dummyTasksData = [
     {
         task: "Complete Math Assignment",
@@ -300,6 +324,7 @@ export {
     dashboardHomeCards,
     ProfileButtonLinks,
     TeacherProfileButtonLinks,
+    AdminProfileButtonLinks,
     dummyTasksData,
     cities,
 };

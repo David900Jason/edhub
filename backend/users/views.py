@@ -43,7 +43,7 @@ class UserListView(generics.ListAPIView):
 
         # Teacher: only see students enrolled in their own courses
         if user.role == "teacher":
-            if role != "student":
+            if role == "student":
                 raise PermissionDenied("Teachers can only view students.")
             return User.objects.filter(
                 enrollments__course__teacher=user
@@ -51,7 +51,7 @@ class UserListView(generics.ListAPIView):
 
         # Student: only see teachers
         elif user.role == "student":
-            if role != "teacher":
+            if role == "teacher":
                 raise PermissionDenied("Students can only view teachers.")
             return User.objects.filter(role="teacher").distinct()
 

@@ -28,8 +28,8 @@ class ListCreateCoursesView(ListCreateAPIView):
 
     def create(self, request, *args, **kwargs):
         # Check User role
-        if not request.user.is_staff:
-            return Response({"error": "only teachers can create courses"}, status=400)
+        if not request.user.is_staff and not request.user.is_superuser:
+            return Response({"error": "only teachers can create courses"}, status=status.HTTP_401_UNAUTHORIZED)
 
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -38,7 +38,7 @@ class ListCreateCoursesView(ListCreateAPIView):
         course = serializer.save(teacher=request.user)
 
         retrieve_serializer = ListRetrieveCoursesSerializer(course, context={"request": request})
-        return Response(retrieve_serializer.data, status=201)
+        return Response(retrieve_serializer.data, status=status.HTTP_201_CREATED)
 
     def get_queryset(self):
         user = self.request.user

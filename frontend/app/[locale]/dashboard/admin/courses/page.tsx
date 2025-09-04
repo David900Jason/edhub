@@ -1,8 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { getCourses } from "@/lib/api/course";
-import { BookOpen, Edit, Trash2 } from "lucide-react";
+import { getCourses, togglePublished } from "@/lib/api/course";
+import { BookOpen, Trash2 } from "lucide-react";
 import { useEffect, useMemo, useDeferredValue, useState } from "react";
 import { format } from "timeago.js";
 import Tag from "@/components/ui/Tag";
@@ -16,28 +16,48 @@ import {
 } from "@/components/ui/select";
 import { deleteCourse } from "@/lib/api/course";
 import { toast } from "sonner";
+import { useSearchParams } from "next/navigation";
+
+type CourseFilters = {
+    published: string;
+    teacher: string;
+    subject: string;
+};
 
 const CoursesPage = () => {
+    // Get/Set Courses
     const [courses, setCourses] = useState<CourseType[] | null>(null);
-    const [searchQuery, setSearchQuery] = useState("");
-    const [selectedPublished, setSelectedPublished] = useState("all");
-    const [selectedTeacher, setSelectedTeacher] = useState("all");
-    const [selectedSubject, setSelectedSubject] = useState("all");
+
+    // Filter States
+    const [filters, setFilters] = useState<CourseFilters>({
+        published: "all",
+        teacher: "all",
+        subject: "all",
+    });
+
+    const searchParams = useSearchParams();
+    const search = searchParams.get("search");
+
+    const [searchQuery, setSearchQuery] = useState(search || "");
 
     useEffect(() => {
         getCourses().then((res) => setCourses(res));
     }, []);
 
+    // Extract unique subjects
     const uniqueSubjects = [
         ...new Set(courses?.map((course) => course.category)),
     ];
 
+    // Extract unique teachers
     const uniqueTeachers = [
         ...new Set(courses?.map((course) => course.teacher?.full_name)),
     ];
 
+    // Defer search query value
     const deferredSearchQuery = useDeferredValue(searchQuery);
 
+    // Filter courses according to filters input
     const filteredCourses = useMemo(() => {
         if (!courses) return [];
 
@@ -45,16 +65,16 @@ const CoursesPage = () => {
             const publishedStatus = course.is_published ? "published" : "draft";
 
             const matchesSubject =
-                selectedSubject === "all" ||
-                course.category?.includes(selectedSubject);
+                filters.subject === "all" ||
+                course.category?.includes(filters.subject);
 
             const matchesTeacher =
-                selectedTeacher === "all" ||
-                course.teacher?.full_name?.includes(selectedTeacher);
+                filters.teacher === "all" ||
+                course.teacher?.full_name?.includes(filters.teacher);
 
             const matchesPublished =
-                selectedPublished === "all" ||
-                publishedStatus === selectedPublished;
+                filters.published === "all" ||
+                publishedStatus === filters.published;
 
             const matchesSearch =
                 deferredSearchQuery === "" ||
@@ -69,36 +89,69 @@ const CoursesPage = () => {
                 matchesSearch
             );
         });
-    }, [
-        courses,
-        selectedSubject,
-        selectedTeacher,
-        selectedPublished,
-        deferredSearchQuery,
-    ]);
+    }, [courses, filters, deferredSearchQuery]);
 
+    // Util: Delete course
     const handleDeleteCourse = async (id: string) => {
+        toast("Are you sure you want to delete this course?", {
+            position: "top-center",
+            description: "This action can't be undone",
+            action: {
+                label: "Yes",
+                onClick: async () => {
+                    try {
+                        const res = await deleteCourse(id);
+                        if (res.message) {
+                            toast.success(res.message as string);
+                            setCourses((prev) =>
+                                prev
+                                    ? prev.filter((course) => course.id !== id)
+                                    : null,
+                            );
+                        }
+                    } catch (error) {
+                        toast.error("Failed to delete course");
+                        console.log(error);
+                    }
+                },
+            },
+        });
+    };
+
+    // Util: Toggle 'is_published' state
+    const togglePublishState = async (id: string) => {
         try {
-            const res = await deleteCourse(id);
+            const res = await togglePublished(id);
             if (res.message) {
-                toast.success(res.message as string);
+                toast.success(res?.message as string);
                 setCourses((prev) =>
-                    prev ? prev.filter((course) => course.id !== id) : null,
+                    prev
+                        ? prev.map((course) =>
+                              course.id === id
+                                  ? {
+                                        ...course,
+                                        is_published: !course.is_published,
+                                    }
+                                  : course,
+                          )
+                        : null,
                 );
             }
         } catch (error) {
-            toast.error("Failed to delete course");
+            toast.error("Failed to toggle publish state");
             console.log(error);
         }
     };
 
     return (
         <section>
-            <header className="mb-8">
-                <h1 className="text-3xl font-semibold">Courses</h1>
-                <p className="p-lead">
-                    Here&apos;s a table containing all courses
-                </p>
+            <header className="mb-8 flex items-center justify-between">
+                <div>
+                    <h1 className="text-3xl font-semibold">Courses</h1>
+                    <p className="p-lead">
+                        Here&apos;s a table containing all courses
+                    </p>
+                </div>
             </header>
             <main className="space-y-6 rounded-2xl border p-6">
                 <aside className="flex flex-col gap-2 md:flex-row">
@@ -109,9 +162,12 @@ const CoursesPage = () => {
                     />
                     <div className="flex flex-wrap items-center justify-center gap-2 md:flex-nowrap">
                         <Select
-                            value={selectedPublished}
+                            value={filters.published}
                             onValueChange={(val) => {
-                                setSelectedPublished(val);
+                                setFilters((prev) => ({
+                                    ...prev,
+                                    published: val,
+                                }));
                             }}
                         >
                             <SelectTrigger>
@@ -128,9 +184,12 @@ const CoursesPage = () => {
                             </SelectContent>
                         </Select>
                         <Select
-                            value={selectedTeacher}
+                            value={filters.teacher}
                             onValueChange={(val) => {
-                                setSelectedTeacher(val);
+                                setFilters((prev) => ({
+                                    ...prev,
+                                    teacher: val,
+                                }));
                             }}
                         >
                             <SelectTrigger>
@@ -149,9 +208,12 @@ const CoursesPage = () => {
                             </SelectContent>
                         </Select>
                         <Select
-                            value={selectedSubject}
+                            value={filters.subject}
                             onValueChange={(val) => {
-                                setSelectedSubject(val);
+                                setFilters((prev) => ({
+                                    ...prev,
+                                    subject: val,
+                                }));
                             }}
                         >
                             <SelectTrigger>
@@ -172,7 +234,7 @@ const CoursesPage = () => {
                     </div>
                 </aside>
                 <section className="grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3">
-                    {filteredCourses.map((course) => (
+                    {filteredCourses.map((course: CourseType) => (
                         <div
                             key={course.id}
                             className="flex flex-col gap-4 rounded-2xl border bg-white p-6 dark:bg-slate-700/50"
@@ -181,7 +243,7 @@ const CoursesPage = () => {
                                 <div className="text-primary mb-2 w-fit rounded-full bg-gray-200 p-4 dark:bg-white">
                                     <BookOpen size={28} />
                                 </div>
-                                <h3 className="mt-4 text-lg font-semibold dark:text-black">
+                                <h3 className="mt-4 text-lg font-semibold dark:text-white">
                                     {course.title}
                                 </h3>
                                 <p className="!text-muted-foreground text-sm">
@@ -197,38 +259,36 @@ const CoursesPage = () => {
                             <hr />
                             <footer className="flex items-center justify-between">
                                 {/* Actions */}
-                                <div className="flex items-center gap-2">
-                                    <Button
-                                        size="icon"
-                                        variant="outline"
-                                        disabled
-                                    >
-                                        <Edit />
-                                    </Button>
-                                    <Button
-                                        size="icon"
-                                        variant="outline"
-                                        className="text-red-500"
-                                        onClick={() => {
-                                            handleDeleteCourse(course.id);
-                                        }}
-                                    >
-                                        <Trash2 />
-                                    </Button>
-                                </div>
+                                <Button
+                                    size="icon"
+                                    variant="outline"
+                                    className="text-red-500"
+                                    onClick={() => {
+                                        handleDeleteCourse(course.id);
+                                    }}
+                                >
+                                    <Trash2 />
+                                </Button>
                                 <div className="flex items-center gap-2">
                                     <Tag color="blue">{course.category}</Tag>
-                                    <Tag
-                                        color={
-                                            course.is_published
-                                                ? "green"
-                                                : "red"
+                                    <span
+                                        onClick={() =>
+                                            togglePublishState(course.id)
                                         }
+                                        className="cursor-pointer transition-all hover:scale-105"
                                     >
-                                        {course.is_published
-                                            ? "Published"
-                                            : "Draft"}
-                                    </Tag>
+                                        <Tag
+                                            color={
+                                                course.is_published
+                                                    ? "green"
+                                                    : "red"
+                                            }
+                                        >
+                                            {course.is_published
+                                                ? "Published"
+                                                : "Draft"}
+                                        </Tag>
+                                    </span>
                                 </div>
                             </footer>
                         </div>

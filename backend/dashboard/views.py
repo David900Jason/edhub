@@ -1,6 +1,7 @@
 # users/views.py
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
+from courses.serializers import PrivateCourse
 from users.models import User
 from rest_framework import generics, status
 from .serializers import (
@@ -15,6 +16,10 @@ from payments.models import Payment, Wallet
 from users.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.exceptions import PermissionDenied
+from courses.models import Course
+
+
+
 
 class StudentAdminOnlyListView(generics.ListAPIView):
     serializer_class = StudentAdminOnlyListSerializer
@@ -111,3 +116,20 @@ class AdminPaymentRecordsCreateView(generics.CreateAPIView):
         payment = serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+class AdminCoursePublishView(generics.UpdateAPIView):
+    serializer_class = PrivateCourse
+    permission_classes = [IsAdminUser]
+    queryset = Course.objects.all()
+
+    def update(self, request, *args, **kwargs):
+        course = self.get_object()
+        course.is_published = not course.is_published
+        course.save()
+
+        if course.is_published:
+            return Response({ "message": "Course published successfully." })
+        else:
+            return Response({ "message": "Course unpublished successfully." })
+
+    def get_object(self):
+        return Course.objects.get(pk=self.kwargs["pk"])

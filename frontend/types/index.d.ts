@@ -119,7 +119,7 @@ interface UserType {
     full_name: string;
     email: string;
     password: string;
-    role: "student" | "teacher";
+    role: "student" | "teacher" | "admin";
     phone_number: string;
     parent_phone: string;
     birth_date: string;

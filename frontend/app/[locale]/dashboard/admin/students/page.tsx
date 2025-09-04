@@ -23,6 +23,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { Link } from "@/i18n/routing";
 
 type StudentAdmin = {
     id: string;
@@ -122,7 +123,6 @@ const StudentsPage = () => {
                     ),
                 );
             }
-            // window.location.reload();
         } catch (error) {
             console.error(error);
         }
@@ -132,7 +132,9 @@ const StudentsPage = () => {
         <section>
             <header className="mb-8">
                 <h1 className="text-3xl font-semibold">Students</h1>
-                <p className="p-lead">Here&apos;s a table containing all students</p>
+                <p className="p-lead">
+                    Here&apos;s a table containing all students
+                </p>
             </header>
             <main className="rounded-2xl border p-6">
                 <div className="mb-4 flex items-center gap-2">
@@ -241,7 +243,9 @@ const StudentsPage = () => {
                                                         color="yellow"
                                                         key={course}
                                                     >
-                                                        {course}
+                                                        <Link href={`/dashboard/admin/courses?search=${course}`}>
+                                                            {course}
+                                                        </Link>
                                                     </Tag>
                                                 );
                                             },

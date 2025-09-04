@@ -91,3 +91,13 @@ export const enrollCourse = async (courseId: string) => {
         return;
     }
 };
+
+export const togglePublished = async (courseId: string) => {
+    try {
+        const res = await api.put(`/admin-dashboard/courses/${courseId}/publish/`);
+        return res.data;
+    } catch (error) {
+        console.error(error);
+        return;
+    }
+};

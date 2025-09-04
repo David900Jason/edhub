@@ -10,6 +10,7 @@ import {
     TableCaption,
 } from "@/components/ui/table";
 import Tag from "@/components/ui/Tag";
+import { Link } from "@/i18n/routing";
 import {
     getAdminTeachers,
     toggleActiveAdminUser,
@@ -52,7 +53,7 @@ const TeachersPage = () => {
         const created = new Date(createdAt);
         const diff = now.getTime() - created.getTime();
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        return days;
+        return 14 - days;
     };
 
     const toggleVerified = async (id: string) => {
@@ -97,7 +98,9 @@ const TeachersPage = () => {
         <section>
             <header className="mb-8">
                 <h1 className="text-3xl font-semibold">Teachers</h1>
-                <p className="p-lead">Here&apos;s a table containing all teachers</p>
+                <p className="p-lead">
+                    Here&apos;s a table containing all teachers
+                </p>
             </header>
             <main className="rounded-2xl border p-6">
                 <Table>
@@ -115,8 +118,8 @@ const TeachersPage = () => {
                             <TableHead className="p-4">Active</TableHead>
                             <TableHead className="p-4">Verified</TableHead>
                             <TableHead className="p-4">Created At</TableHead>
-                            <TableHead className="p-4">Time Left</TableHead>
                             <TableHead className="p-4">Updated At</TableHead>
+                            <TableHead className="p-4">Trial</TableHead>
                             <TableHead className="p-4">Last Login</TableHead>
                         </TableRow>
                     </TableHeader>
@@ -146,7 +149,11 @@ const TeachersPage = () => {
                                         teacher.created_courses.map(
                                             (course, index) => (
                                                 <Tag color="yellow" key={index}>
-                                                    {course}
+                                                    <Link
+                                                        href={`/dashboard/admin/courses?search=${course}`}
+                                                    >
+                                                        {course}
+                                                    </Link>
                                                 </Tag>
                                             ),
                                         )
@@ -212,10 +219,21 @@ const TeachersPage = () => {
                                     {format(teacher.created_at)}
                                 </TableCell>
                                 <TableCell className="p-4 text-xs text-gray-500">
-                                    {timeLeft(teacher.created_at)} days left
+                                    {format(teacher.updated_at)}
                                 </TableCell>
                                 <TableCell className="p-4 text-xs text-gray-500">
-                                    {format(teacher.updated_at)}
+                                    {timeLeft(teacher.created_at) <= 0 ? (
+                                        <span className="text-red-500">
+                                            Expired (-
+                                            {timeLeft(teacher.created_at)} days
+                                            ago)
+                                        </span>
+                                    ) : (
+                                        <span className="text-green-500">
+                                            {timeLeft(teacher.created_at)} days
+                                            left
+                                        </span>
+                                    )}
                                 </TableCell>
                                 <TableCell className="p-4 text-xs text-gray-500">
                                     {format(teacher.last_login)}

@@ -33,7 +33,7 @@ const AdminSidebar = () => {
                 <div className="flex items-center gap-2 p-6">
                     <Image src="/logo.png" alt="logo" width={64} height={64} />
                     <h1 className="text-2xl font-semibold">
-                        <Link href="/">EdHub</Link>
+                        <Link href="/">Edhub</Link>
                     </h1>
                 </div>
             </header>
