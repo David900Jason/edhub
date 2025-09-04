@@ -90,7 +90,7 @@ export default function TeacherBooksPage() {
                                             {book.title}
                                         </Link>
                                     </TableCell>
-                                    <TableCell className="max-w-[200px]">
+                                    <TableCell className="whitespace-normal">
                                         {book.description === ""
                                             ? "N/A"
                                             : book.description}
