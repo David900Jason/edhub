@@ -31,7 +31,8 @@ class ListRetrieveCoursesSerializer(serializers.ModelSerializer):
 class CreateCourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
-        fields = ["title", "description", "price", "discount", "currency", "is_published", "is_published", "category", "thumbnail"]
+        fields = ["id", "title", "description", "price", "discount", "currency", "is_published", "thumbnail", "category"]
+	read_only_fields = ["id", "thumbnail"]
 
 
 class PrivateCourse(serializers.ModelSerializer):
