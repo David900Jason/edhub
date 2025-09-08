@@ -1,43 +1,40 @@
-from rest_framework.generics import ListAPIView, RetrieveDestroyAPIView
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from .serializers import EnrollmentSerializer, PrivateEnrollmentSerializer
+# Create your views here.
+from rest_framework import generics, permissions
+from rest_framework.views import APIView
+from users.serializers import TeacherBriefSerializer, TeacherPublicSerializer
+from users.views import TeacherDetailView
 from .models import Enrollment
+from users.models import User
+from rest_framework.response import Response
+from .serializers import EnrollmentSerializer
 
-
-class ListEnrollmentView(ListAPIView):
-    def get_queryset(self):
-        if self.request.user.is_superuser:
-            return Enrollment.objects.all()
-        elif self.request.user.is_staff:
-            return Enrollment.objects.none()
-        return Enrollment.objects.filter(user=self.request.user)
-
-    permission_classes = [IsAuthenticated]
+class EnrollmentListCreateView(generics.ListCreateAPIView):
     serializer_class = EnrollmentSerializer
-
-
-class RetrieveDestroyView(RetrieveDestroyAPIView):
-    def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
-        user = request.user
-        wallet = user.wallet
-
-        wallet.balance += (instance.course.price - instance.course.discount)
-        wallet.save()
-        
-        self.perform_destroy(instance)
-        return Response(
-            {"detail": "Enrollment removed successfully."},
-            status=204,
-        )
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        if self.request.user.is_superuser:
-            return Enrollment.objects.all()
-        elif self.request.user.is_staff:
-            return Enrollment.objects.none()
         return Enrollment.objects.filter(user=self.request.user)
 
-    permission_classes = [IsAuthenticated]
-    serializer_class = PrivateEnrollmentSerializer
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+class EnrollmentDetailView(generics.RetrieveUpdateAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = EnrollmentSerializer
+    lookup_field = "pk"
+
+    def get_object(self):
+        return Enrollment.objects.get(user=self.request.user, pk=self.kwargs["pk"])
+
+class EnrollmentTeachersView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        # grab all teachers of courses where the user is enrolled
+        teachers = User.objects.filter(
+            courses__enrollments__user=request.user
+        ).distinct()
+
+        serializer = TeacherPublicSerializer(teachers, many=True, context={"request": request})
+        return Response(serializer.data)

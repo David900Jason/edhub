@@ -29,7 +29,7 @@ urlpatterns = [
     path('todos/', include('todo.urls')),
 
     # Enrollments API
-    path("enrollments/", include("enrollments.urls")),
+    path('enrollments/', include('enrollments.urls')),
 ]
 
 if settings.DEBUG:

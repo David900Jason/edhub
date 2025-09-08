@@ -8,7 +8,7 @@ import {
     getUserWallet,
     updateWallet,
 } from "@/lib/api/payments";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Bolt, CircleCheck, X } from "lucide-react";
 import {
@@ -36,11 +36,15 @@ type WalletType = {
 };
 
 const Subscriptions = () => {
-    const [data, setData] = useState<{ invoices: InvoiceType[]; wallet: WalletType | null; courses: EnrollmentType[] }>({
+    const [data, setData] = useState<{
+        invoices: InvoiceType[];
+        wallet: WalletType | null;
+        courses: EnrollmentType[];
+    }>({
         invoices: [],
         wallet: null,
         courses: [],
-    })
+    });
     const [code, setCode] = useState<string>("");
 
     useEffect(() => {
@@ -78,20 +82,41 @@ const Subscriptions = () => {
     };
 
     const t = useTranslations("STUDENT_DASHBOARD");
+    const locale = useLocale();
 
-    const averageCost = data.invoices.length == 0 ? 0 : Number(
-        data.invoices.reduce(
-            (total, invoice) => total + (Number(invoice.amount) || 0),
-            0,
-        ) / data.invoices.length,
-    ).toFixed(1);
+    const walletBalance =
+        data.wallet?.balance == null
+            ? 0
+            : Intl.NumberFormat(locale === "ar" ? "ar-EG" : "en-US", {
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 1,
+              }).format(data.wallet.balance);
 
-    const totalCost = Number(
-        data.invoices.reduce(
-            (total, invoice) => total + (Number(invoice.amount) || 0),
-            0,
-        ),
-    ).toFixed(1);
+    const averageCost =
+        data.invoices.length == 0
+            ? 0
+            : Intl.NumberFormat(locale === "ar" ? "ar-EG" : "en-US", {
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 1,
+              }).format(
+                  data.invoices.reduce(
+                      (total, invoice) => total + (Number(invoice.amount) || 0),
+                      0,
+                  ) / data.invoices.length,
+              );
+
+    const totalCost =
+        data.invoices.length == 0
+            ? 0
+            : Intl.NumberFormat(locale === "ar" ? "ar-EG" : "en-US", {
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 1,
+              }).format(
+                  data.invoices.reduce(
+                      (total, invoice) => total + (Number(invoice.amount) || 0),
+                      0,
+                  ),
+              );
 
     return (
         <>
@@ -141,7 +166,21 @@ const Subscriptions = () => {
                     <Card className="flex flex-col gap-2 rounded-xl border p-6 py-12">
                         <span>
                             <span className="font-mono text-5xl font-semibold tracking-tighter">
-                                {Number(data.wallet?.balance).toFixed(1)}
+                                {Intl.NumberFormat(
+                                    locale == "ar" ? "ar-EG" : "en-US",
+                                    {
+                                        minimumFractionDigits: 0,
+                                        maximumFractionDigits: 0,
+                                    },
+                                ).format(data.courses.length ?? 0)}
+                            </span>
+                        </span>
+                        <p className="p-lead">{t("SUBSCRIPTIONS.card2")}</p>
+                    </Card>
+                    <Card className="flex flex-col gap-2 rounded-xl border p-6 py-12">
+                        <span>
+                            <span className="font-mono text-5xl font-semibold tracking-tighter">
+                                {walletBalance}
                             </span>{" "}
                             <span className="text-muted-foreground text-sm font-semibold tracking-normal">
                                 {t("SUBSCRIPTIONS.currency")}
@@ -149,14 +188,7 @@ const Subscriptions = () => {
                         </span>
                         <p className="p-lead">{t("SUBSCRIPTIONS.card1")}</p>
                     </Card>
-                    <Card className="flex flex-col gap-2 rounded-xl border p-6 py-12">
-                        <span>
-                            <span className="font-mono text-5xl font-semibold tracking-tighter">
-                                {data.courses.length ?? 0}
-                            </span>
-                        </span>
-                        <p className="p-lead">{t("SUBSCRIPTIONS.card2")}</p>
-                    </Card>
+
                     <Card className="flex flex-col gap-2 rounded-xl border p-6 py-12">
                         <span>
                             <span className="font-mono text-5xl font-semibold tracking-tighter">
@@ -183,8 +215,12 @@ const Subscriptions = () => {
                 <section className="mt-6">
                     <Tabs defaultValue="subscriptions">
                         <TabsList className="w-full">
-                            <TabsTrigger value="subscriptions">Subscriptions</TabsTrigger>
-                            <TabsTrigger value="billing-history">Billing history</TabsTrigger>
+                            <TabsTrigger value="subscriptions">
+                                Subscriptions
+                            </TabsTrigger>
+                            <TabsTrigger value="billing-history">
+                                Billing history
+                            </TabsTrigger>
                         </TabsList>
                         <TabsContent value="subscriptions">
                             <SubscriptionsList courses={data.courses} />

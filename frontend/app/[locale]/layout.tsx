@@ -17,12 +17,36 @@ const ibmPlexSans = IBM_Plex_Sans({
 });
 
 export const metadata: Metadata = {
-    title: "Edhub - Smarter Desicions behind Logic",
+    title: "Edhub — Smarter Decisions behind Logic",
     description:
         "A platform built to help mid-level teachers afford their online teaching careers and aims at helping them start their own businesses.",
     icons: {
-        icon: "/logo.png",
+        icon: [
+            {
+                url: "/icons/favicon-16x16.png",
+                sizes: "16x16",
+                type: "image/png",
+            },
+            {
+                url: "/icons/favicon-32x32.png",
+                sizes: "32x32",
+                type: "image/png",
+            },
+            {
+                url: "/icons/android-chrome-192x192.png",
+                sizes: "192x192",
+                type: "image/png",
+            },
+            {
+                url: "/icons/android-chrome-512x512.png",
+                sizes: "512x512",
+                type: "image/png",
+            },
+        ],
+        apple: "/icons/apple-touch-icon.png",
+        shortcut: "/icons/favicon.ico",
     },
+    manifest: "/icons/site.webmanifest",
 };
 
 type Props = {
@@ -30,14 +54,11 @@ type Props = {
     params: Promise<{ locale: string }>;
 };
 
-export default async function RootLayout({
-    children,
-    params,
-}: Props) {
+export default async function RootLayout({ children, params }: Props) {
     // Ensure the locale is valid
     const { locale: localeParam } = await params;
-    const locale = (localeParam as string) as "en" | "ar";
-    
+    const locale = localeParam as string as "en" | "ar";
+
     if (!routing.locales.includes(locale)) {
         notFound();
     }
@@ -54,7 +75,7 @@ export default async function RootLayout({
             style={{ colorScheme: theme }}
             dir={locale === "ar" ? "rtl" : "ltr"}
         >
-            <body className={`${ibmPlexSans.variable} font-sans`}>
+            <body className={`${ibmPlexSans.variable} antialiased`}>
                 <NextIntlClientProvider locale={locale} messages={messages}>
                     <ThemeProvider
                         attribute="class"

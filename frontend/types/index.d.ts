@@ -53,6 +53,7 @@ interface CourseType {
     teacher?: {
         id: string;
         full_name: string;
+        is_verified?: boolean;
     };
 }
 
@@ -121,7 +122,7 @@ interface UserType {
     password: string;
     role: "student" | "teacher" | "admin";
     phone_number: string;
-    parent_phone: string;
+    parent_number: string;
     birth_date: string;
     school_year: "1" | "2" | "3";
     is_active?: boolean;
@@ -177,7 +178,7 @@ interface Book {
     course_id?: string;
     course?: CourseType;
     video_id?: string;
-    video?: string | { id: string; title: string };
+    video?: { id: string; title: string };
     created_at: string;
     updated_at: string;
 }

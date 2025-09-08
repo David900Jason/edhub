@@ -12,20 +12,9 @@ class PublicBookSerializer(serializers.ModelSerializer):
         fields = ["id", "title", "book_url"]
 
 class PublicVideoSerializer(serializers.ModelSerializer):
-    thumbnail_url = serializers.SerializerMethodField()
-
     class Meta:
         model = Video
-        fields = ["id", "title", "likes", "views", "thumbnail_url"]
-
-    def get_thumbnail_url(self, obj):
-        request = self.context.get("request")
-        if obj.thumbnail_url:  # assuming model has ImageField/FileField called `thumbnail`
-            url = obj.thumbnail_url.url
-            if request:
-                return request.build_absolute_uri(url)
-            return url  # fallback if request not available
-        return None
+        fields = ["id", "title", "likes", "views", "thumbnail_url", "video_url"]
 
 class ListRetrieveCoursesSerializer(serializers.ModelSerializer):
     teacher = TeacherBriefSerializer(read_only=True)

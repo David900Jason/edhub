@@ -1,32 +1,38 @@
 "use client";
 
-import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import {
-    Trash2,
-    Edit,
-    Star,
-} from "lucide-react";
+import { Trash2, Edit, Star } from "lucide-react";
 import { Table, LayoutGrid } from "lucide-react";
 import { CoursesDataTable } from "./CoursesDataTable";
 import { useTranslations, useLocale } from "next-intl";
 import Tag from "@/components/ui/Tag";
 import { useRouter } from "@/i18n/routing";
+import { toast } from "sonner";
+import { deleteCourse } from "@/lib/api/course";
 
 export function CoursesView({ courses }: { courses: CourseType[] }) {
-    const [view, setView] = useState<"table" | "grid">("table");
     const t = useTranslations("TEACHER_DASHBOARD.COURSES");
     const locale = useLocale();
-    const isRTL = locale === 'ar';
+    const isRTL = locale === "ar";
     const router = useRouter();
 
+    const handleDelete = (id: string) => {
+        toast.info("Are you sure you want to delete this course?", {
+            duration: 5000,
+            position: "top-center",
+            action: {
+                label: "Yes",
+                onClick: () => {
+                    deleteCourse(id);
+                    window.location.reload();
+                },
+            },
+        });
+    };
+
     return (
-        <Tabs
-            defaultValue="table"
-            className="w-full"
-            onValueChange={(value) => setView(value as "table" | "grid")}
-        >
+        <Tabs defaultValue="table" className="w-full">
             <div
                 className={`flex flex-col justify-between gap-4 pb-4 sm:flex-row sm:items-center ${isRTL ? "rtl" : ""}`}
             >
@@ -38,14 +44,14 @@ export function CoursesView({ courses }: { courses: CourseType[] }) {
                         className={`flex items-center gap-2 ${isRTL ? "flex-row-reverse" : ""}`}
                     >
                         <Table className="h-4 w-4" />
-                        <span>{view}</span>
+                        <span>Table view</span>
                     </TabsTrigger>
                     <TabsTrigger
                         value="grid"
                         className={`flex items-center gap-2 ${isRTL ? "flex-row-reverse" : ""}`}
                     >
                         <LayoutGrid className="h-4 w-4" />
-                        <span>{t("courses_table.views.grid")}</span>
+                        <span>Grid view</span>
                     </TabsTrigger>
                 </TabsList>
                 <div className="order-1 sm:order-2">
@@ -73,19 +79,19 @@ export function CoursesView({ courses }: { courses: CourseType[] }) {
                                 className="flex flex-col gap-2 rounded-lg border p-6"
                             >
                                 <header>
-                                    <div className="mb-2 flex items-center gap-2">
-                                        <Tag color="blue">{category}</Tag>
-                                    </div>
-                                    <h3 className="text-lg font-semibold flex justify-between">
-                                        {title}{" "}
-                                        <span className="flex items-center gap-1 text-sm font-normal">
+                                    <Tag color="blue">{category}</Tag>
+                                    <div className="mt-4 flex items-center justify-between">
+                                        <h3 className="text-lg font-semibold">
+                                            {title}
+                                        </h3>
+                                        <span className="flex w-fit items-start gap-1 text-sm font-normal">
                                             <Star className="h-4 w-4 text-yellow-500" />{" "}
                                             {rating?.toFixed(1) || "N/A"}
                                         </span>
-                                    </h3>
+                                    </div>
                                 </header>
-                                <main className="flex-1 justify-start mb-4">
-                                    <p className="text-muted-foreground">
+                                <main className="mb-6 flex-1 justify-start">
+                                    <p className="text-muted-foreground max-w-[35ch] line-clamp-2 text-sm">
                                         {description}
                                     </p>
                                 </main>
@@ -97,18 +103,18 @@ export function CoursesView({ courses }: { courses: CourseType[] }) {
                                             )
                                         }
                                         variant="outline"
-                                        size="sm"
+                                        aria-label="Edit"
+                                        size="icon"
                                     >
-                                        <Edit className="h-3.5 w-3.5" />
-                                        Edit
+                                        <Edit className="h-4 w-4" />
                                     </Button>
                                     <Button
-                                        onClick={() => {}}
-                                        variant="destructive"
-                                        size="sm"
+                                        onClick={() => handleDelete(id)}
+                                        variant="outline"
+                                        aria-label="Delete"
+                                        size="icon"
                                     >
-                                        <Trash2 className="h-3.5 w-3.5" />
-                                        Delete
+                                        <Trash2 className="h-4 w-4 text-red-500" />
                                     </Button>
                                 </footer>
                             </div>

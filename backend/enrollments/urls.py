@@ -1,8 +1,8 @@
 from django.urls import path
-from .views import ListEnrollmentView, RetrieveDestroyView
-
+from .views import EnrollmentListCreateView, EnrollmentDetailView, EnrollmentTeachersView
 
 urlpatterns = [
-    path("", ListEnrollmentView.as_view()),
-    path("<int:pk>/", RetrieveDestroyView.as_view()),
+    path("", EnrollmentListCreateView.as_view(), name="enrollment-list-create"),
+    path("<int:pk>/", EnrollmentDetailView.as_view(), name="enrollment-detail"),
+    path("teachers/", EnrollmentTeachersView.as_view(), name="enrollment-teachers"),
 ]

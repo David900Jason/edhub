@@ -115,13 +115,18 @@ const SubscriptionsList = ({ courses }: { courses: EnrollmentType[] }) => {
                                     </Tag>
                                 </TableCell>
                                 <TableCell className="py-4">
-                                    {course.course.price.toFixed(2)}{" "}
-                                    {course.course.currency}
+                                    <span>
+                                        {course.course.price == 0
+                                            ? "Free"
+                                            : `${course.course.price} ${course.course.currency}`}
+                                    </span>
                                 </TableCell>
                                 <TableCell className="py-4">
-                                    {course.amount_paid +
-                                        " " +
-                                        course.course.currency}
+                                    <span>
+                                        {(course.amount_paid ?? 0) == 0
+                                            ? "Free"
+                                            : `${course.amount_paid} ${course.course.currency}`}
+                                    </span>
                                 </TableCell>
                                 <TableCell className="py-4">
                                     {format(course.timestamp)}

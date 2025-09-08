@@ -14,7 +14,6 @@ import {
     Video,
     Book,
     CircleQuestionMark,
-    Loader2,
 } from "lucide-react";
 
 import { useTranslations } from "next-intl";
@@ -82,16 +81,16 @@ const DashboardStudent = () => {
 
     return (
         <>
-            <nav className="mb-6 flex flex-col items-center justify-between gap-6 lg:flex-row lg:gap-0">
-                <header>
-                    <h1 className="text-3xl font-semibold tracking-tight">
+            <header className="mb-6 flex flex-col items-center justify-between gap-10 lg:flex-row lg:gap-0">
+                <div>
+                    <h1 className="text-3xl font-bold tracking-tight">
                         {t("HOME_PAGE.welcome")}
                         {user?.full_name.split(" ")[0]} 👋
                     </h1>
-                    <p className="p-lead max-w-[45ch]">
+                    <p className="p-lead max-w-[65ch]">
                         {t("HOME_PAGE.description")}
                     </p>
-                </header>
+                </div>
                 <div className="input-group flex items-center gap-2">
                     <Input
                         className="min-w-[250px]"
@@ -106,7 +105,7 @@ const DashboardStudent = () => {
                         <Search />
                     </Button>
                 </div>
-            </nav>
+            </header>
             <div className="mb-6 grid grid-cols-2 gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
                 {DashboardCards.map((card, index) => (
                     <div
@@ -119,7 +118,7 @@ const DashboardStudent = () => {
                         <h3 className="text-lg font-semibold dark:text-black">
                             {card.title}
                         </h3>
-                        <span className="text-primary text-3xl font-extrabold tracking-tight">
+                        <span className="text-primary text-3xl font-bold tracking-tight">
                             <CountUp end={card.value} duration={2} />
                             {card.id === 3 && (
                                 <span className="text-lg font-bold text-gray-500">
@@ -144,8 +143,7 @@ const DashboardStudent = () => {
                     <p className="p-lead mb-6">
                         {t("HOME_PAGE.section_1.description")}
                     </p>
-                    <div className="flex min-h-[50vh] place-content-center items-center gap-2 rounded-xl bg-slate-100 text-gray-500 dark:text-black">
-                        <Loader2 className="animate-spin" />{" "}
+                    <div className="flex min-h-[50vh] place-content-center items-center gap-2 rounded-xl bg-[#ddd] text-gray-500">
                         {t("HOME_PAGE.coming_soon")} ...
                     </div>
                 </div>
@@ -156,8 +154,7 @@ const DashboardStudent = () => {
                     <p className="p-lead mb-6">
                         {t("HOME_PAGE.section_2.description")}
                     </p>
-                    <div className="flex min-h-[50vh] place-content-center items-center gap-2 rounded-xl bg-slate-100 text-gray-500 dark:text-black">
-                        <Loader2 className="animate-spin" />{" "}
+                    <div className="flex min-h-[50vh] place-content-center items-center gap-2 rounded-xl bg-[#ddd] text-gray-500">
                         {t("HOME_PAGE.coming_soon")} ...
                     </div>
                 </div>
@@ -169,8 +166,7 @@ const DashboardStudent = () => {
                 <p className="p-lead mb-6">
                     {t("HOME_PAGE.section_3.description")}
                 </p>
-                <div className="flex min-h-[50vh] place-content-center items-center gap-2 rounded-xl bg-slate-100 text-gray-500 dark:text-black">
-                    <Loader2 className="animate-spin" />{" "}
+                <div className="flex min-h-[50vh] place-content-center items-center gap-2 rounded-xl bg-[#ddd] text-gray-500">
                     {t("HOME_PAGE.coming_soon")} ...
                 </div>
             </div>

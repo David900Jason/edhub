@@ -7,18 +7,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Download, Search, Trash } from "lucide-react";
 import { deleteBook, getTeacherBooks } from "@/lib/api/book";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
 import CreateBookDialog from "./_components/CreateBookDialog";
 import EditBookDialog from "./_components/EditBookDialog";
 import { getCourses } from "@/lib/api/course";
 import { getTeacherVideos } from "@/lib/api/video";
+import { toast } from "sonner";
+import Image from "next/image";
 
 export default function TeacherBooksPage() {
     const [books, setBooks] = useState<Book[]>([]);
@@ -35,8 +29,20 @@ export default function TeacherBooksPage() {
 
     // handle Delete Book
     const handleDeleteBook = (bookId: number) => {
-        deleteBook(bookId);
-        setBooks((prevBooks) => prevBooks.filter((book) => book.id !== bookId));
+        toast.message("Are you sure you want to delete this book?", {
+            position: "top-center",
+            action: {
+                label: "Yes",
+                onClick: () => {
+                    deleteBook(bookId).then(() => {
+                        toast.success("Book deleted successfully");
+                        setBooks((prev) =>
+                            prev.filter((book) => book.id !== bookId),
+                        );
+                    });
+                },
+            },
+        });
     };
 
     const filteredBooks = books.filter(
@@ -71,60 +77,57 @@ export default function TeacherBooksPage() {
                     />
                 </div>
 
-                <section className="rounded-md border">
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Title</TableHead>
-                                <TableHead>Course</TableHead>
-                                <TableHead>Video</TableHead>
-                                <TableHead>Actions</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {filteredBooks.map((book: Book) => (
-                                <TableRow key={book.id}>
-                                    <TableCell>
-                                        <Link href={`${book.book_url}`}>
-                                            {book.title}
-                                        </Link>
-                                    </TableCell>
-                                    <TableCell>{book.course?.title}</TableCell>
-                                    <TableCell>
-                                        {
-                                            (book.video as { title: string })
-                                                ?.title
+                <section className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                    {filteredBooks.map((book: Book, index: number) => (
+                        <div
+                            key={book.id}
+                            className="overflow-hidden rounded-lg border"
+                            aria-label={`Book ${index + 1}`}
+                        >
+                            <div>
+                                <Image
+                                    src={book.thumbnail_url as string}
+                                    alt={book.title}
+                                    width={600}
+                                    height={400}
+                                />
+                            </div>
+                            <header className="px-4 py-6">
+                                <h3 className="text-xl font-semibold">
+                                    {book.title}
+                                </h3>
+                                <p className="text-muted-foreground text-sm">
+                                    {book.description}
+                                </p>
+                            </header>
+                            <footer className="flex items-center justify-between p-4">
+                                <Button asChild size="icon" variant="outline">
+                                    <Link
+                                        target="_blank"
+                                        href={book.book_url as string}
+                                    >
+                                        <Download />
+                                    </Link>
+                                </Button>
+                                <div className="flex items-center gap-2">
+                                    <EditBookDialog
+                                        book={book}
+                                        courses={courses}
+                                        videos={videos}
+                                    />
+                                    <Button
+                                        variant="outline"
+                                        size="icon"
+                                        onClick={() =>
+                                            handleDeleteBook(book.id as number)
                                         }
-                                    </TableCell>
-                                    <TableCell className="flex gap-2">
-                                        <EditBookDialog
-                                            book={book}
-                                            courses={courses}
-                                            videos={videos}
-                                        />
-                                        <Button
-                                            variant="outline"
-                                            onClick={() =>
-                                                handleDeleteBook(
-                                                    book.id as number,
-                                                )
-                                            }
-                                        >
-                                            <Trash className="text-red-500" />
-                                        </Button>
-                                        <Button asChild variant="outline">
-                                            <Link
-                                                target="_blank"
-                                                href={book.book_url as string}
-                                            >
-                                                <Download />
-                                            </Link>
-                                        </Button>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                                    >
+                                        <Trash className="text-red-500" />
+                                    </Button>
+                                </div>
+                            </footer>
+                        </div>
+                    ))}
                 </section>
             </main>
         </section>

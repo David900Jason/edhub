@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 
 type EditCourse = Omit<
     CourseType,
-    "id" | "created_at" | "updated_at" | "rating"
+    "id" | "created_at" | "updated_at" | "rating" | "is_paid"
 >;
 
 const EditCoursePage = () => {
@@ -26,7 +26,6 @@ const EditCoursePage = () => {
         discount: 0,
         currency: "",
         is_published: false,
-        is_paid: false,
     });
     const { courseId } = useParams();
     const router = useRouter();
@@ -44,7 +43,6 @@ const EditCoursePage = () => {
                     discount: res?.discount || 0,
                     currency: res?.currency || "",
                     is_published: res?.is_published ?? false,
-                    is_paid: res?.is_paid ?? false,
                 });
             } catch (error) {
                 console.error(error);

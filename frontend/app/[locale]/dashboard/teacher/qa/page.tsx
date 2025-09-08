@@ -15,6 +15,10 @@ const TeacherQAPage = () => {
         getTeacherQuestions().then((res) => setQuestions(res));
     }, [setQuestions]);
 
+    const filteredQuestions = questions.filter((question) => {
+        return question.content.toLowerCase().includes(search.toLowerCase());
+    });
+
     return (
         <section>
             <header className="mb-8">
@@ -33,17 +37,17 @@ const TeacherQAPage = () => {
                 </div>
 
                 {/* Main content */}
-                {questions && questions.length > 0 && (
+                {filteredQuestions && filteredQuestions.length > 0 && (
                     <section className="space-y-6">
-                        {questions.map((question) => (
+                        {filteredQuestions.map((question) => (
                             <Question key={question.id} question={question} />
                         ))}
                     </section>
                 )}
 
                 {/* Fallback Content */}
-                {!questions ||
-                    (questions.length === 0 && (
+                {!filteredQuestions ||
+                    (filteredQuestions.length === 0 && (
                         <section className="flex min-h-[40vh] items-center justify-center rounded-2xl border-2 border-dashed bg-slate-100 p-6 dark:bg-black/50">
                             <p className="text-center">No questions found</p>
                         </section>

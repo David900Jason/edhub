@@ -36,10 +36,6 @@ api.interceptors.response.use(
             return;
         }
 
-        if (error.response?.status === 401) {
-            toast.error("401: Failed to fetch data");
-        }
-
         if (error.response?.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
 

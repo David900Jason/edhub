@@ -13,7 +13,7 @@ import { createCourse } from "@/lib/api/course";
 export default function NewCoursePage() {
     const router = useRouter();
     const [course, setCourse] = useState<
-        Omit<CourseType, "id" | "created_at" | "updated_at" | "rating">
+        Omit<CourseType, "id" | "created_at" | "updated_at" | "rating" | "is_paid">
     >({
         title: "",
         description: "",
@@ -22,7 +22,6 @@ export default function NewCoursePage() {
         discount: 0,
         currency: "",
         is_published: false,
-        is_paid: false,
     });
 
     const handleChange = (

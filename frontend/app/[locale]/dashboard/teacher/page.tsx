@@ -2,7 +2,7 @@
 
 import { useSessionStorage } from "@/hooks/useSessionStorage";
 import { getDashboardDetails } from "@/lib/api/user";
-import { Award, DollarSign, Loader2, Users, Video } from "lucide-react";
+import { Award, DollarSign, Users, Video } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
@@ -54,15 +54,13 @@ const TeacherDash = () => {
 
     return (
         <main>
-            <nav className="mb-6">
-                <header>
-                    <h1 className="text-3xl font-semibold tracking-tight">
-                        {t("welcome")}
-                        {user?.full_name} 👋
-                    </h1>
-                    <p className="p-lead max-w-[45ch]">{t("description")}</p>
-                </header>
-            </nav>
+            <header className="mb-8">
+                <h1 className="text-3xl font-semibold tracking-tight">
+                    {t("welcome")}
+                    {user?.full_name} 👋
+                </h1>
+                <p className="p-lead max-w-[45ch]">{t("description")}</p>
+            </header>
             {/* Dashboard Cards */}
             <div className="mb-6 grid grid-cols-2 gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
                 {DashboardInfoCards.map((card, index) => {
@@ -78,7 +76,7 @@ const TeacherDash = () => {
                             <h3 className="text-lg font-semibold dark:text-black">
                                 {card_title}
                             </h3>
-                            <span className="text-primary text-3xl font-extrabold tracking-tight">
+                            <span className="text-primary text-3xl font-bold tracking-tight">
                                 {card?.value || 0}
                                 {card.id === 4 && (
                                     <span className="text-lg font-bold text-gray-500">
@@ -104,9 +102,8 @@ const TeacherDash = () => {
                         {t("section_1.title")}
                     </h2>
                     <p className="p-lead mb-6">{t("section_1.description")}</p>
-                    <div className="flex min-h-[50vh] place-content-center items-center gap-2 rounded-xl bg-slate-100 text-gray-500 dark:text-black">
-                        <Loader2 className="animate-spin" /> {t("coming_soon")}{" "}
-                        ...
+                    <div className="flex min-h-[50vh] place-content-center items-center gap-2 rounded-xl bg-[#ccc] text-gray-600">
+                        {t("coming_soon")} ...
                     </div>
                 </div>
                 <div className="rounded-xl border p-6">
@@ -114,9 +111,8 @@ const TeacherDash = () => {
                         {t("section_2.title")}
                     </h2>
                     <p className="p-lead mb-6">{t("section_2.description")}</p>
-                    <div className="flex min-h-[50vh] place-content-center items-center gap-2 rounded-xl bg-slate-100 text-gray-500 dark:text-black">
-                        <Loader2 className="animate-spin" /> {t("coming_soon")}{" "}
-                        ...
+                    <div className="flex min-h-[50vh] place-content-center items-center gap-2 rounded-xl bg-[#ccc] text-gray-600">
+                        {t("coming_soon")} ...
                     </div>
                 </div>
             </div>
@@ -126,8 +122,8 @@ const TeacherDash = () => {
                     {t("section_3.title")}
                 </h2>
                 <p className="p-lead mb-6">{t("section_3.description")}</p>
-                <div className="flex min-h-[50vh] place-content-center items-center gap-2 rounded-xl bg-slate-100 text-gray-500 dark:text-black">
-                    <Loader2 className="animate-spin" /> {t("coming_soon")} ...
+                <div className="flex min-h-[50vh] place-content-center items-center gap-2 rounded-xl bg-[#ccc] text-gray-600">
+                    {t("coming_soon")} ...
                 </div>
             </div>
         </main>

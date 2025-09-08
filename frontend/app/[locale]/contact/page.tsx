@@ -15,6 +15,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
 import { contactUser } from "@/lib/api/auth";
 import { Loader2 } from "lucide-react";
+import Link from "next/link";
 
 const Contact = () => {
     const [type_of_message, setTypeOfMessage] = useState<string>("general");
@@ -81,13 +82,22 @@ const Contact = () => {
     return (
         <div className="flex min-h-screen flex-col items-center justify-center gap-2 py-16">
             <div className="mb-4 flex flex-col items-center justify-center gap-4">
-                <h1 className="text-4xl font-bold tracking-tighter text-gray-900">
+                <h1 className="text-4xl font-bold tracking-tighter text-gray-900 dark:text-gray-400">
                     Contact Us
                 </h1>
+                <p className="text-center max-w-[45ch] text-sm text-gray-500">
+                    Fill the form below to contact us or send us an email at{" "}
+                    <Link
+                        href="mailto:digital.dreamers.web@gmail.com"
+                        className="text-primary"
+                    >
+                        support@edhub.com
+                    </Link>
+                </p>
             </div>
             <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="mx-auto flex min-w-lg flex-col gap-4 rounded-2xl border p-6"
+                className="mx-4 flex w-[85vw] max-w-lg flex-col gap-4 rounded-2xl border p-6 sm:mx-auto"
             >
                 <div className="input-group">
                     <Label className="mb-2" htmlFor="name">
@@ -101,7 +111,7 @@ const Contact = () => {
                         })}
                     />
                     {errors.name && (
-                        <p className="text-red-500 text-sm">
+                        <p className="text-sm text-red-500">
                             {errors.name.message}
                         </p>
                     )}
@@ -118,7 +128,7 @@ const Contact = () => {
                         })}
                     />
                     {errors.email && (
-                        <p className="text-red-500 text-sm">
+                        <p className="text-sm text-red-500">
                             {errors.email.message}
                         </p>
                     )}
@@ -134,9 +144,7 @@ const Contact = () => {
                         }}
                     >
                         <SelectTrigger className="w-full">
-                            <SelectValue
-                                placeholder="Select a type of message"
-                            />
+                            <SelectValue placeholder="Select a type of message" />
                         </SelectTrigger>
                         <SelectContent>
                             {/* Loop over array of object of diff keys */}

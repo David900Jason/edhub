@@ -33,10 +33,10 @@ const Footer = () => {
                             <Link href="/courses">Courses</Link>
                         </li>
                         <li className="p-lead">
-                            <Link href="/testimonials">Terms of Use</Link>
+                            <Link href="/terms-of-use">Terms of Use</Link>
                         </li>
                         <li className="p-lead">
-                            <Link href="/testimonials">Privacy Policy</Link>
+                            <Link href="/privacy-policy">Privacy Policy</Link>
                         </li>
                     </ul>
                 </div>
@@ -47,7 +47,7 @@ const Footer = () => {
                             <Link href="/contact">Contact Us</Link>
                         </li>
                         <li className="p-lead">
-                            <Link href="/faq">FAQ</Link>
+                            <Link href="#faq">FAQ</Link>
                         </li>
                     </ul>
                 </div>

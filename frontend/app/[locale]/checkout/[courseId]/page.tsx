@@ -79,7 +79,7 @@ const CheckoutPage = () => {
                                 Price:
                             </h3>
                             <p className="text-primary flex-1/2 text-end text-lg font-extrabold">
-                                {course?.price}
+                                {course?.price == 0 ? "Free" : course?.price}
                                 <span className="text-xs font-extrabold text-gray-500">
                                     {" "}
                                     {course?.currency}

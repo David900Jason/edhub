@@ -1,6 +1,6 @@
 // API Utilities for Frontend
 import api from ".";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { toast } from "sonner";
 import { redirect } from "@/i18n/routing";
 
@@ -45,11 +45,17 @@ export const logoutUser = async () => {
 
 export const contactUser = async (data: ContactFormData) => {
     try {
-        const res = await axios.post("http://127.0.0.1:8000/contact/", data, {
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
+        const res = await api.post("/contact/", data);
+        return res.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
+
+export const getMessages = async () => {
+    try {
+        const res = await api.get("/contact/");
         return res.data;
     } catch (error) {
         console.error(error);

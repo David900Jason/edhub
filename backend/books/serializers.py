@@ -10,11 +10,18 @@ class PublicBookSerializer(serializers.ModelSerializer):
     video = serializers.SerializerMethodField()
 
     def get_video(self, obj):
-        return { "id": obj.video.id, "title": obj.video.title }
+        if obj.video:  # Check if video exists
+            return { "id": obj.video.id, "title": obj.video.title }
+        return None  # or {} if you prefer empty object
 
     class Meta:
         model = Book
-        fields = ["id", "title", "description", "thumbnail_url", "book_url", "created_at", "updated_at", "course", "video"]
+        fields = [
+            "id", "title", "description", "thumbnail_url",
+            "book_url", "created_at", "updated_at",
+            "course", "video"
+        ]
+
 
 
 class PublicCreateBookSerializer(serializers.ModelSerializer):

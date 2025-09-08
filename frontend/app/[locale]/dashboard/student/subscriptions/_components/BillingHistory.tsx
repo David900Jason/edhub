@@ -67,7 +67,11 @@ const BillingHistory = ({ invoices }: { invoices: InvoiceType[] }) => {
                         {invoices.map((invoice, index) => (
                             <TableRow
                                 key={index}
-                                className={invoice.is_used ? "opacity-50" : ""}
+                                className={
+                                    invoice.is_used
+                                        ? "pointer-events-none cursor-not-allowed opacity-50"
+                                        : ""
+                                }
                             >
                                 <TableCell>{invoice.payment_id}</TableCell>
                                 <TableCell className="py-4">

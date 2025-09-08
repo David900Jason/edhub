@@ -4,7 +4,6 @@ from courses.serializers import PrivateCourse
 from qna.serializers import QuestionSerializer
 from .models import Video
 
-
 class ListCreateVideoSerializer(serializers.ModelSerializer):
     course = serializers.SerializerMethodField(read_only=True)
     course_id = serializers.PrimaryKeyRelatedField(
@@ -111,7 +110,8 @@ class VideoReplaceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Video
-        fields = ["title", "thumbnail_url", "video_url", "course", "course_id"]
+        fields = ["title", "description", "course", "course_id"]
+        read_only_fields = ["id", "created_at", "video_url", "thumbnail_url"]
 
     def create(self, validated_data):
         new_video = Video.objects.create(**validated_data)

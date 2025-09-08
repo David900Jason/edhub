@@ -1,12 +1,12 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { format } from "timeago.js";
 import { ArrowUpDown, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Tag from "@/components/ui/Tag";
 import Actions from "./Actions";
 import Price from "./Price";
+import TimeAgo from "@/components/ui/time-ago";
 
 // Apply translation to this table here
 
@@ -86,8 +86,7 @@ export const columns: ColumnDef<CourseType>[] = [
             return <div className="text-start">Created</div>;
         },
         cell: ({ row }) => {
-            const date = new Date(row.getValue("created_at"));
-            return <div className="text-start">{format(date)}</div>;
+            return <TimeAgo date={row.getValue("created_at")} />;
         },
     },
     {

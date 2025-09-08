@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { getCourses, togglePublished } from "@/lib/api/course";
 import { BookOpen, Trash2 } from "lucide-react";
 import { useEffect, useMemo, useDeferredValue, useState } from "react";
-import { format } from "timeago.js";
 import Tag from "@/components/ui/Tag";
 import { Input } from "@/components/ui/input";
 import {
@@ -17,6 +16,7 @@ import {
 import { deleteCourse } from "@/lib/api/course";
 import { toast } from "sonner";
 import { useSearchParams } from "next/navigation";
+import EditCourseDialog from "./EditCourseDialog";
 
 type CourseFilters = {
     published: string;
@@ -115,7 +115,29 @@ const CoursesPage = () => {
                     }
                 },
             },
+            cancel: {
+                label: "No",
+                onClick: () => {
+                    toast.dismiss();
+                },
+            },
         });
+    };
+
+    // Util: Handle Edit course
+    const handleEditCourse = async (id: string, data: Partial<CourseType>) => {
+        setCourses((prev) =>
+            prev
+                ? prev.map((course) =>
+                      course.id === id
+                          ? {
+                                ...course,
+                                ...data,
+                            }
+                          : course,
+                  )
+                : null,
+        );
     };
 
     // Util: Toggle 'is_published' state
@@ -248,7 +270,18 @@ const CoursesPage = () => {
                                 </h3>
                                 <p className="!text-muted-foreground text-sm">
                                     {course.teacher?.full_name} •{" "}
-                                    {format(course.created_at)}
+                                    <span className="text-primary">
+                                        {course.price == 0 ? (
+                                            "Free"
+                                        ) : (
+                                            <>
+                                                {course.price}{" "}
+                                                <span className="text-[10px] font-extrabold text-gray-500">
+                                                    {course.currency}
+                                                </span>
+                                            </>
+                                        )}
+                                    </span>
                                 </p>
                             </header>
                             <main className="flex-1">
@@ -259,16 +292,25 @@ const CoursesPage = () => {
                             <hr />
                             <footer className="flex items-center justify-between">
                                 {/* Actions */}
-                                <Button
-                                    size="icon"
-                                    variant="outline"
-                                    className="text-red-500"
-                                    onClick={() => {
-                                        handleDeleteCourse(course.id);
-                                    }}
-                                >
-                                    <Trash2 />
-                                </Button>
+                                <div className="flex items-center gap-2">
+                                    <Button
+                                        size="icon"
+                                        variant="outline"
+                                        className="text-red-500"
+                                        onClick={() => {
+                                            handleDeleteCourse(course.id);
+                                        }}
+                                    >
+                                        <Trash2 />
+                                    </Button>
+                                    {/* Edit Course Dialog */}
+                                    <EditCourseDialog
+                                        course={course}
+                                        onEdit={(id, data) =>
+                                            handleEditCourse(id, data)
+                                        }
+                                    />
+                                </div>
                                 <div className="flex items-center gap-2">
                                     <Tag color="blue">{course.category}</Tag>
                                     <span
@@ -300,3 +342,4 @@ const CoursesPage = () => {
 };
 
 export default CoursesPage;
+

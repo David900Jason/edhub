@@ -2,6 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "@/i18n/routing";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
+import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -14,8 +21,8 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { getCourses } from "@/lib/api/course";
-import { uploadVideo } from "@/lib/api/video";
-import { ArrowLeft, Loader2 } from "lucide-react";
+import { uploadVideo } from "@/lib/api/video"; // ✅ our chunk upload wrapper
+import { ArrowLeft, Loader2, Upload } from "lucide-react";
 import { toast } from "sonner";
 
 type CreateVideoForm = {
@@ -28,8 +35,8 @@ type CreateVideoForm = {
 
 export default function UploadVideoPage() {
     const router = useRouter();
+
     const [courses, setCourses] = useState<{ id: string; title: string }[]>([]);
-    const [loading, setLoading] = useState(false);
     const [video, setVideo] = useState<CreateVideoForm>({
         title: "",
         description: "",
@@ -38,179 +45,202 @@ export default function UploadVideoPage() {
         course_id: "",
     });
 
-    useEffect(() => {
-        const fetchCoursesIds = async () => {
-            const courses = await getCourses();
-            await new Promise((resolve) => setTimeout(resolve, 2000));
-            if (courses) {
-                setCourses(courses);
-            }
-        };
-        fetchCoursesIds();
-    }, [setCourses]);
+    const [loading, setLoading] = useState(false);
+    const [progress, setProgress] = useState(0);
+    const [dialogOpen, setDialogOpen] = useState(false);
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    useEffect(() => {
+        const fetchCourses = async () => {
+            const courses = await getCourses();
+            if (courses) setCourses(courses);
+        };
+        fetchCourses();
+    }, []);
+
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!video.video_url) {
+            toast.error("Please select a video file");
+            return;
+        }
+
         try {
+            setDialogOpen(true);
             setLoading(true);
 
-            // Prepare data for upload
-            const formData = new FormData();
-            formData.append("title", video.title);
-            formData.append("description", video.description);
-            formData.append("video_url", video.video_url as File);
-            formData.append("thumbnail_url", video.thumbnail_url as File);
-            formData.append("course_id", video.course_id);
+            await uploadVideo(
+                video.video_url,
+                {
+                    title: video.title,
+                    description: video.description,
+                    course_id: video.course_id,
+                    thumbnail_url: video.thumbnail_url || null,
+                },
+                (percent) => setProgress(percent),
+            );
 
-            const res = await uploadVideo(formData);
-
-            // Success message
-            if (res.id) {
-                toast.success("Video uploaded successfully");
-            }
+            toast.success("Video uploaded successfully!");
+            setDialogOpen(false);
             router.back();
-        } catch (err) {
-            console.log(err);
+        } catch (error) {
+            console.error(error);
+            toast.error("Upload failed");
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <section>
-            <header className="mb-8 flex flex-col gap-4">
+        <section className="mx-auto max-w-2xl space-y-8">
+            {/* Header */}
+            <header className="flex flex-col items-start gap-4">
                 <Button
-                    className="w-fit"
+                    size="sm"
                     variant="outline"
+                    className="flex items-center gap-2"
                     onClick={() => router.back()}
                 >
-                    <ArrowLeft /> Back
+                    <ArrowLeft className="h-4 w-4" />
+                    Back
                 </Button>
                 <div>
-                    <h1 className="text-3xl font-semibold">Upload Video</h1>
-                    <p className="text-muted-foreground">
-                        Upload the video details below.
+                    <h1 className="text-2xl font-semibold">Upload Video</h1>
+                    <p className="text-muted-foreground text-sm">
+                        Fill in the details and upload your video to the
+                        platform.
                     </p>
                 </div>
             </header>
-            <main>
-                <form
-                    onSubmit={handleSubmit}
-                    className="flex flex-col gap-4 rounded-2xl border p-6"
-                >
-                    <div className="input-group">
-                        <Label className="mb-2" htmlFor="title">
-                            Title
-                        </Label>
-                        <Input
-                            id="title"
-                            name="title"
-                            type="text"
-                            value={video.title}
-                            onChange={(e) =>
-                                setVideo({ ...video, title: e.target.value })
-                            }
-                        />
+
+            {/* Form */}
+            <form
+                onSubmit={handleSubmit}
+                className="bg-card space-y-6 rounded-xl border p-6 shadow-sm"
+            >
+                {/* Title */}
+                <div className="space-y-2">
+                    <Label htmlFor="title">Title</Label>
+                    <Input
+                        id="title"
+                        value={video.title}
+                        onChange={(e) =>
+                            setVideo({ ...video, title: e.target.value })
+                        }
+                        placeholder="Enter video title"
+                    />
+                </div>
+
+                {/* Description */}
+                <div className="space-y-2">
+                    <Label htmlFor="description">Description</Label>
+                    <Textarea
+                        id="description"
+                        rows={4}
+                        value={video.description}
+                        onChange={(e) =>
+                            setVideo({ ...video, description: e.target.value })
+                        }
+                        placeholder="Briefly describe this video"
+                    />
+                </div>
+
+                {/* Video File */}
+                <div className="space-y-2">
+                    <Label htmlFor="video_url">Video File</Label>
+                    <Input
+                        id="video_url"
+                        type="file"
+                        accept="video/*"
+                        onChange={(e) =>
+                            setVideo({
+                                ...video,
+                                video_url: e.target.files?.[0],
+                            })
+                        }
+                    />
+                </div>
+
+                {/* Thumbnail */}
+                <div className="space-y-2">
+                    <Label htmlFor="thumbnail_url">Thumbnail</Label>
+                    <Input
+                        id="thumbnail_url"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) =>
+                            setVideo({
+                                ...video,
+                                thumbnail_url: e.target.files?.[0],
+                            })
+                        }
+                    />
+                </div>
+
+                {/* Course */}
+                <div className="space-y-2">
+                    <Label htmlFor="course_id">Course</Label>
+                    <Select
+                        value={video.course_id}
+                        onValueChange={(value) =>
+                            setVideo({ ...video, course_id: value })
+                        }
+                    >
+                        <SelectTrigger>
+                            <SelectValue placeholder="Select a course" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {courses.map((course) => (
+                                <SelectItem key={course.id} value={course.id}>
+                                    {course.title}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </div>
+
+                {/* Actions */}
+                <div className="flex justify-end gap-3">
+                    <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => router.back()}
+                    >
+                        Cancel
+                    </Button>
+                    <Button
+                        type="submit"
+                        disabled={loading}
+                        className="flex items-center gap-2"
+                    >
+                        {loading ? (
+                            <>
+                                <Loader2 className="h-4 w-4 animate-spin" />
+                                Uploading...
+                            </>
+                        ) : (
+                            <>
+                                <Upload className="h-4 w-4" />
+                                Upload Video
+                            </>
+                        )}
+                    </Button>
+                </div>
+            </form>
+
+            {/* Progress Dialog */}
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                        <DialogTitle>Uploading Video</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-3 py-6">
+                        <Progress value={progress} className="w-full" />
+                        <p className="text-muted-foreground text-center text-sm">
+                            {progress < 100 ? `${progress}%` : "Finalizing..."}
+                        </p>
                     </div>
-                    <div className="input-group">
-                        <Label className="mb-2" htmlFor="description">
-                            Description
-                        </Label>
-                        <Textarea
-                            id="description"
-                            name="description"
-                            value={video.description}
-                            onChange={(e) =>
-                                setVideo({
-                                    ...video,
-                                    description: e.target.value,
-                                })
-                            }
-                        />
-                    </div>
-                    <div className="input-group">
-                        <Label className="mb-2" htmlFor="video_url">
-                            Video File
-                        </Label>
-                        <Input
-                            id="video_url"
-                            name="video_url"
-                            type="file"
-                            accept="video/*"
-                            onChange={(e) =>
-                                setVideo({
-                                    ...video,
-                                    video_url: e.target.files?.[0],
-                                })
-                            }
-                        />
-                    </div>
-                    <div className="input-group">
-                        <Label className="mb-2" htmlFor="thumbnail_url">
-                            Thumbnail
-                        </Label>
-                        <Input
-                            id="thumbnail_url"
-                            name="thumbnail_url"
-                            type="file"
-                            accept="image/*"
-                            onChange={(e) =>
-                                setVideo({
-                                    ...video,
-                                    thumbnail_url: e.target.files?.[0],
-                                })
-                            }
-                        />
-                    </div>
-                    <div className="input-group">
-                        <Label className="mb-2" htmlFor="course_id">
-                            Course
-                        </Label>
-                        <Select
-                            value={video.course_id}
-                            onValueChange={(value) =>
-                                setVideo({
-                                    ...video,
-                                    course_id: value,
-                                })
-                            }
-                        >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Select a course" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {courses.map((course) => (
-                                    <SelectItem
-                                        key={course.id}
-                                        value={course.id}
-                                    >
-                                        {course.title}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </div>
-                    <div className="flex items-center justify-end gap-4">
-                        <Button
-                            disabled={loading}
-                            className="btn-primary w-fit"
-                            type="submit"
-                        >
-                            {loading ? (
-                                <>
-                                    <Loader2 className="h-4 w-4 animate-spin" />
-                                    Uploading
-                                </>
-                            ) : (
-                                "Upload Video"
-                            )}
-                        </Button>
-                        <Button variant="outline" onClick={() => router.back()}>
-                            Cancel
-                        </Button>
-                    </div>
-                </form>
-            </main>
+                </DialogContent>
+            </Dialog>
         </section>
     );
 }

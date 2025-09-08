@@ -24,12 +24,20 @@ class Course(models.Model):
     # Relations
     teacher = models.ForeignKey(
         User,
-        limit_choices_to={'role': 'teacher'},
         related_name="courses",
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        limit_choices_to={'role': 'teacher'},
     )
 
     thumbnail = models.URLField(default="")
+
+    # Change is_paid according to price
+    def save(self, *args, **kwargs):
+        if self.price == 0:
+            self.is_paid = False
+        else:
+            self.is_paid = True
+        super().save(*args, **kwargs)
 
 
 

@@ -78,11 +78,11 @@ const Question = ({ question }: { question: QnA }) => {
             </header>
             {/* Question */}
             <main>
-                <p className="text-xl text-white">{content}</p>
+                <p className="text-xl dark:text-white">{content}</p>
             </main>
             {/* Reply */}
             {reply && !isEditing && (
-                <footer className="border-s-primary border-s-8 bg-black/50 p-6">
+                <footer className="border-s-primary border-s-8 bg-gray-200 dark:bg-black/50 p-6">
                     <div className="mb-4 flex items-center gap-3">
                         <Image
                             src={teacherProfileImg || "/avatar.jpg"}
@@ -100,7 +100,7 @@ const Question = ({ question }: { question: QnA }) => {
                             </span>
                         </div>
                     </div>
-                    <p className="text-base text-white">{replyContent}</p>
+                    <p className="text-base dark:text-white">{replyContent}</p>
                 </footer>
             )}
             {/* Actions */}

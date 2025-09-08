@@ -17,12 +17,13 @@ const CoursesGrid = ({
 }: {
     searchQuery: string;
     setSearchQuery: (query: string) => void;
-    filters: { category: string };
-    setFilters: (filters: { category: string }) => void;
+    filters: { category: string; teacher: string };
+    setFilters: (filters: { category: string; teacher: string }) => void;
     uniqueSubjects: Set<string>;
     handleFilterChange: (filter: string, value: string) => void;
     filteredCourses: CourseType[] | undefined;
 }) => {
+
     return (
         <>
             <Container className="space-y-4">
@@ -46,7 +47,9 @@ const CoursesGrid = ({
                         onClick={() => {
                             setSearchQuery("");
                             setFilters({
-                                category: "",                            });
+                                category: "",
+                                teacher: "",
+                            });
                         }}
                     >
                         Clear Filters

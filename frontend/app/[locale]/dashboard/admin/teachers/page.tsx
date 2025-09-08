@@ -48,7 +48,7 @@ const TeachersPage = () => {
     }, []);
 
     // Check the time left since "created_at"
-    const timeLeft = (createdAt: string) => {
+    const timeLeft = (createdAt: string): number => {
         const now = new Date();
         const created = new Date(createdAt);
         const diff = now.getTime() - created.getTime();
@@ -224,8 +224,8 @@ const TeachersPage = () => {
                                 <TableCell className="p-4 text-xs text-gray-500">
                                     {timeLeft(teacher.created_at) <= 0 ? (
                                         <span className="text-red-500">
-                                            Expired (-
-                                            {timeLeft(teacher.created_at)} days
+                                            Expired (
+                                            {-timeLeft(teacher.created_at)} days
                                             ago)
                                         </span>
                                     ) : (
@@ -244,7 +244,7 @@ const TeachersPage = () => {
                     <TableCaption className="mb-4">
                         {teachers?.length === 0
                             ? "No teachers found"
-                            : "A list of platform teachers"}
+                            : `${teachers?.length} teachers`}
                     </TableCaption>
                 </Table>
             </main>

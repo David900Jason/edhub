@@ -10,6 +10,28 @@ export const getUserProfile = async () => {
     }
 };
 
+export const getAllTeachers = async (): Promise<Partial<UserType[]> | null> => {
+    try {
+        const res = await api.get("/users/teachers/");
+        return res.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
+
+export const getTeachersFromEnrollments = async (): Promise<Partial<
+    UserType[]
+> | null> => {
+    try {
+        const res = await api.get("/enrollments/teachers/");
+        return res.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
+
 export const updateUser = async (
     data: UpdateUserData,
 ): Promise<UserType | undefined> => {

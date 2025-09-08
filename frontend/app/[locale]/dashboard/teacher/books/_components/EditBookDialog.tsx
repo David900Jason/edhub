@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { DialogDescription, DialogTrigger } from "@radix-ui/react-dialog";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Input } from "@/components/ui/input";
 import { Edit, FileText } from "lucide-react";
 import { Label } from "@/components/ui/label";
@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/select";
 import { editBook } from "@/lib/api/book";
 
-type EditBookForm = Omit<Book, "created_at" | "updated_at">;
+type EditBookForm = Omit<Book, "created_at" | "updated_at" | "book_url" | "thumbnail_url">;
 
 const EditBookDialog = ({
     book,
@@ -38,15 +38,15 @@ const EditBookDialog = ({
         id: book.id,
         title: book.title,
         description: book.description,
-        book_url: undefined,
-        thumbnail_url: undefined,
         course_id: book.course?.id,
-        video_id: book.video as string,
+        video_id: book.video?.id as string,
     });
 
-    const selectedCourseVideos = videos.filter(
-        (video) => video.course?.id === book.course?.id,
-    );
+    const selectedCourseVideos = useMemo(() => {
+        return videos.filter(
+            (video) => video.course?.id === bookData.course_id,
+        );
+    }, [bookData.course_id, videos]);
 
     // handle Create Book Click
     const handleEditBook = (book: EditBookForm) => {
@@ -54,16 +54,13 @@ const EditBookDialog = ({
 
         formData.append("title", bookData.title);
         formData.append("description", bookData.description);
-        if (bookData.book_url)
-            formData.append("book_url", bookData.book_url as File);
-        if (bookData.thumbnail_url)
-            formData.append("thumbnail_url", bookData.thumbnail_url as File);
         if (bookData.course_id) {
             formData.append("course_id", bookData.course_id || "");
         } else {
             formData.append("course_id", book.course?.id as string);
         }
-        if (bookData.video_id) formData.append("video_id", bookData.video_id || "");
+        if (bookData.video_id)
+            formData.append("video_id", bookData.video_id || "");
 
         editBook(book.id, formData);
     };
@@ -71,7 +68,7 @@ const EditBookDialog = ({
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="outline">
+                <Button size="icon" variant="outline">
                     <Edit className="h-4 w-4" />
                 </Button>
             </DialogTrigger>
@@ -118,45 +115,9 @@ const EditBookDialog = ({
                         />
                     </div>
                     <div className="input-group">
-                        <Label htmlFor="book_url" className="mb-2">
-                            Book File
-                        </Label>
-                        <Input
-                            id="book_url"
-                            name="book_url"
-                            placeholder="Book File"
-                            type="file"
-                            accept=".pdf"
-                            onChange={(e) =>
-                                setBookData({
-                                    ...bookData,
-                                    book_url: e.target.files?.[0] as File,
-                                })
-                            }
-                        />
-                    </div>
-                    <div className="input-group">
-                        <Label htmlFor="thumbnail_url" className="mb-2">
-                            Thumbnail file
-                        </Label>
-                        <Input
-                            id="thumbnail_url"
-                            name="thumbnail_url"
-                            placeholder="Thumbnail URL"
-                            type="file"
-                            accept="image/*"
-                            onChange={(e) =>
-                                setBookData({
-                                    ...bookData,
-                                    thumbnail_url: e.target.files?.[0] as File,
-                                })
-                            }
-                        />
-                    </div>
-                    <div className="input-group">
                         <Label className="mb-2">Course</Label>
                         <Select
-                            value={book.course?.id?.toString()}
+                            value={bookData.course_id}
                             onValueChange={(e) =>
                                 setBookData({
                                     ...bookData,
@@ -171,7 +132,7 @@ const EditBookDialog = ({
                                 {courses.map((course) => (
                                     <SelectItem
                                         key={course.id}
-                                        value={course.id.toString()}
+                                        value={course.id}
                                     >
                                         {course.title}
                                     </SelectItem>
@@ -182,6 +143,7 @@ const EditBookDialog = ({
                     <div className="input-group">
                         <Label className="mb-2">Video</Label>
                         <Select
+                            value={bookData.video_id}
                             onValueChange={(e) =>
                                 setBookData({
                                     ...bookData,

@@ -5,8 +5,6 @@ import { useSessionStorage } from "@/hooks/useSessionStorage";
 import { useEffect } from "react";
 import { redirect } from "@/i18n/routing";
 import { useLocale } from "next-intl";
-import { toast } from "sonner";
-import { X } from "lucide-react";
 
 const CourseLayout = ({ children }: { children: React.ReactNode }) => {
     const [user] = useSessionStorage("user_profile", null);
@@ -17,15 +15,6 @@ const CourseLayout = ({ children }: { children: React.ReactNode }) => {
             if (user.role === "teacher") {
                 redirect({ href: "/dashboard/teacher/courses/", locale });
             }
-        }
-
-        if (!user) {
-            toast("You must be logged in to access this page", {
-                duration: 2000,
-                icon: <X />,
-                position: "top-center",
-            });
-            redirect({ href: "/", locale });
         }
     }, [user, locale]);
 

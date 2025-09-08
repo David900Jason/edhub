@@ -59,7 +59,7 @@ export const createQuestion = async (question: string, videoId: string) => {
     }
 };
 
-export const editQuestion = async (content: string, questionId: string) => {
+export const editQuestion = async (questionId: string, content: string) => {
     try {
         const res = await api.patch(`/qna/questions/${questionId}/`, {
             content,

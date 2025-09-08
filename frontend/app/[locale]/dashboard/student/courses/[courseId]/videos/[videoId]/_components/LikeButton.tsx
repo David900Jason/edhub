@@ -1,34 +1,34 @@
 "use client";
 
-import { useRef } from "react";
 import { ThumbsUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { likeVideo } from "@/lib/api/video";
+import { useState } from "react";
+import { toast } from "sonner";
 
 const LikeButton = ({ id, likes }: { id: string; likes: number }) => {
-    const ref = useRef<boolean>(false);
+    const [likesCount, setLikesCount] = useState<number>(likes);
 
-    const handleClick = () => {
-        if (ref.current) return;
-        
-        if (likes == 50) return;
-        ref.current = true;
-        likeVideo(id);
+    const handleClick = async () => {
+        const res = await likeVideo(id);
+        setLikesCount((prev) => prev + 1);
 
-        window.location.reload();
+        toast.info(res?.message as string, {
+            position: "top-center",
+        });
     };
 
     return (
         <Button
             asChild
             variant="outline"
-            className="flex cursor-pointer items-center gap-2 hover:!bg-purple-950 hover:!text-white border-primary"
-            onClick={handleClick}
+            className="border-primary flex cursor-pointer items-center gap-2 hover:!bg-purple-950 hover:!text-white"
+            onClick={() => handleClick()}
         >
             <p className="p-lead flex items-center gap-2">
-                <ThumbsUp className={cn("h-4 w-4 text-primary")} />
-                {likes}
+                <ThumbsUp className={cn("text-primary h-4 w-4")} />
+                {likesCount}
             </p>
         </Button>
     );

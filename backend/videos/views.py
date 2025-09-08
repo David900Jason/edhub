@@ -1,17 +1,17 @@
-from rest_framework import permissions
-from rest_framework import parsers
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, get_object_or_404
+import os
+from rest_framework import status, generics, parsers, permissions
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
-from rest_framework import status, generics
 from rest_framework.parsers import MultiPartParser, FormParser
 from django_filters.rest_framework import DjangoFilterBackend
 
+from api import settings
 from books.serializers import RelatedBooksSerializer
-from .serializers import ListCreateVideoSerializer, RetrieveUpdateDestroySerializer, VideoReplaceSerializer, VideoUploadSerializer
-from .models import Video, ViewSession, LikeReaction
 from books.models import Book
+from .serializers import ListCreateVideoSerializer, RetrieveUpdateDestroySerializer, VideoUploadSerializer
+from .models import Video, ViewSession, LikeReaction
 
 class ListCreateVideoView(ListCreateAPIView):
     filter_backends = [DjangoFilterBackend]
@@ -118,20 +118,71 @@ class LikeView(APIView):
             return Response({"message": "You have not liked this video"}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class VideoUploadView(generics.CreateAPIView):
-    queryset = Video.objects.all()
-    serializer_class = VideoUploadSerializer
-    parser_classes = [parsers.MultiPartParser, parsers.FormParser]
+class UploadChunkView(APIView):
     permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        upload_id = request.data.get("upload_id")
+        chunk_index = request.data.get("chunk_index")
+        file = request.FILES.get("file")
+
+        if not upload_id or chunk_index is None or not file:
+            return Response({"error": "Missing upload data"}, status=400)
+
+        upload_path = os.path.join(settings.CHUNKS_DIR, upload_id)
+        os.makedirs(upload_path, exist_ok=True)
+
+        chunk_filename = os.path.join(upload_path, f"chunk_{chunk_index}")
+        with open(chunk_filename, "wb+") as dest:
+            for c in file.chunks():
+                dest.write(c)
+
+        return Response({"message": f"Chunk {chunk_index} uploaded"})
+
+
+class MergeChunksView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        upload_id = request.data.get("upload_id")
+        title = request.data.get("title")
+        description = request.data.get("description")
+        course_id = request.data.get("course_id")
+        thumbnail_url = request.data.get("thumbnail_url")
+
+        if not upload_id or not title or not course_id:
+            return Response({"error": "Missing upload data"}, status=400)
+
+        # Merge chunks
+        # MergeChunksView
+        upload_dir = os.path.join(settings.CHUNKS_DIR, upload_id)  # directory only
+        final_path = os.path.join(settings.MEDIA_ROOT, "videos", f"{upload_id}.mp4")
+
+        os.makedirs(os.path.dirname(final_path), exist_ok=True)  # make sure videos/ exists
+
+        with open(final_path, "wb") as final_file:
+            for chunk_name in sorted(os.listdir(upload_dir), key=lambda x: int(x.split("_")[1])):
+                with open(os.path.join(upload_dir, chunk_name), "rb") as f:
+                    final_file.write(f.read())
+
+        # Save video object
+        video = Video.objects.create(
+            title=title,
+            description=description,
+            course_id=course_id,
+            thumbnail_url=thumbnail_url,
+            video_url=os.path.join("videos", f"{upload_id}.mp4")
+        )
+
+        return Response(VideoUploadSerializer(video).data, status=status.HTTP_201_CREATED)
 
 
 class VideoReplaceView(generics.UpdateAPIView):
     queryset = Video.objects.all()
     serializer_class = VideoUploadSerializer
-    parser_classes = [MultiPartParser, FormParser]  # ✅ needed for file uploads
-    http_method_names = ["patch"]  # ✅ only allow partial update (PATCH)
+    parser_classes = [MultiPartParser, FormParser]
+    http_method_names = ["patch"]
 
     def get_serializer(self, *args, **kwargs):
-        # ✅ ensure partial updates don’t require all fields
         kwargs["partial"] = True
         return super().get_serializer(*args, **kwargs)

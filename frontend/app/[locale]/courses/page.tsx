@@ -5,9 +5,13 @@ import { School } from "lucide-react";
 import Banner from "@/components/containers/Banner";
 import CoursesFilter from "@/app/[locale]/courses/_components/CoursesFilter";
 import { getCourses } from "@/lib/api/course";
+import { useSearchParams } from "next/navigation";
 
 export default function Courses() {
     const [courses, setCourses] = useState<CourseType[]>([]);
+
+    const searchParams = useSearchParams();
+    const search = searchParams.get("search");
 
     useEffect(() => {
         const fetchCourses = async () => {
@@ -38,7 +42,7 @@ export default function Courses() {
                     </p>
                 }
             >
-                <CoursesFilter coursesData={courses} />
+                <CoursesFilter searchParam={search as string} coursesData={courses} />
             </Suspense>
         </>
     );

@@ -82,8 +82,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'users',
     'courses',
+    'enrollments',
     "videos",
-    "enrollments",
     "qna",
     "payments",
     "notes",
@@ -98,6 +98,8 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 }
+
+########################################## 
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -205,11 +207,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / "static"
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-DATA_UPLOAD_MAX_MEMORY_SIZE = 104857600 # 100 MB
-FILE_UPLOAD_MAX_MEMORY_SIZE = 104857600 # 100 MB
+CHUNKS_DIR = os.path.join(MEDIA_ROOT, "temp_chunks")
+os.makedirs(CHUNKS_DIR, exist_ok=True)
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024 * 1024 # 5 GB
+FILE_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024 * 1024 # 5 GB
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

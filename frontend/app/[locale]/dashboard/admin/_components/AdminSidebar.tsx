@@ -15,6 +15,7 @@ import {
     GraduationCap,
     Home,
     LogOut,
+    MessageCircle,
     MoonStar,
     Settings,
     User,
@@ -100,6 +101,15 @@ const AdminSidebar = () => {
                         >
                             <Book />
                             Books
+                        </Link>
+                    </li>
+                    <li className="rounded-xl p-2 py-3 text-purple-300 hover:bg-purple-800">
+                        <Link
+                            className="flex items-center gap-2 text-base"
+                            href="/dashboard/admin/contact"
+                        >
+                            <MessageCircle />
+                            Messages
                         </Link>
                     </li>
                 </ul>

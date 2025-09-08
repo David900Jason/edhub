@@ -11,17 +11,9 @@ import PersonalDetails from "../_components/PersonalDetails";
 import { ArrowLeft, ArrowRight, Loader2, PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { signUpUser } from "@/lib/api/auth";
-import { cn } from "@/lib/utils";
+import { cn, omit, parseDateOnly } from "@/lib/utils";
 import { toast } from "sonner";
 import { useParams } from "next/navigation";
-
-const convertDate = (date: Date) => {
-    const year = date.getFullYear();
-    const mon = date.getMonth();
-    const day = date.getDay();
-
-    return `${year}-${mon < 10 ? `0${mon}` : mon}-${day < 10 ? `0${day}` : day}`;
-};
 
 export default function Signup() {
     const t = useTranslations("AUTH_FORMS");
@@ -43,14 +35,9 @@ export default function Signup() {
 
         try {
             const res = await signUpUser({
-                full_name: data.full_name,
-                email: data.email,
-                password: data.password,
+                ...omit(data, ["confirm_password"]),
+                birth_date: parseDateOnly(date || ""),
                 role: role as string,
-                city: data.city,
-                phone_number: data.phone_number,
-                parent_number: data.parent_number,
-                birth_date: convertDate(new Date(date as string)),
             });
 
             if (res.id) {

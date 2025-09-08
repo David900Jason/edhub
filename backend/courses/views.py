@@ -34,6 +34,11 @@ class ListCreateCoursesView(ListCreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
+        if serializer.validated_data["price"] == 0:
+            serializer.validated_data["is_paid"] = False
+        else:
+            serializer.validated_data["is_paid"] = True
+
         # assign the logged-in user as the teacher
         course = serializer.save(teacher=request.user)
 
@@ -51,7 +56,7 @@ class ListCreateCoursesView(ListCreateAPIView):
 
 
 class RetrieveUpdateDestroyCoursesView(RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated, IsAdminOrTeacher]
+    permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
         if self.request.method.lower() in ["put", "patch"]:
@@ -60,11 +65,7 @@ class RetrieveUpdateDestroyCoursesView(RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        if user.is_superuser:
-            return Course.objects.all()
-        if user.is_staff:
-            return Course.objects.filter(teacher=user)
-        return Course.objects.filter(is_published=True)
+        return Course.objects.all()
 
     def perform_update(self, serializer):
         user = self.request.user
@@ -96,11 +97,11 @@ class Enroll(APIView):
         course = Course.objects.filter(id=pk).first()
 
         if len(Enrollment.objects.filter(user=user, course=course)) != 0:
-            return Response({"error": "already enrolled"}, status=400)
+            return Response({"error": "Already enrolled"}, status=400)
         cash = user.wallet.balance
 
         if cash < course.price:
-            return Response({"error": "insufficient funds"}, status=400)
+            return Response({"error": "Insufficient funds"}, status=400)
 
         total_price = course.price - course.discount
         user.wallet.balance -= total_price
@@ -108,6 +109,6 @@ class Enroll(APIView):
 
         new_en = Enrollment(user=user, course=course, amount_paid=total_price)
         new_en.save()
-        return Response({"message": "student enrolled succesfully"}, status=201)
+        return Response({"message": "Student enrolled successfully"}, status=201)
 
 

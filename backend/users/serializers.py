@@ -13,13 +13,13 @@ from .models import User
 class TeacherPublicSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id", "full_name", "email", "phone_number", "parent_number", "city", "profile_img"]
+        fields = ["id", "full_name", "email", "phone_number", "parent_number", "city", "profile_img", "is_verified"]
 
 
 class TeacherBriefSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id", "full_name"]
+        fields = ["id", "full_name", "is_verified"]
 
 
 class StudentBriefSerializer(serializers.ModelSerializer):
@@ -79,6 +79,15 @@ class UserDashboardSerializer(serializers.Serializer):
                 "currency": Course.objects.filter(teacher=obj).first().currency
                 if Course.objects.filter(teacher=obj).exists() else None,
                 "average_score": 0,
+            }
+
+        if role == "admin":
+            data = {
+                "total_students": User.objects.filter(role="student").count(),
+                "total_revenue": Enrollment.objects.aggregate(total=Sum("amount_paid"))["total"] or 0,
+                "total_teachers": User.objects.filter(role="teacher").count(),
+                "total_courses": Course.objects.count(),
+                "currency": "EGP"
             }
         return data
 

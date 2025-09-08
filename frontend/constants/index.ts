@@ -102,6 +102,11 @@ const dashboardLinks = [
         icon: BookOpen,
     },
     {
+        title: "Teachers",
+        href: "/dashboard/student/teachers",
+        icon: GraduationCap,
+    },
+    {
         title: "Subscriptions",
         href: "/dashboard/student/subscriptions",
         icon: DollarSign,

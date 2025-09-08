@@ -20,6 +20,16 @@ export const getTeacherBook = async (bookId: number): Promise<Book | undefined> 
     }
 };
 
+export const getBooks = async (): Promise<Book[]> => {
+    try {
+        const response = await api.get(`/courses/books/`);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+};
+
 export const editBook = async (bookId: number, book: FormData) => {
     try {
         const response = await api.patch(`/courses/books/${bookId}/replace/`, book, {

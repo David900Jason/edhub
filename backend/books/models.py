@@ -17,5 +17,3 @@ class Book(models.Model):
     # Relations
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="books")
     video = models.ForeignKey(Video, null=True, on_delete=models.CASCADE, related_name="books")
-
-

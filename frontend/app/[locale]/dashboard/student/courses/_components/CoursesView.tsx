@@ -1,9 +1,15 @@
 "use client";
 
 import { useDeferredValue, useMemo, useState } from "react";
-import { useTranslations, useLocale } from "next-intl";
 import { Input } from "@/components/ui/input";
 import CourseCard from "./CourseCard";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 
 const CoursesView = ({
     courses = [],
@@ -13,34 +19,114 @@ const CoursesView = ({
     searchQuery?: string;
 }) => {
     const [searchInput, setSearchInput] = useState(searchQuery || "");
+    const [filters, setFilters] = useState({
+        category: "all",
+        teacher: "all",
+    });
+
     const deferredSearchInput = useDeferredValue(searchInput);
 
-    const locale = useLocale();
-    const dir = locale === "ar" ? "rtl" : "ltr"; // Set direction based on locale
-    const t = useTranslations("STUDENT_DASHBOARD.COURSES");
-
-    // TODO: Search Bar Functionality
     const filteredCourses = useMemo(() => {
-        if (!courses) return [];
-        return courses?.filter((course) => {
-            return course.course.title
-                .toLowerCase()
-                .includes(deferredSearchInput.toLowerCase());
+        return courses.filter((course) => {
+            const isCategoryMatch =
+                filters.category === "all" ||
+                course.course?.category
+                    ?.toLowerCase()
+                    .includes(filters.category.toLowerCase());
+
+            const isTeacherMatch =
+                filters.teacher === "all" ||
+                course.course?.teacher?.full_name
+                    ?.toLowerCase()
+                    .includes(filters.teacher.toLowerCase());
+
+            return (
+                course?.course?.title
+                    ?.toLowerCase()
+                    .includes(deferredSearchInput.toLowerCase()) &&
+                course?.course?.description
+                    ?.toLowerCase()
+                    .includes(deferredSearchInput.toLowerCase()) &&
+                isCategoryMatch &&
+                isTeacherMatch
+            );
         });
-    }, [deferredSearchInput, courses]);
+    }, [courses, deferredSearchInput, filters]);
+
+    const uniqueCategories = useMemo(() => {
+        return [
+            ...new Set(
+                courses
+                    ?.map((course) => course.course?.category)
+                    .filter(Boolean), // remove undefined/null
+            ),
+        ];
+    }, [courses]);
+
+    const uniqueTeachers = useMemo(() => {
+        return [
+            ...new Set(
+                courses
+                    ?.map((course) => course.course?.teacher?.full_name)
+                    .filter(Boolean), // remove undefined/null
+            ),
+        ];
+    }, [courses]);
 
     return (
         <>
-            <main className="mb-20 rounded-2xl border p-6" dir={dir}>
-                <div
-                    className={`mb-8 w-full ${dir === "rtl" ? "sm:ml-auto sm:w-2/5" : "sm:w-2/5"}`}
-                >
+            <main className="mb-20 rounded-2xl border p-6">
+                <div className="mb-8 flex w-full flex-col justify-between gap-2 md:flex-row md:items-center">
                     <Input
-                        placeholder={t("search_placeholder")}
+                        placeholder={"Search your courses"}
                         value={searchInput}
                         onChange={(e) => setSearchInput(e.target.value)}
-                        className={dir === "rtl" ? "text-right" : "text-left"}
+                        className="text-left md:max-w-sm"
                     />
+                    <div className="flex items-center gap-2">
+                        <Select
+                            value={filters.category}
+                            onValueChange={(value) =>
+                                setFilters({ ...filters, category: value })
+                            }
+                        >
+                            <SelectTrigger>
+                                <SelectValue placeholder="Select Category" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="all">All</SelectItem>
+                                {uniqueCategories.map((category) => (
+                                    <SelectItem
+                                        key={category}
+                                        value={category || ""}
+                                    >
+                                        {category}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                        <Select
+                            value={filters.teacher}
+                            onValueChange={(value) =>
+                                setFilters({ ...filters, teacher: value })
+                            }
+                        >
+                            <SelectTrigger>
+                                <SelectValue placeholder="Filter by Teacher" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="all">All</SelectItem>
+                                {uniqueTeachers.map((teacher) => (
+                                    <SelectItem
+                                        key={teacher}
+                                        value={teacher || ""}
+                                    >
+                                        {teacher}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
                 </div>
 
                 {filteredCourses && filteredCourses.length > 0 ? (
@@ -51,7 +137,7 @@ const CoursesView = ({
                     </div>
                 ) : (
                     <div className="text-muted-foreground flex h-40 items-center justify-center">
-                        <p>{t("no_courses")}</p>
+                        <p>No Courses Found</p>
                     </div>
                 )}
             </main>

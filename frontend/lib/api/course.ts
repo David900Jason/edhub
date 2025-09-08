@@ -3,7 +3,7 @@ import api from ".";
 
 type CreateCourseData = Omit<
     CourseType,
-    "id" | "created_at" | "updated_at" | "rating"
+    "id" | "created_at" | "updated_at" | "rating" | "is_paid"
 >;
 
 export const getCourses = async (): Promise<CourseType[]> => {
@@ -38,7 +38,7 @@ export const createCourse = async (data: CreateCourseData) => {
     }
 };
 
-export const updateCourse = async (courseId: string, data: CourseType) => {
+export const updateCourse = async (courseId: string, data: Partial<CourseType>) => {
     try {
         const res = await api.put(`/courses/${courseId}/`, data);
         return res.data;
@@ -73,6 +73,10 @@ export const getEnrollmentById = async (id: string) => {
         const res = await api.get(`/enrollments/${id}/`);
         return res.data;
     } catch (error) {
+        if (error instanceof AxiosError) {
+            console.error(error?.response?.data.detail);
+            return error?.response?.data;
+        }
         console.error(error);
         return null;
     }
@@ -94,7 +98,9 @@ export const enrollCourse = async (courseId: string) => {
 
 export const togglePublished = async (courseId: string) => {
     try {
-        const res = await api.put(`/admin-dashboard/courses/${courseId}/publish/`);
+        const res = await api.put(
+            `/admin-dashboard/courses/${courseId}/publish/`,
+        );
         return res.data;
     } catch (error) {
         console.error(error);
