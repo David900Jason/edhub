@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Home -->
+  <url>
+    <loc>https://edhubx.com/en</loc>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://edhubx.com/ar</loc>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Auth -->
+  <url><loc>https://edhubx.com/en/auth/login</loc></url>
+  <url><loc>https://edhubx.com/en/auth/logout</loc></url>
+  <url><loc>https://edhubx.com/en/auth/signup</loc></url>
+  <url><loc>https://edhubx.com/en/auth/signup/teacher</loc></url>
+  <url><loc>https://edhubx.com/en/auth/signup/student</loc></url>
+
+  <!-- Courses -->
+  <url><loc>https://edhubx.com/en/courses</loc></url>
+  <url><loc>https://edhubx.com/en/checkout/COURSE_ID</loc></url>
+  <url><loc>https://edhubx.com/en/dashboard/student/courses/COURSE_ID</loc></url>
+  <url><loc>https://edhubx.com/en/dashboard/student/courses/COURSE_ID/videos/VIDEO_ID</loc></url>
+
+  <!-- Dashboard (Student) -->
+  <url><loc>https://edhubx.com/en/dashboard/student</loc></url>
+  <url><loc>https://edhubx.com/en/dashboard/student/notes</loc></url>
+  <url><loc>https://edhubx.com/en/dashboard/student/profile</loc></url>
+  <url><loc>https://edhubx.com/en/dashboard/student/subscriptions</loc></url>
+  <url><loc>https://edhubx.com/en/dashboard/student/teachers</loc></url>
+  <url><loc>https://edhubx.com/en/dashboard/student/todo-list</loc></url>
+
+  <!-- Dashboard (Teacher) -->
+  <url><loc>https://edhubx.com/en/dashboard/teacher</loc></url>
+  <url><loc>https://edhubx.com/en/dashboard/teacher/assignments</loc></url>
+  <url><loc>https://edhubx.com/en/dashboard/teacher/books</loc></url>
+  <url><loc>https://edhubx.com/en/dashboard/teacher/courses</loc></url>
+  <url><loc>https://edhubx.com/en/dashboard/teacher/courses/COURSE_ID/edit</loc></url>
+  <url><loc>https://edhubx.com/en/dashboard/teacher/courses/new</loc></url>
+  <url><loc>https://edhubx.com/en/dashboard/teacher/exams</loc></url>
+  <url><loc>https://edhubx.com/en/dashboard/teacher/profile</loc></url>
+  <url><loc>https://edhubx.com/en/dashboard/teacher/qa</loc></url>
+  <url><loc>https://edhubx.com/en/dashboard/teacher/quizzes</loc></url>
+  <url><loc>https://edhubx.com/en/dashboard/teacher/students</loc></url>
+  <url><loc>https://edhubx.com/en/dashboard/teacher/videos</loc></url>
+  <url><loc>https://edhubx.com/en/dashboard/teacher/videos/edit/VIDEO_ID</loc></url>
+  <url><loc>https://edhubx.com/en/dashboard/teacher/videos/upload</loc></url>
+
+  <!-- Dashboard (Admin) -->
+  <url><loc>https://edhubx.com/en/dashboard/admin</loc></url>
+  <url><loc>https://edhubx.com/en/dashboard/admin/books</loc></url>
+  <url><loc>https://edhubx.com/en/dashboard/admin/contact</loc></url>
+  <url><loc>https://edhubx.com/en/dashboard/admin/courses</loc></url>
+  <url><loc>https://edhubx.com/en/dashboard/admin/students</loc></url>
+  <url><loc>https://edhubx.com/en/dashboard/admin/subscriptions</loc></url>
+  <url><loc>https://edhubx.com/en/dashboard/admin/teachers</loc></url>
+  <url><loc>https://edhubx.com/en/dashboard/admin/videos</loc></url>
+  <url><loc>https://edhubx.com/en/dashboard/admin/videos/edit/VIDEO_ID</loc></url>
+
+  <!-- Static pages -->
+  <url><loc>https://edhubx.com/en/contact</loc></url>
+  <url><loc>https://edhubx.com/en/privacy-policy</loc></url>
+  <url><loc>https://edhubx.com/en/terms-of-use</loc></url>
+  <url><loc>https://edhubx.com/en/teachers</loc></url>
+
+</urlset>

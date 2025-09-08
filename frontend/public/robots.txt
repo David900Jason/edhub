@@ -1,0 +1,12 @@
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Block sensitive areas (dashboards, auth pages)
+Disallow: /en/auth/
+Disallow: /en/dashboard/
+Disallow: /ar/auth/
+Disallow: /ar/dashboard/
+
+# Sitemap locations
+Sitemap: https://edhubx.com/sitemap.xml

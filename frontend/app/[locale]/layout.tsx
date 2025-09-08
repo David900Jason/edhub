@@ -16,38 +16,85 @@ const ibmPlexSans = IBM_Plex_Sans({
     fallback: ["sans-serif"],
 });
 
-export const metadata: Metadata = {
-    title: "Edhub — Smarter Decisions behind Logic",
+export const metadata = {
+    title: {
+        default: "Edhub – Smarter Decisions Behind Logic",
+        template: "%s | Edhub",
+    },
     description:
-        "A platform built to help mid-level teachers afford their online teaching careers and aims at helping them start their own businesses.",
+        "Edhub is an LMS platform that helps students and teachers make smarter decisions behind logic with interactive courses, videos, and tools.",
+    applicationName: "Edhub",
+    manifest: "/manifest.json",
+    metadataBase: new URL("https://edhubx.com"),
+
+    keywords: [
+        "Edhub",
+        "LMS",
+        "learning platform",
+        "smarter learning",
+        "courses",
+        "quizzes",
+        "teachers",
+        "students",
+        "online education",
+    ],
+
+    authors: [{ name: "Edhub Team", url: "https://edhubx.com" }],
+    creator: "Edhub",
+    publisher: "Edhub",
+
     icons: {
         icon: [
+            { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+            { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
             {
-                url: "/icons/favicon-16x16.png",
-                sizes: "16x16",
-                type: "image/png",
-            },
-            {
-                url: "/icons/favicon-32x32.png",
-                sizes: "32x32",
-                type: "image/png",
-            },
-            {
-                url: "/icons/android-chrome-192x192.png",
+                url: "/android-chrome-192x192.png",
                 sizes: "192x192",
                 type: "image/png",
             },
             {
-                url: "/icons/android-chrome-512x512.png",
+                url: "/android-chrome-512x512.png",
                 sizes: "512x512",
                 type: "image/png",
             },
+            { url: "/favicon.ico", type: "image/x-icon" },
         ],
-        apple: "/icons/apple-touch-icon.png",
-        shortcut: "/icons/favicon.ico",
+        apple: "/apple-touch-icon.png",
     },
-    manifest: "/icons/site.webmanifest",
+
+    openGraph: {
+        type: "website",
+        locale: "en_US",
+        url: "https://edhubx.com",
+        siteName: "Edhub",
+        title: "Edhub – Smarter Decisions Behind Logic",
+        description:
+            "An LMS platform for smarter education: courses, videos, quizzes, and powerful teacher-student tools.",
+        images: [
+            {
+                url: "https://edhubx.com/og-image.png",
+                width: 1200,
+                height: 630,
+                alt: "Edhub – Smarter Decisions Behind Logic",
+            },
+        ],
+    },
+
+    twitter: {
+        card: "summary_large_image",
+        site: "@Edhub", // replace when you have a real handle
+        creator: "@Edhub",
+        title: "Edhub – Smarter Decisions Behind Logic",
+        description:
+            "An LMS platform for smarter education: courses, videos, quizzes, and powerful teacher-student tools.",
+        images: ["https://edhubx.com/og-image.png"],
+    },
+
+    themeColor: "#0d6efd",
+    viewport: "width=device-width, initial-scale=1, maximum-scale=1",
+    category: "education",
 };
+
 
 type Props = {
     children: React.ReactNode;
