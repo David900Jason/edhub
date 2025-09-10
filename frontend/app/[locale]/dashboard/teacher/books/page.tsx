@@ -23,7 +23,7 @@ export default function TeacherBooksPage() {
 
     useEffect(() => {
         getTeacherBooks().then((res) => setBooks(res || []));
-        getCourses().then((res) => setCourses(res));
+        getCourses().then((res) => setCourses(res || []));
         getTeacherVideos().then((res) => setVideos(res || []));
     }, [setBooks, setCourses, setVideos]);
 

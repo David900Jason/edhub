@@ -69,9 +69,9 @@ const Contact = () => {
                         {messages.map((message: Message, index: number) => (
                             <div
                                 key={index}
-                                className="flex items-start justify-between rounded-2xl border p-6"
+                                className="flex items-start justify-between rounded-2xl border gap-4 p-6 flex-col lg:flex-row"
                             >
-                                <div className="flex items-start gap-4">
+                                <div className="flex flex-1 items-start gap-4 order-2 lg:order-1">
                                     <Image
                                         src="/avatar.jpg"
                                         alt="avatar"
@@ -95,7 +95,7 @@ const Contact = () => {
                                         </p>
                                     </header>
                                 </div>
-                                <div>
+                                <div className="order-1 lg:order-2">
                                     <p className="text-primary text-sm font-semibold">
                                         <Tag color="purple">
                                             {

@@ -134,7 +134,7 @@ const SubscriptionsList = ({ courses }: { courses: EnrollmentType[] }) => {
                             </TableRow>
                         ))}
                     </TableBody>
-                    <TableCaption>
+                    <TableCaption className="mb-4">
                         {filteredCourses.length > 0
                             ? "List of your subscriptions"
                             : "No subscriptions yet"}

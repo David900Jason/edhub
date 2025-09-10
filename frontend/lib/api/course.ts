@@ -6,13 +6,13 @@ type CreateCourseData = Omit<
     "id" | "created_at" | "updated_at" | "rating" | "is_paid"
 >;
 
-export const getCourses = async (): Promise<CourseType[]> => {
+export const getCourses = async (): Promise<CourseType[] | null> => {
     try {
         const res = await api.get("/courses/");
         return res.data;
     } catch (error) {
         console.error(error);
-        return [];
+        return null;
     }
 };
 

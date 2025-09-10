@@ -10,13 +10,11 @@ import {
     Sheet,
     SheetContent,
     SheetDescription,
-    SheetFooter,
     SheetHeader,
     SheetTitle,
     SheetTrigger,
 } from "../ui/sheet";
 import { Link } from "@/i18n/routing";
-import LanguageSwitchLink from "./LanguageSwitchLink";
 import { useLocale, useTranslations } from "next-intl";
 
 const Profile = () => {
@@ -65,7 +63,7 @@ const Profile = () => {
                             </Link>
                         </li>
                     </ul>
-                    <SheetFooter>
+                    {/* <SheetFooter>
                         <div className="flex items-center justify-between gap-2">
                             <div className="flex items-center gap-2">
                                 <span>
@@ -89,19 +87,15 @@ const Profile = () => {
                                 <LanguageSwitchLink locale="en" />
                             )}
                         </div>
-                    </SheetFooter>
+                    </SheetFooter> */}
                 </SheetContent>
             </Sheet>
 
             <div className="hidden items-center gap-2 sm:flex">
                 <div className="flex items-center gap-4">
-                    <span>
-                        {locale === "en" ? (
-                            <LanguageSwitchLink locale="ar" />
-                        ) : (
-                            <LanguageSwitchLink locale="en" />
-                        )}
-                    </span>
+                    {/* <span>
+                        <LanguageSwitchLink locale="en" />
+                    </span> */}
                     <span className="flex items-center gap-2">
                         {theme === "dark" ? (
                             <MoonStar size={18} />

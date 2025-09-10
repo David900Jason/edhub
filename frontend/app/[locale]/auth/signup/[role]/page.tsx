@@ -61,6 +61,10 @@ export default function Signup() {
                 className="register-form"
                 onSubmit={handleSubmit(onSubmit)}
             >
+                <header className="text-center mb-2 block lg:hidden">
+                    <h1 className="text-3xl font-semibold tracking-tighter">{t("SIGN_UP.title")}</h1>
+                    <p className="p-lead">{t("SIGN_UP.description")}</p>
+                </header>
                 <div className="mb-4 flex w-full gap-2">
                     <Button
                         type="button"

@@ -43,7 +43,7 @@ const ProfileSettingsPage = () => {
 
     return (
         <section>
-            <header className="mb-8 flex flex-col items-center justify-between gap-6 sm:flex-row sm:gap-0">
+            <header className="mb-8 flex flex-col items-center justify-between gap-6 md:flex-row md:gap-0">
                 <h1 className="text-3xl font-bold">My Profile</h1>
                 {isEditing ? (
                     <div className="flex items-center gap-2">
@@ -66,7 +66,7 @@ const ProfileSettingsPage = () => {
                     </Button>
                 )}
             </header>
-            <main className="mb-6 flex flex-col items-center gap-6 rounded-2xl border p-6 sm:flex-row">
+            <main className="mb-6 flex flex-col items-center gap-6 rounded-2xl border p-6 md:flex-row">
                 <div>
                     <Image
                         src={
@@ -81,11 +81,11 @@ const ProfileSettingsPage = () => {
                     />
                 </div>
                 <div className="flex-1">
-                    <h2 className="mb-2 text-2xl font-extrabold max-sm:text-center">
+                    <h2 className="mb-2 text-center text-2xl font-extrabold md:text-start">
                         {user?.full_name.split(" ")[0]}
                     </h2>
                     <p
-                        className={`text-muted-foreground max-sm:text-center ${isEditing ? "mb-4" : ""}`}
+                        className={`text-muted-foreground text-center md:text-start ${isEditing ? "mb-4" : ""}`}
                     >
                         {user?.school_year && user?.school_year + "'s Student"}
                         {user?.role === "teacher" && "Teacher"}
@@ -100,7 +100,7 @@ const ProfileSettingsPage = () => {
                                 });
                             }}
                         >
-                            <SelectTrigger className="mx-auto my-2 sm:mx-0">
+                            <SelectTrigger className="mx-auto my-2 md:mx-0">
                                 <SelectValue placeholder={user?.city} />
                             </SelectTrigger>
                             <SelectContent>

@@ -16,7 +16,7 @@ const ibmPlexSans = IBM_Plex_Sans({
     fallback: ["sans-serif"],
 });
 
-export const metadata = {
+export const metadata: Metadata = {
     title: {
         default: "Edhub – Smarter Decisions Behind Logic",
         template: "%s | Edhub",
@@ -90,11 +90,9 @@ export const metadata = {
         images: ["https://edhubx.com/og-image.png"],
     },
 
-    themeColor: "#0d6efd",
-    viewport: "width=device-width, initial-scale=1, maximum-scale=1",
+    // viewport: "width=device-width, initial-scale=1, maximum-scale=1",
     category: "education",
 };
-
 
 type Props = {
     children: React.ReactNode;

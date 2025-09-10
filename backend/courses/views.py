@@ -1,5 +1,5 @@
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 from rest_framework.views import APIView, status
@@ -16,9 +16,8 @@ class ListCreateCoursesView(ListCreateAPIView):
 
     def get_permissions(self):
         if self.request.method.lower() == "post":
-            return [IsAdminUser()]
+            return [IsAdminOrTeacher()]
         return [IsAuthenticated()]
-
 
     def get_serializer_class(self):
         if self.request.method.lower() == "post":

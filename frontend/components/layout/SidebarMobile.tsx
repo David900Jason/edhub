@@ -1,14 +1,6 @@
 "use client";
 
-import {
-    SidebarOpen,
-    LogOut,
-    MoonStar,
-    Settings,
-    User,
-    Globe,
-    Check,
-} from "lucide-react";
+import { SidebarOpen, LogOut, MoonStar, Settings, User } from "lucide-react";
 import {
     Sheet,
     SheetContent,
@@ -22,9 +14,6 @@ import {
     DropdownMenuItem,
     DropdownMenuSeparator,
     DropdownMenuShortcut,
-    DropdownMenuSub,
-    DropdownMenuSubContent,
-    DropdownMenuSubTrigger,
     DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
@@ -32,28 +21,33 @@ import { useState } from "react";
 import { useLocale } from "next-intl";
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
-import { dashboardLinks } from "@/constants";
-import { usePathname, useRouter } from "@/i18n/routing";
+import {
+    AdminDashboardLinks,
+    dashboardLinks,
+    TeacherDashboardLinks,
+} from "@/constants";
+import { usePathname } from "@/i18n/routing";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
+import { useSessionStorage } from "@/hooks/useSessionStorage";
 
 const SidebarMobile = () => {
     const [isSideBarOpen, setIsSideBarOpen] = useState(false);
+    const [user] = useSessionStorage("user_profile", null);
     const { theme, setTheme } = useTheme();
     const locale = useLocale();
-    const router = useRouter();
     const pathname = usePathname();
     const t = useTranslations("STUDENT_DASHBOARD.SIDEBAR");
 
-    const switchTo = (locale: "en" | "ar") => {
-        router.push(pathname, { locale });
-    };
+    // const switchTo = (locale: "en" | "ar") => {
+    //     router.push(pathname, { locale });
+    // };
 
     return (
         <div className="block sm:hidden">
             <Sheet>
-                <SheetTrigger className="fixed top-2 left-2 z-50" asChild>
+                <SheetTrigger asChild className="fixed top-2 left-2 z-50">
                     <Button
                         variant="outline"
                         onClick={() => setIsSideBarOpen(!isSideBarOpen)}
@@ -62,7 +56,7 @@ const SidebarMobile = () => {
                     </Button>
                 </SheetTrigger>
                 <SheetContent
-                    className="bg-primary max-w-64 dark:bg-purple-950"
+                    className="bg-primary flex max-w-64 sm:hidden dark:bg-purple-950"
                     side={locale === "ar" ? "right" : "left"}
                 >
                     <SheetHeader>
@@ -81,35 +75,90 @@ const SidebarMobile = () => {
                         </div>
                     </SheetHeader>
                     <ul
-                        className="overflow-y-auto scroll-smooth px-2 transition-colors"
+                        className="flex-1 space-y-2 overflow-y-auto scroll-smooth px-2 transition-colors"
                         style={{ scrollbarWidth: "thin" }}
                     >
-                        {dashboardLinks.map(
-                            ({ title, href, icon }: DashboardLinkType, index: number) => {
-                                const Icon: React.ElementType = icon;
+                        {user?.role === "student" &&
+                            dashboardLinks.map(
+                                (
+                                    { title, href, icon }: DashboardLinkType,
+                                    index: number,
+                                ) => {
+                                    const Icon: React.ElementType = icon;
+                                    return (
+                                        <li
+                                            key={index}
+                                            className={cn(
+                                                "text-primary mb-2 cursor-pointer rounded-lg px-2 py-3 transition-colors hover:bg-purple-800 hover:text-black",
+                                                pathname === href &&
+                                                    "bg-purple-800",
+                                            )}
+                                        >
+                                            <Link
+                                                className="flex items-center gap-2 text-purple-300 dark:text-purple-300"
+                                                href={href}
+                                            >
+                                                <Icon
+                                                    size={24}
+                                                    className="text-purple-300"
+                                                />
+                                                {title}
+                                            </Link>
+                                        </li>
+                                    );
+                                },
+                            )}
+
+                        {user?.role == "teacher" &&
+                            TeacherDashboardLinks.map(
+                                (
+                                    { title, href, icon }: DashboardLinkType,
+                                    index: number,
+                                ) => {
+                                    const Icon: React.ElementType = icon;
+                                    return (
+                                        <li
+                                            key={index}
+                                            className={cn(
+                                                "text-primary mb-2 cursor-pointer rounded-lg px-2 py-3 transition-colors hover:bg-purple-800 hover:text-black",
+                                                pathname === href &&
+                                                    "bg-purple-800",
+                                                "cursor-pointer",
+                                            )}
+                                        >
+                                            <Link
+                                                className="flex items-center gap-2 text-purple-300 dark:text-purple-300"
+                                                href={href}
+                                            >
+                                                <Icon
+                                                    size={24}
+                                                    className="text-purple-300"
+                                                />
+                                                {title}
+                                            </Link>
+                                        </li>
+                                    );
+                                },
+                            )}
+
+                        {user?.role === "admin" &&
+                            AdminDashboardLinks.map((link) => {
+                                const Icon: React.ElementType = link.icon;
                                 return (
                                     <li
-                                        key={index}
-                                        className={cn(
-                                            "text-primary mb-2 cursor-pointer rounded-lg px-2 py-3 transition-colors hover:bg-purple-800 hover:text-black",
-                                            pathname === href &&
-                                                "bg-purple-800",
-                                        )}
+                                        key={link.href}
+                                        className="rounded-xl p-2 py-3 text-purple-300 hover:bg-purple-800"
                                     >
                                         <Link
-                                            className="flex items-center gap-2 text-purple-300 dark:text-purple-300"
-                                            href={href}
+                                            className="flex items-center gap-2 text-base"
+                                            href={link.href}
                                         >
-                                            <Icon
-                                                size={24}
-                                                className="text-purple-300"
-                                            />
-                                            {title}
+                                            <Icon />
+                                            {link.title}
                                         </Link>
                                     </li>
                                 );
-                            },
-                        )}
+                            })}
                     </ul>
                     <SheetFooter className="flex flex-col gap-2 overflow-y-auto">
                         <DropdownMenu>
@@ -144,7 +193,7 @@ const SidebarMobile = () => {
                                             : t("mode1")}
                                     </DropdownMenuShortcut>
                                 </DropdownMenuItem>
-                                <DropdownMenuSub>
+                                {/* <DropdownMenuSub>
                                     <DropdownMenuSubTrigger>
                                         <Globe className="mr-2 h-4 w-4" />
                                         <span>{t("language")}</span>
@@ -167,7 +216,7 @@ const SidebarMobile = () => {
                                             )}
                                         </DropdownMenuItem>
                                     </DropdownMenuSubContent>
-                                </DropdownMenuSub>
+                                </DropdownMenuSub> */}
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem>
                                     <Link

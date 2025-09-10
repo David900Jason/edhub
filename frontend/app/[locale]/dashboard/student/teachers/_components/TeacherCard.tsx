@@ -14,15 +14,15 @@ const TeacherCard = ({ teacher }: { teacher: UserType }) => {
         <Card className="group bg-card relative h-full overflow-hidden rounded-xl border shadow-sm transition-all duration-300 hover:shadow-md">
             <CardHeader className="relative z-10 p-6 pt-16">
                 <div className="-mt-16 mb-2 flex items-center">
-                    <div className="relative h-20 w-20 overflow-hidden rounded-full border-4 border-white bg-white shadow-lg">
+                    <figure className="relative h-20 w-20 overflow-hidden rounded-full border-4 border-white bg-white shadow-lg">
                         <Image
                             src={teacher?.profile_img || "/avatar.jpg"}
                             alt={teacher?.full_name || "teacher"}
-                            fill
                             className="object-cover"
                             sizes="80px"
+                            fill
                         />
-                    </div>
+                    </figure>
                 </div>
                 <CardTitle className="text-foreground mt-2 text-xl font-bold">
                     <Link
@@ -40,14 +40,17 @@ const TeacherCard = ({ teacher }: { teacher: UserType }) => {
                         )}
                     </Link>
                 </CardTitle>
-                <CardDescription className="mt-2 text-sm">
+                <CardDescription className="mt-2 flex flex-wrap items-center gap-2 text-sm">
                     <Link href={`tel:${teacher?.phone_number}`}>
                         {teacher?.phone_number}
                     </Link>
                     {teacher?.parent_number && (
-                        <Link href={`tel:${teacher?.parent_number}`}>
-                            {teacher?.parent_number}
-                        </Link>
+                        <>
+                            <span className="text-gray-500">|</span>
+                            <Link href={`tel:${teacher?.parent_number}`}>
+                                {teacher?.parent_number}
+                            </Link>
+                        </>
                     )}
                 </CardDescription>
             </CardHeader>

@@ -7,17 +7,20 @@ const Footer = () => {
     const t = useTranslations("HOME");
 
     return (
-        <footer className="border-1 border-slate-300 px-4 py-20 shadow-lg sm:px-24 dark:border-t dark:border-slate-700">
+        <footer className="border-t border-slate-300 px-4 py-20 shadow-lg sm:px-24 dark:border-t dark:border-slate-700">
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 <div>
-                    <div className="mb-4 flex items-center gap-2">
+                    <figure className="mb-4 flex items-center gap-2">
                         <Image
                             src={"/logo.png"}
                             width={40}
                             height={40}
                             alt="Logo"
                         />
-                    </div>
+                        <figcaption className="sr-only">
+                            EdHub
+                        </figcaption>
+                    </figure>
                     <p className="text-muted-foreground max-w-[30ch] text-sm">
                         Your gateway to quality education, expert instructors,
                         and interactive courses — all in one place.

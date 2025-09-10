@@ -11,7 +11,7 @@ export default function LanguageSwitchLink({
 
     return (
         <Link href={pathname} locale={locale}>
-            {locale === "en" ? "AR" : "EN"}
+            EN
         </Link>
     );
 }

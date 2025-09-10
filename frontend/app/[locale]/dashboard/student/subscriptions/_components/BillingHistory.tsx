@@ -27,7 +27,7 @@ const BillingHistory = ({ invoices }: { invoices: InvoiceType[] }) => {
             <p className="p-lead">{t("SUBSCRIPTIONS.card5.description")}</p>
             <div>
                 <Table className="mt-6">
-                    <TableCaption className="text-muted-foreground text-sm">
+                    <TableCaption className="mb-4">
                         {t("SUBSCRIPTIONS.card5.table.caption")}
                     </TableCaption>
                     <TableHeader>

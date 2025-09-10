@@ -26,7 +26,7 @@ const AdminBooksPage = () => {
         });
 
         getCourses().then((res) => {
-            setCourses(res);
+            setCourses(res || []);
         });
 
         getVideos().then((res) => {

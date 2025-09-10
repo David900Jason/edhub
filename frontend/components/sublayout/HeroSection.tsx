@@ -9,7 +9,7 @@ const HeroSection = () => {
 
     return (
         <>
-            <h1 className="mx-5 max-w-[800px] text-5xl leading-[1.2] font-bold tracking-tighter sm:text-6xl">
+            <h1 className="mx-5 max-w-4xl text-5xl leading-[1.2] font-bold tracking-tighter sm:text-6xl">
                 {t.rich("title", {
                     color: (chunks) => (
                         <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
@@ -17,10 +17,8 @@ const HeroSection = () => {
                         </span>
                     ),
                 })}
-                {/* 
-                . */}
             </h1>
-            <p className="p-lead mx-5 mt-4 max-w-[600px] sm:mx-auto">
+            <p className="p-lead mx-5 mt-4 max-w-[500px] sm:mx-auto">
                 {t("description")}
             </p>
             <div className="mt-8 flex justify-center gap-4">

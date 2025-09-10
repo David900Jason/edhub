@@ -63,7 +63,7 @@ const SingleQuestion = ({
 
     return (
         <Collapsible onOpenChange={setOpen} className="w-full px-6 py-4">
-            <CollapsibleTrigger className="flex w-full items-center justify-between gap-2 rounded-lg border-b pb-5 text-lg font-bold">
+            <CollapsibleTrigger dir="rtl" className="flex w-full items-center justify-between gap-2 rounded-lg border-b pb-5 text-lg font-bold">
                 <div className="flex items-center gap-2">
                     <CircleQuestionMark /> {question}
                 </div>
@@ -75,7 +75,7 @@ const SingleQuestion = ({
                     )}
                 />
             </CollapsibleTrigger>
-            <CollapsibleContent className="ms-2 mt-4 min-h-[125px] rounded-lg">
+            <CollapsibleContent dir="rtl" className="ms-2 mt-4 min-h-[125px] rounded-lg">
                 <p>{answer}</p>
             </CollapsibleContent>
         </Collapsible>

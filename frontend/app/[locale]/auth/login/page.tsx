@@ -71,6 +71,10 @@ const Login = () => {
             />
             {/* Login Form */}
             <form onSubmit={handleSubmit(onSubmit)} className="register-form">
+                <header className="text-center mb-8 block lg:hidden">
+                    <h1 className="text-3xl font-semibold tracking-tighter">{t("LOG_IN.title")}</h1>
+                    <p className="p-lead">{t("LOG_IN.description")}</p>
+                </header>
                 {/* Email Input */}
                 <div className="input-group">
                     <Label className="mb-2" htmlFor="email">

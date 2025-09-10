@@ -11,7 +11,7 @@ import {
     DropdownMenuSubTrigger,
     DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { Check, Globe, LogOut, MoonStar } from "lucide-react";
+import { Check, LogOut, MoonStar } from "lucide-react";
 import {
     AdminProfileButtonLinks,
     ProfileButtonLinks,
@@ -19,19 +19,16 @@ import {
 } from "@/constants";
 import { useTheme } from "next-themes";
 import { useLocale, useTranslations } from "next-intl";
-import { useRouter, usePathname } from "@/i18n/routing";
 import Image from "next/image";
 
 const ProfileButton = ({ user }: { user: UserType }) => {
     const { theme, setTheme } = useTheme();
     const locale = useLocale();
-    const router = useRouter();
-    const pathname = usePathname();
     const t = useTranslations();
 
-    const switchTo = (locale: "en" | "ar") => {
-        router.push(pathname, { locale });
-    };
+    // const switchTo = (locale: "en" | "ar") => {
+    //     router.push(pathname, { locale });
+    // };
 
     return (
         <DropdownMenu>
@@ -108,7 +105,7 @@ const ProfileButton = ({ user }: { user: UserType }) => {
                         },
                     )}
                 <DropdownMenuSeparator />
-                <DropdownMenuSub>
+                {/* <DropdownMenuSub>
                     <DropdownMenuSubTrigger>
                         <Globe className="mr-2 h-4 w-4" />
                         <span>
@@ -129,7 +126,7 @@ const ProfileButton = ({ user }: { user: UserType }) => {
                             )}
                         </DropdownMenuItem>
                     </DropdownMenuSubContent>
-                </DropdownMenuSub>
+                </DropdownMenuSub> */}
                 <DropdownMenuSub>
                     <DropdownMenuSubTrigger>
                         <MoonStar className="mr-2 h-4 w-4" />

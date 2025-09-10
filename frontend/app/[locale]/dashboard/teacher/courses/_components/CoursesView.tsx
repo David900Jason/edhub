@@ -34,10 +34,10 @@ export function CoursesView({ courses }: { courses: CourseType[] }) {
     return (
         <Tabs defaultValue="table" className="w-full">
             <div
-                className={`flex flex-col justify-between gap-4 pb-4 sm:flex-row sm:items-center ${isRTL ? "rtl" : ""}`}
+                className={`flex flex-col justify-between gap-4 pb-4 md:flex-row md:items-center ${isRTL ? "rtl" : ""}`}
             >
                 <TabsList
-                    className={`order-2 sm:order-1 ${isRTL ? "rtl" : ""}`}
+                    className={`order-2 md:order-1 ${isRTL ? "rtl" : ""}`}
                 >
                     <TabsTrigger
                         value="table"
@@ -54,7 +54,7 @@ export function CoursesView({ courses }: { courses: CourseType[] }) {
                         <span>Grid view</span>
                     </TabsTrigger>
                 </TabsList>
-                <div className="order-1 sm:order-2">
+                <div className="order-1 md:order-2">
                     <Button variant="outline" disabled>
                         <span>{t("link1")}</span>
                     </Button>
@@ -65,9 +65,7 @@ export function CoursesView({ courses }: { courses: CourseType[] }) {
             </div>
 
             <TabsContent value="table">
-                <div>
-                    <CoursesDataTable data={courses} />
-                </div>
+                <CoursesDataTable data={courses} />
             </TabsContent>
 
             <TabsContent value="grid">

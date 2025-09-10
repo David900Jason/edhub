@@ -15,7 +15,7 @@ export default function TeacherCourses() {
     useEffect(() => {
         const fetchTeacherCourses = async () => {
             const res = await getCourses();
-            setCourses(res);
+            setCourses(res || []);
         };
         fetchTeacherCourses();
     }, [setCourses]);
@@ -23,7 +23,7 @@ export default function TeacherCourses() {
     return (
         <section>
             <header className="mb-8">
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                     <div>
                         <h1 className="text-3xl font-semibold mb-2">{t("title")}</h1>
                         <p className="text-muted-foreground">

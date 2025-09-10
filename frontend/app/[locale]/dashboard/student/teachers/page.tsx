@@ -32,30 +32,34 @@ const StudentTeachersPage = () => {
         <section>
             <header className="mb-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
                 <div>
-                    <h1 className="text-center text-3xl font-semibold md:text-start">
+                    <h1 className="text-center text-3xl font-semibold sm:text-start">
                         Teachers
                     </h1>
                     <p className="p-lead">
                         Check out the teachers you&apos;re enrolled with
                     </p>
                 </div>
-                <div className="flex items-center gap-2">
-                    <Button asChild variant="outline">
-                        <Link href="/courses"><Eye /> Other Courses</Link>
-                    </Button>
-                    <Button asChild variant="outline">
-                        <Link href="/teachers"><Eye /> Other teachers</Link>
-                    </Button>
-                </div>
             </header>
             <main className="space-y-6 rounded-2xl border p-6">
-                <aside>
+                <aside className="flex flex-col gap-4 md:flex-row md:justify-between md:items-center">
                     <Input
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                         placeholder="Search teachers..."
-                        className="sm:max-w-lg"
+                        className="md:max-w-lg"
                     />
+                    <div className="flex items-center gap-2">
+                        <Button asChild variant="outline">
+                            <Link href="/courses">
+                                <Eye /> Courses
+                            </Link>
+                        </Button>
+                        <Button asChild variant="outline">
+                            <Link href="/teachers">
+                                <Eye /> Teachers
+                            </Link>
+                        </Button>
+                    </div>
                 </aside>
                 {/* Teachers goes here */}
                 {filteredTeachers && filteredTeachers.length > 0 ? (
@@ -65,7 +69,7 @@ const StudentTeachersPage = () => {
                         })}
                     </div>
                 ) : (
-                    <div className="min-h-[40vh] flex items-center justify-center">
+                    <div className="flex min-h-[40vh] items-center justify-center">
                         <p className="p-lead text-center">No teachers found</p>
                     </div>
                 )}

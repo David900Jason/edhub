@@ -13,6 +13,8 @@ import {
     CircleQuestionMark,
     MessageCircleQuestion,
     GraduationCap,
+    CreditCard,
+    MessageCircle,
 } from "lucide-react";
 
 const stats = [
@@ -154,22 +156,65 @@ const TeacherDashboardLinks = [
         href: "/dashboard/teacher/qa",
         icon: MessageCircleQuestion,
     },
-    {
-        title: "Assignments (⏳)",
-        href: "/dashboard/teacher/assignments",
-        icon: Pen,
-    },
-    {
-        title: "Exams (⏳)",
-        href: "/dashboard/teacher/exams",
-        icon: Award,
-    },
-    {
-        title: "Quizzes (⏳)",
-        href: "/dashboard/teacher/quizzes",
-        icon: CircleQuestionMark,
-    }
+    // {
+    //     title: "Assignments (⏳)",
+    //     href: "/dashboard/teacher/assignments",
+    //     icon: Pen,
+    // },
+    // {
+    //     title: "Exams (⏳)",
+    //     href: "/dashboard/teacher/exams",
+    //     icon: Award,
+    // },
+    // {
+    //     title: "Quizzes (⏳)",
+    //     href: "/dashboard/teacher/quizzes",
+    //     icon: CircleQuestionMark,
+    // }
 ];
+
+const AdminDashboardLinks = [
+    {
+        title: "Home",
+        href: "/dashboard/admin",
+        icon: Home,
+    },
+    {
+        title: "Students",
+        href: "/dashboard/admin/students",
+        icon: Users
+    },
+    {
+        title: "Teachers",
+        href: "/dashboard/admin/teachers",
+        icon: GraduationCap
+    },
+    {
+        title: "Subscriptions",
+        href: "/dashboard/admin/subscriptions",
+        icon: CreditCard
+    },
+    {
+        title: "Courses",
+        href: "/dashboard/admin/courses",
+        icon: BookOpen
+    },
+    {
+        title: "Videos",
+        href: "/dashboard/admin/videos",
+        icon: Video
+    },
+    {
+        title: "Books",
+        href: "/dashboard/admin/books",
+        icon: Book
+    },
+    {
+        title: "Messages",
+        href: "/dashboard/admin/contact",
+        icon: MessageCircle
+    }
+]
 
 const ProfileButtonLinks: ProfileButtonLinksType[] = [
     {
@@ -326,6 +371,7 @@ export {
     reviews,
     dashboardLinks,
     TeacherDashboardLinks,
+    AdminDashboardLinks,
     dashboardHomeCards,
     ProfileButtonLinks,
     TeacherProfileButtonLinks,

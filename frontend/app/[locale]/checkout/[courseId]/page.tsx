@@ -79,11 +79,15 @@ const CheckoutPage = () => {
                                 Price:
                             </h3>
                             <p className="text-primary flex-1/2 text-end text-lg font-extrabold">
-                                {course?.price == 0 ? "Free" : course?.price}
-                                <span className="text-xs font-extrabold text-gray-500">
-                                    {" "}
-                                    {course?.currency}
-                                </span>
+                                {course?.price == 0 ? "Free" : (
+                                    <>
+                                        {course?.price}
+                                        <span className="text-xs font-extrabold text-gray-500">
+                                            {" "}
+                                            {course?.currency}
+                                        </span>
+                                    </>
+                                )}
                             </p>
                         </div>
                         <div className="flex items-start justify-between">
@@ -91,11 +95,15 @@ const CheckoutPage = () => {
                                 Discount:
                             </h3>
                             <p className="text-primary flex-1/2 text-end text-lg font-extrabold">
-                                <span>{course?.discount}</span>
-                                <span className="text-xs font-extrabold text-gray-500">
-                                    {" "}
-                                    {course?.currency}
-                                </span>
+                                {course?.discount == 0 ? "Free" : (
+                                    <>
+                                        {course?.discount}
+                                        <span className="text-xs font-extrabold text-gray-500">
+                                            {" "}
+                                            {course?.currency}
+                                        </span>
+                                    </>
+                                )}
                             </p>
                         </div>
                         <hr />

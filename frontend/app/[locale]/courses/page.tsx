@@ -6,6 +6,7 @@ import Banner from "@/components/containers/Banner";
 import CoursesFilter from "@/app/[locale]/courses/_components/CoursesFilter";
 import { getCourses } from "@/lib/api/course";
 import { useSearchParams } from "next/navigation";
+import { toast } from "sonner";
 
 export default function Courses() {
     const [courses, setCourses] = useState<CourseType[]>([]);
@@ -16,10 +17,17 @@ export default function Courses() {
     useEffect(() => {
         const fetchCourses = async () => {
             const res = await getCourses();
-            setCourses(res);
+            if (!res) {
+                toast.error("You need to be authenticated to view courses", {
+                    position: "top-center",
+                });
+                setCourses([]);
+                return;
+            }
+            setCourses(res as CourseType[]);
         };
         fetchCourses();
-    }, [setCourses]);
+    }, [search, setCourses]);
 
     return (
         <>

@@ -1,12 +1,12 @@
 "use client";
 
-import AdminSidebar from "./_components/AdminSidebar";
 import { redirect } from "@/i18n/routing";
 import { useLocale } from "next-intl";
 import { useEffect } from "react";
 import { useSessionStorage } from "@/hooks/useSessionStorage";
 import { toast } from "sonner";
-import AdminSidebarMobile from "./_components/AdminSidebarMobile";
+import Sidebar from "@/components/sublayout/Sidebar";
+import SidebarMobile from "@/components/layout/SidebarMobile";
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
     const [user] = useSessionStorage("user_profile", null);
@@ -22,9 +22,9 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <main className="relative flex min-h-screen">
             <div className="bg-primary dark:bg-purple-950 hidden w-1/5 max-w-64 min-w-64 flex-shrink-0 flex-col sm:flex">
-                <AdminSidebar />
+                <Sidebar />
             </div>
-            <AdminSidebarMobile />
+            <SidebarMobile />
             <div className="w-4/5 overflow-auto p-6 max-sm:flex-1 max-sm:pt-18 sm:p-10">
                 {children}
             </div>

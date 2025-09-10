@@ -121,8 +121,8 @@ const Subscriptions = () => {
     return (
         <>
             <section className="max-w-[calc(100vw-58px)] flex-1 sm:max-w-[calc(100vw-256px)]">
-                <header className="mb-8 flex flex-col items-center justify-between max-sm:gap-4 sm:flex-row">
-                    <div>
+                <header className="mb-8 flex flex-col items-center justify-between gap-4 md:flex-row">
+                    <div className="text-center md:text-left">
                         <h1 className="text-3xl font-semibold">
                             {t("SUBSCRIPTIONS.title")}
                         </h1>

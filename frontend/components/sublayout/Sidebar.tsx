@@ -1,10 +1,15 @@
 "use client";
 
 import { Button } from "../ui/button";
-import { LogOut, User, MoonStar, Settings, Globe, Check } from "lucide-react";
-import { dashboardLinks } from "@/constants";
-import { Link, usePathname, useRouter } from "@/i18n/routing";
-import { useLocale, useTranslations } from "next-intl";
+import { LogOut, User, MoonStar, Settings } from "lucide-react";
+import {
+    AdminDashboardLinks,
+    dashboardLinks,
+    TeacherDashboardLinks,
+} from "@/constants";
+import { Link, usePathname } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
+import { useSessionStorage } from "@/hooks/useSessionStorage";
 import { cn } from "@/lib/utils";
 import {
     DropdownMenu,
@@ -13,24 +18,21 @@ import {
     DropdownMenuSeparator,
     DropdownMenuShortcut,
     DropdownMenuTrigger,
-    DropdownMenuSub,
-    DropdownMenuSubContent,
-    DropdownMenuSubTrigger,
 } from "../ui/dropdown-menu";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 
 const Sidebar = () => {
     const pathname = usePathname();
-    const locale = useLocale();
-    const router = useRouter();
     const { theme, setTheme } = useTheme();
+
+    const [user] = useSessionStorage("user_profile", null);
 
     const t = useTranslations("STUDENT_DASHBOARD.SIDEBAR");
 
-    const switchTo = (locale: "en" | "ar") => {
-        router.push(pathname, { locale });
-    };
+    // const switchTo = (locale: "en" | "ar") => {
+    //     router.push(pathname, { locale });
+    // };
 
     return (
         <div className="bg-primary sticky top-0 z-50 hidden h-screen flex-1/5 flex-shrink-0 flex-col justify-between sm:flex dark:bg-purple-950">
@@ -49,37 +51,94 @@ const Sidebar = () => {
                     </div>
                 </div>
                 <ul className="px-2 py-4">
-                    {dashboardLinks.map(
-                        ({ title, href, icon }: DashboardLinkType, index: number) => {
-                            const Icon: React.ElementType = icon;
+                    {user?.role == "student" &&
+                        dashboardLinks.map(
+                            (
+                                { title, href, icon }: DashboardLinkType,
+                                index: number,
+                            ) => {
+                                const Icon: React.ElementType = icon;
+                                return (
+                                    <li
+                                        key={index}
+                                        className={cn(
+                                            "text-primary mb-2 cursor-pointer rounded-lg px-2 py-3 transition-colors hover:bg-purple-800 hover:text-black",
+                                            pathname === href &&
+                                                "bg-purple-800",
+                                        )}
+                                    >
+                                        <Link
+                                            className="flex items-center gap-2 text-purple-300 dark:text-purple-300"
+                                            href={href}
+                                        >
+                                            <Icon
+                                                size={24}
+                                                className="text-purple-300"
+                                            />
+                                            {title}
+                                        </Link>
+                                    </li>
+                                );
+                            },
+                        )}
+                    {user?.role == "teacher" &&
+                        TeacherDashboardLinks.map(
+                            (
+                                { title, href, icon }: DashboardLinkType,
+                                index: number,
+                            ) => {
+                                const Icon: React.ElementType = icon;
+                                return (
+                                    <li
+                                        key={index}
+                                        className={cn(
+                                            "text-primary mb-2 cursor-pointer rounded-lg px-2 py-3 transition-colors hover:bg-purple-800 hover:text-black",
+                                            pathname === href &&
+                                                "bg-purple-800",
+                                            "cursor-pointer",
+                                        )}
+                                    >
+                                        <Link
+                                            className="flex items-center gap-2 text-purple-300 dark:text-purple-300"
+                                            href={href}
+                                        >
+                                            <Icon
+                                                size={24}
+                                                className="text-purple-300"
+                                            />
+                                            {title}
+                                        </Link>
+                                    </li>
+                                );
+                            },
+                        )}
+                    {user?.role === "admin" &&
+                        AdminDashboardLinks.map((link) => {
+                            const Icon: React.ElementType = link.icon;
                             return (
                                 <li
-                                    key={index}
-                                    className={cn(
-                                        "text-primary mb-2 cursor-pointer rounded-lg px-2 py-3 transition-colors hover:bg-purple-800 hover:text-black",
-                                        pathname === href && "bg-purple-800",
-                                    )}
+                                    key={link.href}
+                                    className="rounded-xl p-2 py-3 text-purple-300 hover:bg-purple-800"
                                 >
                                     <Link
-                                        className="flex items-center gap-2 text-purple-300 dark:text-purple-300"
-                                        href={href}
+                                        className="flex items-center gap-2 text-base"
+                                        href={link.href}
                                     >
-                                        <Icon
-                                            size={24}
-                                            className="text-purple-300"
-                                        />
-                                        {title}
+                                        <Icon />
+                                        {link.title}
                                     </Link>
                                 </li>
                             );
-                        },
-                    )}
+                        })}
                 </ul>
             </header>
             <footer className="flex justify-end gap-2 p-4">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="cursor-pointer">
+                        <Button
+                            variant="outline"
+                            className="w-full cursor-pointer"
+                        >
                             <Settings size={24} />
                         </Button>
                     </DropdownMenuTrigger>
@@ -104,7 +163,7 @@ const Sidebar = () => {
                                 </DropdownMenuShortcut>
                             </span>
                         </DropdownMenuItem>
-                        <DropdownMenuSub>
+                        {/* <DropdownMenuSub>
                             <DropdownMenuSubTrigger>
                                 <Globe className="mr-2 h-4 w-4" />
                                 <span>{t("language")}</span>
@@ -127,7 +186,7 @@ const Sidebar = () => {
                                     )}
                                 </DropdownMenuItem>
                             </DropdownMenuSubContent>
-                        </DropdownMenuSub>
+                        </DropdownMenuSub> */}
                         <DropdownMenuSeparator />
                         <DropdownMenuItem asChild>
                             <Link
