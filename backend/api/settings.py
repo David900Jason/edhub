@@ -90,7 +90,7 @@ INSTALLED_APPS = [
     "todo",
     "books",
     "contact",
-    "dashboard"
+    "dashboard",
 ]
 
 REST_FRAMEWORK = {
@@ -129,24 +129,32 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'api.wsgi.application'
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',  # Or set to ERROR for production
-            'class': 'logging.StreamHandler',
-            'stream': 'ext://sys.stdout',  # Log to stdout
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': 'DEBUG',  # Set to 'ERROR' or 'INFO' for production
-            'propagate': True,
-        },
+# Channels
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
     },
 }
+
+# Logging
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'level': 'DEBUG',  # Or set to ERROR for production
+#             'class': 'logging.StreamHandler',
+#             'stream': 'ext://sys.stdout',  # Log to stdout
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['console'],
+#             'level': 'DEBUG',  # Set to 'ERROR' or 'INFO' for production
+#             'propagate': True,
+#         },
+#     },
+# }
 
 
 
